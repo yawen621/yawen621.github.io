@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>韦阳的博客</title>
+  <title>亚文的博客</title>
   
-  <subtitle>算法码上来</subtitle>
+  <subtitle>帅气程序员</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://godweiyang.com/"/>
@@ -10,7 +10,7 @@
   <id>https://godweiyang.com/</id>
   
   <author>
-    <name>韦阳</name>
+    <name>亚文</name>
     
   </author>
   
