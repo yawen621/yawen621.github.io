@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yawen621.github.io/2020/02/16/sort-algorithms/</loc>
+    
+    <lastmod>2020-10-27T12:18:47.283Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yawen621.github.io/about/index.html</loc>
+    
+    <lastmod>2020-10-27T10:06:34.369Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yawen621.github.io/contact/index.html</loc>
     
     <lastmod>2020-10-27T08:24:12.508Z</lastmod>
@@ -12,13 +26,6 @@
     <loc>https://yawen621.github.io/friends/index.html</loc>
     
     <lastmod>2020-10-27T08:19:23.131Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yawen621.github.io/about/index.html</loc>
-    
-    <lastmod>2020-10-27T06:06:28.258Z</lastmod>
     
   </url>
   
@@ -40,13 +47,6 @@
     <loc>https://yawen621.github.io/archives/index.html</loc>
     
     <lastmod>2020-10-26T12:28:49.188Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yawen621.github.io/2020/02/16/sort-algorithms/</loc>
-    
-    <lastmod>2020-10-26T12:28:49.187Z</lastmod>
     
   </url>
   
