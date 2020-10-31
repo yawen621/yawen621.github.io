@@ -408,8 +408,8 @@ header .side-nav .social-link {
     height: 45px;
     line-height: 45px;
     font-size: 1rem;
-    color: #fff;
-    border: 1px solid #fff;
+    color: red;
+    border: 1px solid red;
     background-color: transparent;
     border-radius: 30px;
     box-shadow: none;
@@ -493,7 +493,7 @@ header .go-back i {
 
 .bg-cover .container {
     position: relative;
-    color: #fff;
+    color: black;
     z-index: 2;
 }
 
@@ -509,7 +509,7 @@ header .go-back i {
     font-size: 1.25rem;
     font-weight: 300;
     line-height: 1.4em;
-    color: #eee;
+    color: black;
 }
 
 .bg-cover .post-title {
