@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>2020年前端面试复习必读精选文章(4)</title>
+      <link href="/2020/11/08/sort-algorithms4/"/>
+      <url>/2020/11/08/sort-algorithms4/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>关注微信号【路飞】，干货马上就来！</p></blockquote><p><img src="/medias/contact.jpg" alt></p><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>给大家整理了一下每个 case 一些还算不错的文章吧（还包括一些躺在我收藏夹里的好文章），大家可以自己看文章总结一下答案，这样也会理解更深刻。</p><p><strong>并不是所有文章都需要看</strong>，希望是一个抛砖引玉的作用，大家也可以锻炼一下自己寻找有效资料的能力 ~</p><p>( 文章排序不分前后，随机排序 ~</p><h3 id="1-1-webpack"><a href="#1-1-webpack" class="headerlink" title="1.1 webpack"></a>1.1 webpack</h3><hr><h4 id="介绍下webpack的构建流程"><a href="#介绍下webpack的构建流程" class="headerlink" title="介绍下webpack的构建流程"></a>介绍下webpack的构建流程</h4><p>关于 webpack 的工作流程，简单来说可以概括为以下几步：<br>1.参数解析<br>2.找到入口文件<br>3.调用 Loader 编译文件<br>4.遍历 AST，收集依赖<br>5.生成 Chunk<br>6.输出文件<br>其中，真正起编译作用的便是 Loader，本文也就 Loader 进行详细的阐述，其余部分暂且不谈。</p><h4 id="webpack和rollup有什么相同和不同点"><a href="#webpack和rollup有什么相同和不同点" class="headerlink" title="webpack和rollup有什么相同和不同点"></a>webpack和rollup有什么相同和不同点</h4><p><a href="https://juejin.im/post/6844903473700405261" target="_blank" rel="noopener">同中有异的 Webpack 与 Rollup</a></p><h4 id="介绍下Loader"><a href="#介绍下Loader" class="headerlink" title="介绍下Loader"></a>介绍下Loader</h4><h4 id="介绍下Plugin"><a href="#介绍下Plugin" class="headerlink" title="介绍下Plugin"></a>介绍下Plugin</h4><p><a href="https://zhuanlan.zhihu.com/p/28245984" target="_blank" rel="noopener">webpack之loader和plugin简介</a></p><h4 id="webpack热更新是如何实现的"><a href="#webpack热更新是如何实现的" class="headerlink" title="webpack热更新是如何实现的"></a>webpack热更新是如何实现的</h4><p><a href="https://juejin.im/post/6844904008432222215#heading-0" target="_blank" rel="noopener">轻松理解webpack热更新原理</a></p><h4 id="webpack层面如何做性能优化"><a href="#webpack层面如何做性能优化" class="headerlink" title="webpack层面如何做性能优化"></a>webpack层面如何做性能优化</h4><p><a href="https://juejin.im/post/6844903673009537038" target="_blank" rel="noopener">性能优化</a></p><h4 id="介绍下webpack的dll"><a href="#介绍下webpack的dll" class="headerlink" title="介绍下webpack的dll"></a>介绍下webpack的dll</h4><h4 id="介绍下webpack的tree-shaking"><a href="#介绍下webpack的tree-shaking" class="headerlink" title="介绍下webpack的tree-shaking"></a>介绍下webpack的tree-shaking</h4><h4 id="介绍下webpack的scope-hosting"><a href="#介绍下webpack的scope-hosting" class="headerlink" title="介绍下webpack的scope hosting"></a>介绍下webpack的scope hosting</h4><p>(<a href="https://juejin.im/post/6844904138044604430#heading-17" target="_blank" rel="noopener">https://juejin.im/post/6844904138044604430#heading-17</a>)</p><h3 id="1-2-babel"><a href="#1-2-babel" class="headerlink" title="1.2 babel"></a>1.2 babel</h3><hr><h4 id="介绍一下babel的原理"><a href="#介绍一下babel的原理" class="headerlink" title="介绍一下babel的原理"></a>介绍一下babel的原理</h4><p><a href="https://www.zoo.team/article/babel" target="_blank" rel="noopener">前端工程师需要了解的 Babel 知识</a></p><h3 id="1-3-模板引擎"><a href="#1-3-模板引擎" class="headerlink" title="1.3 模板引擎"></a>1.3 模板引擎</h3><hr><h4 id="如何实现一个最简单的模板引擎"><a href="#如何实现一个最简单的模板引擎" class="headerlink" title="如何实现一个最简单的模板引擎"></a>如何实现一个最简单的模板引擎</h4><p><a href="https://www.liaoxuefeng.com/article/1006272230979008" target="_blank" rel="noopener">编写一个简单的JavaScript模板引擎</a></p><h3 id="1-4-前端发布"><a href="#1-4-前端发布" class="headerlink" title="1.4 前端发布"></a>1.4 前端发布</h3><hr><h4 id="一个前端页面是如何发布到线上的"><a href="#一个前端页面是如何发布到线上的" class="headerlink" title="一个前端页面是如何发布到线上的"></a>一个前端页面是如何发布到线上的</h4><h4 id="cdn"><a href="#cdn" class="headerlink" title="cdn"></a>cdn</h4><h4 id="增量发布"><a href="#增量发布" class="headerlink" title="增量发布"></a>增量发布</h4><p><a href="https://www.zhihu.com/question/20790576" target="_blank" rel="noopener">大公司里怎样开发和部署前端代码？</a><br><a href="https://juejin.im/post/6844904086823780366" target="_blank" rel="noopener">前端高级进阶：前端部署的发展历程</a></p><h3 id="1-5-weex"><a href="#1-5-weex" class="headerlink" title="1.5 weex"></a>1.5 weex</h3><hr><h4 id="介绍下weex的原理"><a href="#介绍下weex的原理" class="headerlink" title="介绍下weex的原理"></a>介绍下weex的原理</h4><h4 id="为什么weex比H5快"><a href="#为什么weex比H5快" class="headerlink" title="为什么weex比H5快"></a>为什么weex比H5快</h4><h4 id="weex有什么缺点"><a href="#weex有什么缺点" class="headerlink" title="weex有什么缺点"></a>weex有什么缺点</h4><p><a href="https://juejin.im/post/6844903618290663438" target="_blank" rel="noopener">为什么要选择 Weex</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 前端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> web前端 </tag>
+            
+            <tag> 面试 </tag>
+            
+            <tag> webpack </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>2020年前端面试复习必读精选文章(3)</title>
       <link href="/2020/10/30/sort-algorithms3/"/>
       <url>/2020/10/30/sort-algorithms3/</url>
