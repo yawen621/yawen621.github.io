@@ -4,7 +4,7 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="2020年前端面试复习必读精选文章(4), 程序员随笔记">
+    <meta name="keywords" content="2020年前端面试复习必读精选文章(6), 程序员随笔记">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
@@ -21,7 +21,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>2020年前端面试复习必读精选文章(4) | 亚文的博客</title>
+    <title>2020年前端面试复习必读精选文章(6) | 亚文的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -334,13 +334,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        2020年前端面试复习必读精选文章(4)
+                        2020年前端面试复习必读精选文章(6)
                     </div>
                 </div>
             </div>
@@ -459,8 +459,8 @@
                             <span class="chip bg-color">面试</span>
                         </a>
                         
-                        <a href="/tags/webpack/" target="_blank">
-                            <span class="chip bg-color">webpack</span>
+                        <a href="/tags/TypeScript/" target="_blank">
+                            <span class="chip bg-color">TypeScript</span>
                         </a>
                         
                     </div>
@@ -483,7 +483,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-11-08
+                    2020-11-12
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -497,7 +497,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    457
+                    486
                 </div>
                 
 
@@ -527,21 +527,22 @@
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>给大家整理了一下每个 case 一些还算不错的文章吧（还包括一些躺在我收藏夹里的好文章），大家可以自己看文章总结一下答案，这样也会理解更深刻。</p>
 <p><strong>并不是所有文章都需要看</strong>，希望是一个抛砖引玉的作用，大家也可以锻炼一下自己寻找有效资料的能力 ~</p>
 <p>( 文章排序不分前后，随机排序 ~)</p>
-<h3 id="1-1-webpack"><a href="#1-1-webpack" class="headerlink" title="1.1 webpack"></a>1.1 webpack</h3><hr>
-<h4 id="介绍下webpack的构建流程"><a href="#介绍下webpack的构建流程" class="headerlink" title="介绍下webpack的构建流程"></a>介绍下webpack的构建流程</h4><p>关于 webpack 的工作流程，简单来说可以概括为以下几步：<br>1.参数解析<br>2.找到入口文件<br>3.调用 Loader 编译文件<br>4.遍历 AST，收集依赖<br>5.生成 Chunk<br>6.输出文件<br>其中，真正起编译作用的便是 Loader，本文也就 Loader 进行详细的阐述，其余部分暂且不谈。</p>
-<h4 id="webpack和rollup有什么相同和不同点"><a href="#webpack和rollup有什么相同和不同点" class="headerlink" title="webpack和rollup有什么相同和不同点"></a>webpack和rollup有什么相同和不同点</h4><p><a href="https://juejin.im/post/6844903473700405261" target="_blank" rel="noopener">同中有异的 Webpack 与 Rollup</a></p>
-<h4 id="介绍下Loader"><a href="#介绍下Loader" class="headerlink" title="介绍下Loader"></a>介绍下Loader</h4><h4 id="介绍下Plugin"><a href="#介绍下Plugin" class="headerlink" title="介绍下Plugin"></a>介绍下Plugin</h4><p><a href="https://zhuanlan.zhihu.com/p/28245984" target="_blank" rel="noopener">webpack之loader和plugin简介</a></p>
-<h4 id="webpack热更新是如何实现的"><a href="#webpack热更新是如何实现的" class="headerlink" title="webpack热更新是如何实现的"></a>webpack热更新是如何实现的</h4><p><a href="https://juejin.im/post/6844904008432222215#heading-0" target="_blank" rel="noopener">轻松理解webpack热更新原理</a></p>
-<h4 id="webpack层面如何做性能优化"><a href="#webpack层面如何做性能优化" class="headerlink" title="webpack层面如何做性能优化"></a>webpack层面如何做性能优化</h4><p><a href="https://juejin.im/post/6844903673009537038" target="_blank" rel="noopener">性能优化</a></p>
-<h4 id="介绍下webpack的dll"><a href="#介绍下webpack的dll" class="headerlink" title="介绍下webpack的dll"></a>介绍下webpack的dll</h4><h4 id="介绍下webpack的tree-shaking"><a href="#介绍下webpack的tree-shaking" class="headerlink" title="介绍下webpack的tree-shaking"></a>介绍下webpack的tree-shaking</h4><h4 id="介绍下webpack的scope-hosting"><a href="#介绍下webpack的scope-hosting" class="headerlink" title="介绍下webpack的scope hosting"></a>介绍下webpack的scope hosting</h4><p>(<a href="https://juejin.im/post/6844904138044604430#heading-17" target="_blank" rel="noopener">https://juejin.im/post/6844904138044604430#heading-17</a>)</p>
-<h3 id="1-2-babel"><a href="#1-2-babel" class="headerlink" title="1.2 babel"></a>1.2 babel</h3><hr>
-<h4 id="介绍一下babel的原理"><a href="#介绍一下babel的原理" class="headerlink" title="介绍一下babel的原理"></a>介绍一下babel的原理</h4><p><a href="https://www.zoo.team/article/babel" target="_blank" rel="noopener">前端工程师需要了解的 Babel 知识</a></p>
-<h3 id="1-3-模板引擎"><a href="#1-3-模板引擎" class="headerlink" title="1.3 模板引擎"></a>1.3 模板引擎</h3><hr>
-<h4 id="如何实现一个最简单的模板引擎"><a href="#如何实现一个最简单的模板引擎" class="headerlink" title="如何实现一个最简单的模板引擎"></a>如何实现一个最简单的模板引擎</h4><p><a href="https://www.liaoxuefeng.com/article/1006272230979008" target="_blank" rel="noopener">编写一个简单的JavaScript模板引擎</a></p>
-<h3 id="1-4-前端发布"><a href="#1-4-前端发布" class="headerlink" title="1.4 前端发布"></a>1.4 前端发布</h3><hr>
-<h4 id="一个前端页面是如何发布到线上的"><a href="#一个前端页面是如何发布到线上的" class="headerlink" title="一个前端页面是如何发布到线上的"></a>一个前端页面是如何发布到线上的</h4><h4 id="cdn"><a href="#cdn" class="headerlink" title="cdn"></a>cdn</h4><h4 id="增量发布"><a href="#增量发布" class="headerlink" title="增量发布"></a>增量发布</h4><p><a href="https://www.zhihu.com/question/20790576" target="_blank" rel="noopener">大公司里怎样开发和部署前端代码？</a><br><a href="https://juejin.im/post/6844904086823780366" target="_blank" rel="noopener">前端高级进阶：前端部署的发展历程</a></p>
-<h3 id="1-5-weex"><a href="#1-5-weex" class="headerlink" title="1.5 weex"></a>1.5 weex</h3><hr>
-<h4 id="介绍下weex的原理"><a href="#介绍下weex的原理" class="headerlink" title="介绍下weex的原理"></a>介绍下weex的原理</h4><h4 id="为什么weex比H5快"><a href="#为什么weex比H5快" class="headerlink" title="为什么weex比H5快"></a>为什么weex比H5快</h4><h4 id="weex有什么缺点"><a href="#weex有什么缺点" class="headerlink" title="weex有什么缺点"></a>weex有什么缺点</h4><p><a href="https://juejin.im/post/6844903618290663438" target="_blank" rel="noopener">为什么要选择 Weex</a></p>
+<h3 id="1-1-介绍一下TypeScript"><a href="#1-1-介绍一下TypeScript" class="headerlink" title="1.1 介绍一下TypeScript"></a>1.1 介绍一下TypeScript</h3><hr>
+<p>TypeScript 也被称作 AnyScript，因为你在 coding 的时候需要为每个变量设一个 any 的类型。<br>咳咳，开玩笑开玩笑，可别真的让每个变量都是 any，会被疯狂吐槽的。</p>
+<p>TypeScript 是微软开发一款开源的编程语言，它是 JavaScript 的一个超集，本质上是为 JavaScript 增加了静态类型声明。任何的 JavaScript 代码都可以在其中使用，不会有任何问题。TypeScript 最终也会被编译成 JavaScript，使其在浏览器、Node 中等环境中使用。</p>
+<h3 id="1-2-TypeScript和JavaScript相比有什么优势"><a href="#1-2-TypeScript和JavaScript相比有什么优势" class="headerlink" title="1.2 TypeScript和JavaScript相比有什么优势"></a>1.2 TypeScript和JavaScript相比有什么优势</h3><hr>
+<p>TypeScript 相比于 JavaScript 具有以下优势：</p>
+<p>更好的可维护性和可读性<br>引入了静态类型声明，不需要太多的注释和文档，大部分的函数看类型定义就知道如何使用了<br>在编译阶段就能发现大部分因为变量类型导致的错误<br>…</p>
+<h3 id="1-3-介绍一下泛型-一般会用在什么地方"><a href="#1-3-介绍一下泛型-一般会用在什么地方" class="headerlink" title="1.3 介绍一下泛型,一般会用在什么地方"></a>1.3 介绍一下泛型,一般会用在什么地方</h3><hr>
+<p>(你不知道的 TypeScript 泛型（万字长文，建议收藏）)[<a href="https://lucifer.ren/blog/2020/06/16/ts-generics/]" target="_blank" rel="noopener">https://lucifer.ren/blog/2020/06/16/ts-generics/]</a></p>
+<h3 id="1-4-介绍一下interface"><a href="#1-4-介绍一下interface" class="headerlink" title="1.4 介绍一下interface"></a>1.4 介绍一下interface</h3><hr>
+<p>(官方文档)[<a href="https://www.tslang.cn/docs/handbook/interfaces.html]" target="_blank" rel="noopener">https://www.tslang.cn/docs/handbook/interfaces.html]</a></p>
+<h3 id="1-5-d-ts是什么"><a href="#1-5-d-ts是什么" class="headerlink" title="1.5 d.ts是什么"></a>1.5 d.ts是什么</h3><hr>
+<p>(声明文件)[<a href="https://ts.xcatliu.com/basics/declaration-files.html]" target="_blank" rel="noopener">https://ts.xcatliu.com/basics/declaration-files.html]</a></p>
+<h3 id="1-6-TypeScript是如何编译的"><a href="#1-6-TypeScript是如何编译的" class="headerlink" title="1.6 TypeScript是如何编译的"></a>1.6 TypeScript是如何编译的</h3><hr>
+<p>(编译过程)[<a href="https://zhuanlan.zhihu.com/p/45898674]" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/45898674]</a></p>
+<h3 id="1-7-namespace-module"><a href="#1-7-namespace-module" class="headerlink" title="1.7 namespace/module"></a>1.7 namespace/module</h3><hr>
+<p>(命名空间)[<a href="https://www.tslang.cn/docs/handbook/namespaces.html]" target="_blank" rel="noopener">https://www.tslang.cn/docs/handbook/namespaces.html]</a></p>
 
             </div>
             <hr />
@@ -700,9 +701,9 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《2020年前端面试复习必读精选文章(4)》
+                    《2020年前端面试复习必读精选文章(6)》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2020/11/08/sort-algorithms4/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2020/11/12/sort-algorithms6/" property="cc:attributionName"
                rel="cc:attributionURL">
                 亚文
             </a> 采用
@@ -1008,18 +1009,18 @@
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/11/12/sort-algorithms6/">
+                <a href="/2020/11/12/sort-algorithms5/">
                     <div class="card-image">
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="2020年前端面试复习必读精选文章(6)">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="2020年前端面试复习必读精选文章(5)">
                         
-                        <span class="card-title">2020年前端面试复习必读精选文章(6)</span>
+                        <span class="card-title">2020年前端面试复习必读精选文章(5)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            2020年前端面试复习必读精选文章(6)。
+                            2020年前端面试复习必读精选文章(5)。
                         
                     </div>
                     <div class="publish-info">
@@ -1049,8 +1050,8 @@
                         <span class="chip bg-color">面试</span>
                     </a>
                     
-                    <a href="/tags/TypeScript/" target="_blank">
-                        <span class="chip bg-color">TypeScript</span>
+                    <a href="/tags/性能优化/" target="_blank">
+                        <span class="chip bg-color">性能优化</span>
                     </a>
                     
                 </div>
@@ -1064,23 +1065,23 @@
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/10/30/sort-algorithms3/">
+                <a href="/2020/11/08/sort-algorithms4/">
                     <div class="card-image">
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="2020年前端面试复习必读精选文章(3)">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="2020年前端面试复习必读精选文章(4)">
                         
-                        <span class="card-title">2020年前端面试复习必读精选文章(3)</span>
+                        <span class="card-title">2020年前端面试复习必读精选文章(4)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            2020年前端面试复习必读精选文章(3)。
+                            2020年前端面试复习必读精选文章(4)。
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-10-30
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-11-08
                             </span>
                         <span class="publish-author">
                             
@@ -1105,8 +1106,8 @@
                         <span class="chip bg-color">面试</span>
                     </a>
                     
-                    <a href="/tags/vue/" target="_blank">
-                        <span class="chip bg-color">vue</span>
+                    <a href="/tags/webpack/" target="_blank">
+                        <span class="chip bg-color">webpack</span>
                     </a>
                     
                 </div>
