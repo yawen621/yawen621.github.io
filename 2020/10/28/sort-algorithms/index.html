@@ -497,14 +497,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.1k
+                    6.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    24 分
+                    27 分
                 </div>
                 
                 
@@ -531,68 +531,118 @@
 <h3 id="1-1-执行上下文-作用域链-闭包"><a href="#1-1-执行上下文-作用域链-闭包" class="headerlink" title="1.1 执行上下文/作用域链/闭包"></a>1.1 执行上下文/作用域链/闭包</h3><hr>
 <h4 id="介绍一下javascript的执行上下文"><a href="#介绍一下javascript的执行上下文" class="headerlink" title="介绍一下javascript的执行上下文"></a>介绍一下javascript的执行上下文</h4><p>简而言之，执行上下文是评估和执行 JavaScript 代码的环境的抽象概念。每当 Javascript 代码在运行的时候，它都是在执行上下文中运行。</p>
 <ul>
-<li><strong>全局执行上下文</strong>——这是默认或者说基础的上下文，任何不在函数内部的代码都在全局上下文中。它会执行两件事：创建一个全局的 window 对象（浏览器的情况下），并且设置 this 的值等于这个全局对象。一个程序中只会有一个全局执行上下文。</li>
-<li><strong>函数执行上下文</strong>——每当一个函数被调用时, 都会为该函数创建一个新的上下文。每个函数都有它自己的执行上下文，不过是在函数被调用时创建的。函数上下文可以有任意多个。每当一个新的执行上下文被创建，它会按定义的顺序（将在后文讨论）执行一系列步骤。</li>
-<li><strong>Eval 函数执行上下文</strong>——执行在 eval 函数内部的代码也会有它属于自己的执行上下文，但由于 JavaScript 开发者并不经常使用 eval，所以在这里我不会讨论它。</li>
+<li><strong>全局执行上下文</strong>—-这是默认或者说基础的上下文，任何不在函数内部的代码都在全局上下文中。它会执行两件事：创建一个全局的 window 对象（浏览器的情况下），并且设置 this 的值等于这个全局对象。一个程序中只会有一个全局执行上下文。</li>
+<li><strong>函数执行上下文</strong>—-每当一个函数被调用时, 都会为该函数创建一个新的上下文。每个函数都有它自己的执行上下文，不过是在函数被调用时创建的。函数上下文可以有任意多个。每当一个新的执行上下文被创建，它会按定义的顺序（将在后文讨论）执行一系列步骤。</li>
+<li><strong>Eval 函数执行上下文</strong>—-执行在 eval 函数内部的代码也会有它属于自己的执行上下文，但由于 JavaScript 开发者并不经常使用 eval，所以在这里我不会讨论它。</li>
 </ul>
 <p><img src="1.jpg" alt></p>
 <h4 id="介绍一下javascript的作用域链"><a href="#介绍一下javascript的作用域链" class="headerlink" title="介绍一下javascript的作用域链"></a>介绍一下javascript的作用域链</h4><p>对于每个执行上下文，都有三个重要属性：变量对象(Variable object，VO) 作用域链(Scope chain) this<br>当查找变量的时候，会先从当前上下文的变量对象中查找，如果没有找到，就会从父级(词法层面上的父级)执行上下文的变量对象中查找，一直找到全局上下文的变量对象，也就是全局对象。这样由多个执行上下文的变量对象构成的链表就叫做作用域链<br>静态作用域与动态作用域<br>因为 JavaScript 采用的是词法作用域，函数的作用域在函数定义的时候就决定了。<br>而与词法作用域相对的是动态作用域，函数的作用域是在函数调用的时候才决定的。</p>
-<h4 id="介绍一下javascript的闭包是什么，以及应用的场景"><a href="#介绍一下javascript的闭包是什么，以及应用的场景" class="headerlink" title="介绍一下javascript的闭包是什么，以及应用的场景"></a>介绍一下javascript的闭包是什么，以及应用的场景</h4><p>闭包是一个可以访问外部作用域的内部函数，即使这个外部作用域已经执行结束。</p>
-<ol>
-<li>函数防抖 2. 使用闭包设计单例模式 3. 为多个组件独立属性 4. 设置私有变量 5. 拿到正确的值（老掉牙的问题了😝）</li>
-</ol>
+<h4 id="介绍一下javascript的闭包是什么，以及应用的场景"><a href="#介绍一下javascript的闭包是什么，以及应用的场景" class="headerlink" title="介绍一下javascript的闭包是什么，以及应用的场景"></a>介绍一下javascript的闭包是什么，以及应用的场景</h4><p>1）什么是闭包<br>函数执行后返回结果是一个内部函数，并被外部变量所引用，如果内部函数持有被执行函数作用域的变量，即形成了闭包。</p>
+<p>可以在内部函数访问到外部函数作用域。使用闭包，一可以读取函数中的变量，二可以将函数中的变量存储在内存中，保护变量不被污染。而正因闭包会把函数中的变量值存储在内存中，会对内存有消耗，所以不能滥用闭包，否则会影响网页性能，造成内存泄漏。当不需要使用闭包时，要及时释放内存，可将内层函数对象的变量赋值为null。</p>
+<p>2）闭包原理<br>函数执行分成两个阶段(预编译阶段和执行阶段)。</p>
+<p>在预编译阶段，如果发现内部函数使用了外部函数的变量，则会在内存中创建一个“闭包”对象并保存对应变量值，如果已存在“闭包”，则只需要增加对应属性值即可。<br>执行完后，函数执行上下文会被销毁，函数对“闭包”对象的引用也会被销毁，但其内部函数还持用该“闭包”的引用，所以内部函数可以继续使用“外部函数”中的变量<br>利用了函数作用域链的特性，一个函数内部定义的函数会将包含外部函数的活动对象添加到它的作用域链中，函数执行完毕，其执行作用域链销毁，但因内部函数的作用域链仍然在引用这个活动对象，所以其活动对象不会被销毁，直到内部函数被烧毁后才被销毁。</p>
+<p>3）优点<br>可以从内部函数访问外部函数的作用域中的变量，且访问到的变量长期驻扎在内存中，可供之后使用<br>避免变量污染全局<br>把变量存到独立的作用域，作为私有成员存在<br>4）缺点<br>对内存消耗有负面影响。因内部函数保存了对外部变量的引用，导致无法被垃圾回收，增大内存使用量，所以使用不当会导致内存泄漏<br>对处理速度具有负面影响。闭包的层级决定了引用的外部变量在查找时经过的作用域链长度<br>可能获取到意外的值(captured value)<br>4）应用场景<br>应用场景一： 典型应用是模块封装，在各模块规范出现之前，都是用这样的方式防止变量污染全局。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">var Yideng <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 这样声明为模块私有变量，外界无法直接访问</span>
+    var foo <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    function <span class="token function">Yideng</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    Yideng<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>bar <span class="token operator">=</span> function <span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> foo<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> Yideng<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>应用场景二： 在循环中创建闭包，防止取到意外的值。</p>
+<p>如下代码，无论哪个元素触发事件，都会弹出 3。因为函数执行后引用的 i 是同一个，而 i 在循环结束后就是 3</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">for</span> <span class="token punctuation">(</span>var i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'id'</span> <span class="token operator">+</span> i<span class="token punctuation">)</span><span class="token punctuation">.</span>onfocus <span class="token operator">=</span> <span class="token function">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">alert</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//可用闭包解决</span>
+function <span class="token function">makeCallback</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token function">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">alert</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span>var i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'id'</span> <span class="token operator">+</span> i<span class="token punctuation">)</span><span class="token punctuation">.</span>onfocus <span class="token operator">=</span> <span class="token function">makeCallback</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="1-2-this-call-apply-bind"><a href="#1-2-this-call-apply-bind" class="headerlink" title="1.2 this/call/apply/bind"></a>1.2 this/call/apply/bind</h3><hr>
 <h4 id="介绍下javascript里的this"><a href="#介绍下javascript里的this" class="headerlink" title="介绍下javascript里的this"></a>介绍下javascript里的this</h4><p>执行上下文的创建阶段，会分别生成变量对象，建立作用域链，确定this指向。其中变量对象与作用域链我们都已经明白了。本文的关键，就是确定this指向。<br>首先，我们需要得出一个非常重要的，并且一定要牢记于心的结论，this的指向，是在函数被调用的时候确定的。也就是执行上下文被创建时确定的。<br>在一个函数上下文中，this由调用者提供，由调用函数的方式来决定。如果调用者函数，被某一个对象所拥有，那么该函数在调用时，内部的this指向该对象。如果函数独立调用，那么该函数内部的this，则指向undefined。但是在非严格模式中，当this指向undefined时，它会被自动指向全局对象。</p>
 <h4 id="如何改变this的指向"><a href="#如何改变this的指向" class="headerlink" title="如何改变this的指向"></a>如何改变this的指向</h4><p>由call或apply、bind调用：绑定到指定的对象</p>
-<h4 id="call和apply的区别"><a href="#call和apply的区别" class="headerlink" title="call和apply的区别"></a>call和apply的区别</h4><p><strong>相同点</strong>：1、call和apply的第一个参数thisArg，都是func运行时指定的this。而且，this可能不是该方法看到的实际值：如果这个函数处于非严格模式下，则指定为 null 或 undefined 时会自动替换为指向全局对象，原始值会被包装。<br>2、都可以只传递一个参数。<br><strong>不同点</strong>：apply只接收两个参数，第二个参数可以是数组也可以是类数组，其实也可以是对象，后续的参数忽略不计。call接收第二个及以后一系列的参数。</p>
-<h4 id="如何实现一个bind"><a href="#如何实现一个bind" class="headerlink" title="如何实现一个bind"></a>如何实现一个bind</h4><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">//简单模拟Symbol属性</span>
-function <span class="token function">jawilSymbol</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    var unique_proper <span class="token operator">=</span> <span class="token string">"00"</span> <span class="token operator">+</span> Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>obj<span class="token punctuation">.</span><span class="token function">hasOwnProperty</span><span class="token punctuation">(</span>unique_proper<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        arguments<span class="token punctuation">.</span><span class="token function">callee</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//如果obj已经有了这个属性，递归调用，直到没有这个属性</span>
+<h4 id="call和apply的区别"><a href="#call和apply的区别" class="headerlink" title="call和apply的区别"></a>call和apply的区别</h4><p><strong>相同点</strong>：1、call和apply的第一个参数thisArg，都是func运行时指定的this。而且，this可能不是该方法看到的实际值：如果这个函数处于非严格模式下，则指定为 null 或 undefined 时会自动替换为指向全局对象，原始值会被包装。<br>2、都可以只传递一个参数。<br><strong>不同点</strong>：apply只接收两个参数，第二个参数可以是数组也可以是类数组，其实也可以是对象，后续的参数忽略不计。call接收第二个及以后一系列的参数。bind 方法 与 apply 和 call 比较类似，也能改变函数体内的 this 指向。不同的是，bind 方法的返回值是函数，并且需要稍后调用，才会执行。而 apply 和 call 则是立即调用</p>
+<h4 id="如何实现一个bind"><a href="#如何实现一个bind" class="headerlink" title="如何实现一个bind"></a>如何实现一个bind</h4><p>模拟实现call</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">Function<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>myCall <span class="token operator">=</span> <span class="token function">function</span> <span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  var context <span class="token operator">=</span> context <span class="token operator">||</span> window
+  <span class="token comment" spellcheck="true">// 给 context 添加一个属性</span>
+  <span class="token comment" spellcheck="true">// getValue.call(a, 'mei', '24') => a.fn = getValue</span>
+  context<span class="token punctuation">.</span>fn <span class="token operator">=</span> <span class="token keyword">this</span>
+  <span class="token comment" spellcheck="true">// 将 context 后面的参数取出来</span>
+  var args <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>arguments<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+  <span class="token comment" spellcheck="true">// getValue.call(a, 'mei', '24') => a.fn('mei', '24')</span>
+  var result <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>args<span class="token punctuation">)</span>
+  <span class="token comment" spellcheck="true">// 删除 fn</span>
+  <span class="token keyword">delete</span> context<span class="token punctuation">.</span>fn
+  <span class="token keyword">return</span> result
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>测试一下：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">let a <span class="token operator">=</span> <span class="token punctuation">{</span>
+    value<span class="token operator">:</span> <span class="token number">1</span>
+<span class="token punctuation">}</span>
+function <span class="token function">getValue</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> age<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>age<span class="token punctuation">)</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>value<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+getValue<span class="token punctuation">.</span><span class="token function">myCall</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> <span class="token string">'mei'</span><span class="token punctuation">,</span> <span class="token string">'24'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//mei 24 1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>模拟实现apply</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">Function<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>myApply <span class="token operator">=</span> <span class="token function">function</span> <span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    var context <span class="token operator">=</span> context <span class="token operator">||</span> window<span class="token punctuation">;</span>
+    context<span class="token punctuation">.</span>fn <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+    var result<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>arguments<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        result <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>arguments<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> unique_proper<span class="token punctuation">;</span>
+        result <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
     <span class="token punctuation">}</span>
+    <span class="token keyword">delete</span> context<span class="token punctuation">.</span>fn<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>测试一下：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">let a <span class="token operator">=</span> <span class="token punctuation">{</span>
+    value<span class="token operator">:</span> <span class="token number">1</span>
 <span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">//原生JavaScript封装apply方法，第五版</span>
-Function<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>applyFive <span class="token operator">=</span> <span class="token function">function</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    var context <span class="token operator">=</span> context <span class="token operator">||</span> window
-    var args <span class="token operator">=</span> arguments<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true">//获取传入的数组参数</span>
-    var fn <span class="token operator">=</span> <span class="token function">jawilSymbol</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    context<span class="token punctuation">[</span>fn<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">this</span> <span class="token comment" spellcheck="true">//假想context对象预先不存在名为fn的属性</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>args <span class="token operator">==</span> <span class="token keyword">void</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">//没有传入参数直接执行</span>
-        <span class="token keyword">return</span> context<span class="token punctuation">[</span>fn<span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-    var fnStr <span class="token operator">=</span> <span class="token string">'context[fn]('</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span>var i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> args<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">//得到"context.fn(arg1,arg2,arg3...)"这个字符串在，最后用eval执行</span>
-        fnStr <span class="token operator">+</span><span class="token operator">=</span> i <span class="token operator">==</span> args<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span> <span class="token operator">?</span> args<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">:</span> args<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token string">','</span>
-    <span class="token punctuation">}</span>
-    fnStr <span class="token operator">+</span><span class="token operator">=</span> <span class="token string">')'</span>
-    var returnValue <span class="token operator">=</span> <span class="token function">eval</span><span class="token punctuation">(</span>fnStr<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//还是eval强大</span>
-    <span class="token keyword">delete</span> context<span class="token punctuation">[</span>fn<span class="token punctuation">]</span> <span class="token comment" spellcheck="true">//执行完毕之后删除这个属性</span>
-    <span class="token keyword">return</span> returnValue
+function <span class="token function">getValue</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> age<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>age<span class="token punctuation">)</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>value<span class="token punctuation">)</span>
 <span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">//简单模拟call函数</span>
-Function<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>callOne <span class="token operator">=</span> <span class="token function">function</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">applyFive</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">.</span>shift<span class="token punctuation">.</span><span class="token function">applyFive</span><span class="token punctuation">(</span>arguments<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> arguments<span class="token punctuation">)</span>
-    <span class="token comment" spellcheck="true">//巧妙地运用上面已经实现的applyFive函数</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">//简单模拟bind函数</span>
-Function<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>bind <span class="token operator">=</span> Function<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>bind <span class="token operator">||</span> <span class="token function">function</span> <span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    var me <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
-    var args <span class="token operator">=</span> Array<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>slice<span class="token punctuation">.</span><span class="token function">callOne</span><span class="token punctuation">(</span>arguments<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    var F <span class="token operator">=</span> <span class="token function">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-    F<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>prototype<span class="token punctuation">;</span>
-    var bound <span class="token operator">=</span> <span class="token function">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        var innerArgs <span class="token operator">=</span> Array<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>slice<span class="token punctuation">.</span><span class="token function">callOne</span><span class="token punctuation">(</span>arguments<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        var finalArgs <span class="token operator">=</span> args<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>innerArgs<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> me<span class="token punctuation">.</span><span class="token function">applyFive</span><span class="token punctuation">(</span><span class="token keyword">this</span> instanceof F <span class="token operator">?</span> <span class="token keyword">this</span> <span class="token operator">:</span> context <span class="token operator">||</span> <span class="token keyword">this</span><span class="token punctuation">,</span> finalArgs<span class="token punctuation">)</span><span class="token punctuation">;</span>
+getValue<span class="token punctuation">.</span><span class="token function">myApply</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string">'mei'</span><span class="token punctuation">,</span> <span class="token string">'24'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//mei 24 1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>模拟实现bind</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">Function<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>myBind <span class="token operator">=</span> <span class="token function">function</span> <span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>typeof <span class="token keyword">this</span> <span class="token operator">!=</span><span class="token operator">=</span> <span class="token string">'function'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token function">TypeError</span><span class="token punctuation">(</span><span class="token string">'error'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
-    bound<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">F</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> bound<span class="token punctuation">;</span>
-<span class="token punctuation">}</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    var _this <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+    var args <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>arguments<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> function <span class="token function">F</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span> instanceof F<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token function">_this</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>args<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>arguments<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> _this<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> args<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>arguments<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>测试一下：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">let a <span class="token operator">=</span> <span class="token punctuation">{</span>
+    value<span class="token operator">:</span> <span class="token number">1</span>
+<span class="token punctuation">}</span>
+function <span class="token function">getValue</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> age<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>age<span class="token punctuation">)</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>value<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+getValue<span class="token punctuation">.</span><span class="token function">myBind</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> <span class="token string">'mei'</span><span class="token punctuation">,</span> <span class="token string">'24'</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//mei 24 1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="1-3-原型-继承"><a href="#1-3-原型-继承" class="headerlink" title="1.3 原型/继承"></a>1.3 原型/继承</h3><hr>
 <h4 id="介绍一下javascript的原型"><a href="#介绍一下javascript的原型" class="headerlink" title="介绍一下javascript的原型"></a>介绍一下javascript的原型</h4><p>每个函数都有一个 prototype 属性，就是我们经常在各种例子中看到的那个 prototype ，比如：</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp">function <span class="token function">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -609,7 +659,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>其实，函数的 prototype 属性指向了一个对象，这个对象正是调用该构造函数而创建的实例的原型，也就是这个例子中的 person1 和 person2 的原型。</p>
 <p>那什么是原型呢？你可以这样理解：每一个JavaScript对象(null除外)在创建的时候就会与之关联另一个对象，这个对象就是我们所说的原型，每一个对象都会从原型”继承”属性。</p>
 <p>让我们用一张图表示构造函数和实例原型之间的关系：<br><img src="prototype.png" alt></p>
-<h4 id="原型链是什么"><a href="#原型链是什么" class="headerlink" title="原型链是什么"></a>原型链是什么</h4><p>看上面那张图</p>
+<h4 id="原型链是什么"><a href="#原型链是什么" class="headerlink" title="原型链是什么"></a>原型链是什么</h4><p>从当前对象出发，通过<strong>proto</strong>属性向上找构造函数的prototype属性，一直找到null而结束，在查找过程中形成的链叫做原型链</p>
 <h4 id="如何利用原型实现继承"><a href="#如何利用原型实现继承" class="headerlink" title="如何利用原型实现继承"></a>如何利用原型实现继承</h4><p>1、原型链继承</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// 实现原型链的一种基本模式</span>
 function <span class="token function">SuperType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
@@ -1719,12 +1769,12 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
     <footer class="page-footer bg-color">
     <div class="container row center-align">
-        <!-- <div class="col s12 m8 l8 copy-right">
-            &copy; 2017-2020 WeiYang. 版权所有
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2021-2025 WeiYang. 版权所有
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">34.6k</span>
+            <span class="white-color">35.4k</span>
             
 
             <br>
@@ -1745,7 +1795,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
             </span>
             
             
-        </div> -->
+        </div>
         <div class="col s12 m4 l4 social-link social-statis">
     <a href="https://github.com/yawen621" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fa fa-github"></i>
@@ -1787,7 +1837,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <div class="progress-bar"></div>
 
 <!-- 不蒜子计数初始值纠正 -->
-<!-- <script>
+<script>
     $(document).ready(function () {
 
         var int = setInterval(fixCount, 50);
@@ -1805,9 +1855,9 @@ console<span class="token punctuation">.</span><span class="token function">log<
             }
         }
     });
-</script> -->
+</script>
 
-<!-- <script language=javascript>
+<script language=javascript>
     function siteTime() {
         window.setTimeout("siteTime()", 1000);
         var seconds = 1000;
@@ -1841,7 +1891,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
         document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
     }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
     siteTime();
-</script> -->
+</script>
 
     <!-- 搜索遮罩框 -->
 <div id="searchModal" class="modal">

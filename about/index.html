@@ -540,7 +540,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/banner' + new Date().
         },
         xAxis: {
             type: 'category',
-            data: ["2019-11","2019-12","2020-01","2020-02","2020-03","2020-04","2020-05","2020-06","2020-07","2020-08","2020-09","2020-10","2020-11"]
+            data: ["2020-01","2020-02","2020-03","2020-04","2020-05","2020-06","2020-07","2020-08","2020-09","2020-10","2020-11","2020-12","2021-01"]
         },
         yAxis: {
             type: 'value',
@@ -550,7 +550,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/banner' + new Date().
                 name: '文章篇数',
                 type: 'line',
                 color: ['#6772e5'],
-                data: [0,0,0,0,0,0,0,0,0,0,0,3,5],
+                data: [0,0,0,0,0,0,0,0,0,3,5,0,0],
                 markPoint: {
                     symbolSize: 45,
                     color: ['#fa755a','#3ecf8e','#82d3f4'],
@@ -616,7 +616,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/banner' + new Date().
         xAxis: [
             {
                 type: 'category',
-                data: ["web前端","面试","css","js","性能优化","网络","TypeScript","设计模式","vue","webpack"]
+                data: ["web前端","面试","js","css","网络","vue","性能优化","webpack","TypeScript","设计模式"]
             }
         ],
         yAxis: [
@@ -780,14 +780,26 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/banner' + new Date().
             
             
             
+            <a href="/tags/js/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">js</span>
+            </a>
+            
+            
+            
             <a href="/tags/css/" target="_blank">
                 <span class="chip center-align waves-effect waves-light chip-default">css</span>
             </a>
             
             
             
-            <a href="/tags/js/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">js</span>
+            <a href="/tags/网络/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">网络</span>
+            </a>
+            
+            
+            
+            <a href="/tags/vue/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">vue</span>
             </a>
             
             
@@ -798,8 +810,8 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/banner' + new Date().
             
             
             
-            <a href="/tags/网络/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">网络</span>
+            <a href="/tags/webpack/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">webpack</span>
             </a>
             
             
@@ -812,18 +824,6 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/banner' + new Date().
             
             <a href="/tags/设计模式/" target="_blank">
                 <span class="chip center-align waves-effect waves-light chip-default">设计模式</span>
-            </a>
-            
-            
-            
-            <a href="/tags/vue/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">vue</span>
-            </a>
-            
-            
-            
-            <a href="/tags/webpack/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">webpack</span>
             </a>
             
             
@@ -881,12 +881,12 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/banner' + new Date().
 </main>
     <footer class="page-footer bg-color">
     <div class="container row center-align">
-        <!-- <div class="col s12 m8 l8 copy-right">
-            &copy; 2017-2020 WeiYang. 版权所有
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2021-2025 WeiYang. 版权所有
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">34.6k</span>
+            <span class="white-color">35.4k</span>
             
 
             <br>
@@ -907,7 +907,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/banner' + new Date().
             </span>
             
             
-        </div> -->
+        </div>
         <div class="col s12 m4 l4 social-link social-statis">
     <a href="https://github.com/yawen621" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fa fa-github"></i>
@@ -949,7 +949,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/banner' + new Date().
 <div class="progress-bar"></div>
 
 <!-- 不蒜子计数初始值纠正 -->
-<!-- <script>
+<script>
     $(document).ready(function () {
 
         var int = setInterval(fixCount, 50);
@@ -967,9 +967,9 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/banner' + new Date().
             }
         }
     });
-</script> -->
+</script>
 
-<!-- <script language=javascript>
+<script language=javascript>
     function siteTime() {
         window.setTimeout("siteTime()", 1000);
         var seconds = 1000;
@@ -1003,7 +1003,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/banner' + new Date().
         document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
     }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
     siteTime();
-</script> -->
+</script>
 
     <!-- 搜索遮罩框 -->
 <div id="searchModal" class="modal">
