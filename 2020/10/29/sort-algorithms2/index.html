@@ -497,14 +497,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.2k
+                    4.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    8 分
+                    18 分
                 </div>
                 
                 
@@ -528,11 +528,159 @@
 <p><strong>并不是所有文章都需要看</strong>，希望是一个抛砖引玉的作用，大家也可以锻炼一下自己寻找有效资料的能力 ~</p>
 <p>( 文章排序不分前后，随机排序 ~)<br><img src="css.png" alt></p>
 <h3 id="1-1-position"><a href="#1-1-position" class="headerlink" title="1.1 position"></a>1.1 position</h3><hr>
-<p><a href="http://www.ruanyifeng.com/blog/2019/11/css-position.html" target="_blank" rel="noopener">CSS 定位详解</a></p>
+<p>CSS 有两个最重要的基本属性，前端开发必须掌握：display 和 position。</p>
+<p>display属性指定网页的布局。两个重要的布局，我已经介绍过了：弹性布局flex和网格布局grid。</p>
+<p>本文介绍非常有用的position属性。我希望通过10分钟的阅读，帮助大家轻松掌握网页定位，说清楚浏览器如何计算网页元素的位置，尤其是新引进的sticky定位。<br><img src="position.png" alt></p>
+<h4 id="一、position-属性的作用"><a href="#一、position-属性的作用" class="headerlink" title="一、position 属性的作用"></a>一、position 属性的作用</h4><p>position属性用来指定一个元素在网页上的位置，一共有5种定位方式，即position属性主要有五个值。</p>
+<blockquote>
+<ul>
+<li>static</li>
+<li>relative</li>
+<li>fixed</li>
+<li>absolute</li>
+<li>sticky<br>下面就依次介绍这五个值。最后一个sticky是2017年浏览器才支持的，本文将重点介绍。</li>
+</ul>
+</blockquote>
+<h4 id="二、static-属性值"><a href="#二、static-属性值" class="headerlink" title="二、static 属性值"></a>二、static 属性值</h4><p>static是position属性的默认值。如果省略position属性，浏览器就认为该元素是static定位。<br>这时，浏览器会按照源码的顺序，决定每个元素的位置，这称为”正常的页面流”（normal flow）。每个块级元素占据自己的区块（block），元素与元素之间不产生重叠，这个位置就是元素的默认位置。<br><img src="position1.png" alt><br>注意，static定位所导致的元素位置，是浏览器自主决定的，所以这时top、bottom、left、right这四个属性无效。</p>
+<h4 id="三、relative，absolute，fixed"><a href="#三、relative，absolute，fixed" class="headerlink" title="三、relative，absolute，fixed"></a>三、relative，absolute，fixed</h4><p>relative、absolute、fixed这三个属性值有一个共同点，都是相对于某个基点的定位，不同之处仅仅在于基点不同。所以，只要理解了它们的基点是什么，就很容易掌握这三个属性值。</p>
+<p>这三种定位都不会对其他元素的位置产生影响，因此元素之间可能产生重叠。</p>
+<h5 id="3-1-relative-属性值"><a href="#3-1-relative-属性值" class="headerlink" title="3.1 relative 属性值"></a>3.1 relative 属性值</h5><p>relative表示，相对于默认位置（即static时的位置）进行偏移，即定位基点是元素的默认位置。<br><img src="position2.png" alt><br><img src="position3.png" alt><br>它必须搭配top、bottom、left、right这四个属性一起使用，用来指定偏移的方向和距离。<br><img src="position4.png" alt></p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">div <span class="token punctuation">{</span>
+  position<span class="token operator">:</span> relative<span class="token punctuation">;</span>
+  top<span class="token operator">:</span> 20px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="3-2-absolute-属性值"><a href="#3-2-absolute-属性值" class="headerlink" title="3.2 absolute 属性值"></a>3.2 absolute 属性值</h5><p>absolute表示，相对于上级元素（一般是父元素）进行偏移，即定位基点是父元素。</p>
+<p>它有一个重要的限制条件：定位基点（一般是父元素）不能是static定位，否则定位基点就会变成整个网页的根元素html。另外，absolute定位也必须搭配top、bottom、left、right这四个属性一起使用。<br><img src="position5.png" alt></p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/*
+  HTML 代码如下
+  &lt;div id="father">
+    &lt;div id="son">&lt;/div>
+  &lt;/div>
+*/</span>
+<span class="token macro property">#father {</span>
+  positon<span class="token operator">:</span> relative<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token macro property">#son {</span>
+  position<span class="token operator">:</span> absolute<span class="token punctuation">;</span>
+  top<span class="token operator">:</span> 20px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面代码中，父元素是relative定位，子元素是absolute定位，所以子元素的定位基点是父元素，相对于父元素的顶部向下偏移20px。如果父元素是static定位，上例的子元素就是距离网页的顶部向下偏移20px。</p>
+<p>注意，absolute定位的元素会被”正常页面流”忽略，即在”正常页面流”中，该元素所占空间为零，周边元素不受影响。</p>
+<h5 id="3-3-fixed-属性值"><a href="#3-3-fixed-属性值" class="headerlink" title="3.3 fixed 属性值"></a>3.3 fixed 属性值</h5><p>fixed表示，相对于视口（viewport，浏览器窗口）进行偏移，即定位基点是浏览器窗口。这会导致元素的位置不随页面滚动而变化，好像固定在网页上一样。<br><img src="position6.png" alt><br>它如果搭配top、bottom、left、right这四个属性一起使用，表示元素的初始位置是基于视口计算的，否则初始位置就是元素的默认位置。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">div <span class="token punctuation">{</span>
+  position<span class="token operator">:</span> fixed<span class="token punctuation">;</span>
+  top<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面代码中，div元素始终在视口顶部，不随网页滚动而变化。</p>
+<h5 id="四、sticky-属性值"><a href="#四、sticky-属性值" class="headerlink" title="四、sticky 属性值"></a>四、sticky 属性值</h5><p>sticky跟前面四个属性值都不一样，它会产生动态效果，很像relative和fixed的结合：一些时候是relative定位（定位基点是自身默认位置），另一些时候自动变成fixed定位（定位基点是视口）。</p>
+<p>因此，它能够形成”动态固定”的效果。比如，网页的搜索工具栏，初始加载时在自己的默认位置（relative定位）。<br><img src="position7.png" alt><br>页面向下滚动时，工具栏变成固定位置，始终停留在页面头部（fixed定位）。<br><img src="position8.png" alt>等到页面重新向上滚动回到原位，工具栏也会回到默认位置。</p>
+<p>sticky生效的前提是，必须搭配top、bottom、left、right这四个属性一起使用，不能省略，否则等同于relative定位，不产生”动态固定”的效果。原因是这四个属性用来定义”偏移距离”，浏览器把它当作sticky的生效门槛。</p>
+<p>它的具体规则是，当页面滚动，父元素开始脱离视口时（即部分不可见），只要与sticky元素的距离达到生效门槛，relative定位自动切换为fixed定位；等到父元素完全脱离视口时（即完全不可见），fixed定位自动切换回relative定位。</p>
+<p>请看下面的示例代码。（注意，除了已被淘汰的 IE 以外，其他浏览器目前都支持sticky。但是，Safari 浏览器需要加上浏览器前缀-webkit-。）</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#toolbar {</span>
+  position<span class="token operator">:</span> <span class="token operator">-</span>webkit<span class="token operator">-</span>sticky<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* safari 浏览器 */</span>
+  position<span class="token operator">:</span> sticky<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* 其他浏览器 */</span>
+  top<span class="token operator">:</span> 20px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面代码中，页面向下滚动时，#toolbar的父元素开始脱离视口，一旦视口的顶部与#toolbar的距离小于20px（门槛值），#toolbar就自动变为fixed定位，保持与视口顶部20px的距离。页面继续向下滚动，父元素彻底离开视口（即整个父元素完全不可见），#toolbar恢复成relative定位。</p>
+<h5 id="五、-sticky-的应用"><a href="#五、-sticky-的应用" class="headerlink" title="五、 sticky 的应用"></a>五、 sticky 的应用</h5><p>sticky定位可以实现一些很有用的效果。除了上面提到”动态固定”效果，这里再介绍两个。</p>
+<h5 id="5-1-堆叠效果"><a href="#5-1-堆叠效果" class="headerlink" title="5.1 堆叠效果"></a>5.1 堆叠效果</h5><p>堆叠效果（stacking）指的是页面滚动时，下方的元素覆盖上方的元素。下面是一个图片堆叠的例子，下方的图片会随着页面滚动，覆盖上方的图片（查看 <a href="https://jsbin.com/fegiqoquki/edit?html,css,output" target="_blank" rel="noopener">demo</a>）。<br><img src="position9.png" alt><br>它的原理是页面向下滚动时，每张图片都会变成fixed定位，导致后一张图片重叠在前一张图片上面。详细解释可以看<a href="https://dev.to/vinceumo/slide-stacking-effect-using-position-sticky-91f" target="_blank" rel="noopener">这里</a>。</p>
+<h5 id="5-2-表格的表头锁定"><a href="#5-2-表格的表头锁定" class="headerlink" title="5.2 表格的表头锁定"></a>5.2 表格的表头锁定</h5><p>大型表格滚动的时候，表头始终固定，也可以用sticky实现（查看 <a href="https://jsbin.com/decemanohe/edit?html,css,output" target="_blank" rel="noopener">demo</a>）。<br>需要注意的是，sticky必须设在<th>元素上面，不能设在<thead>和<tr>元素，因为这两个元素没有relative定位，也就无法产生sticky效果。详细解释可以看<a href="https://css-tricks.com/position-sticky-and-table-headers/" target="_blank" rel="noopener">这里</a>。</tr></thead></th></p>
 <h3 id="1-2-行内元素-块状元素"><a href="#1-2-行内元素-块状元素" class="headerlink" title="1.2 行内元素/块状元素"></a>1.2 行内元素/块状元素</h3><hr>
 <p>1.行内元素<br>不会自动换行<br>设置宽高无效<br>设置margin上下方向无效，左右方向有效<br>设置padding上下左右方向都有效<br>常用的元素有：span 、a、b、br、u、ur等等<br>2.块状元素<br>自动换行<br>可以识别宽高<br>设置margin和padding的上下左右均有效<br>多个块状元素标签写在一起，默认排列方式为从上至下<br>3.行内块状元素<br>不会自动换行<br>可以识别宽高<br>默认排列方式为从左到右<br>常用的元素有：img、input、td等        </p>
 <h3 id="1-3-flex"><a href="#1-3-flex" class="headerlink" title="1.3 flex"></a>1.3 flex</h3><hr>
-<h4 id="介绍下flex布局"><a href="#介绍下flex布局" class="headerlink" title="介绍下flex布局"></a>介绍下flex布局</h4><h4 id="如何用flex实现九宫格布局"><a href="#如何用flex实现九宫格布局" class="headerlink" title="如何用flex实现九宫格布局"></a>如何用flex实现九宫格布局</h4><h4 id="flex-1指的是什么-flex属性默认值是什么"><a href="#flex-1指的是什么-flex属性默认值是什么" class="headerlink" title="flex:1指的是什么 flex属性默认值是什么"></a>flex:1指的是什么 flex属性默认值是什么</h4><h4 id="分别介绍一下flex-shrink和flex-basis属性"><a href="#分别介绍一下flex-shrink和flex-basis属性" class="headerlink" title="分别介绍一下flex-shrink和flex-basis属性"></a>分别介绍一下flex-shrink和flex-basis属性</h4><p>上面看这一篇就够了<a href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html" target="_blank" rel="noopener">Flex 布局教程</a></p>
+<p>网页布局（layout）是 CSS 的一个重点应用。<br><img src="flex.png" alt><br>布局的传统解决方案，基于<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model" target="_blank" rel="noopener">盒状模型</a>，依赖 display 属性 + position属性 + float属性。它对于那些特殊布局非常不方便，比如，<a href="https://css-tricks.com/centering-css-complete-guide/" target="_blank" rel="noopener">垂直居中</a>就不容易实现。<br><img src="flex1.png" alt><br>2009年，W3C 提出了一种新的方案—-Flex 布局，可以简便、完整、响应式地实现各种页面布局。目前，它已经得到了所有浏览器的支持，这意味着，现在就能很安全地使用这项功能。<br><img src="flex2.png" alt></p>
+<h4 id="介绍下flex布局"><a href="#介绍下flex布局" class="headerlink" title="介绍下flex布局"></a>介绍下flex布局</h4><p>Flex 是 Flexible Box 的缩写，意为”弹性布局”，用来为盒状模型提供最大的灵活性。</p>
+<p>任何一个容器都可以指定为 Flex 布局。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>box<span class="token punctuation">{</span>
+  display<span class="token operator">:</span> flex<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//行内元素也可以使用 Flex 布局。</span>
+<span class="token punctuation">.</span>box<span class="token punctuation">{</span>
+  display<span class="token operator">:</span> <span class="token keyword">inline</span><span class="token operator">-</span>flex<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//Webkit 内核的浏览器，必须加上-webkit前缀。</span>
+<span class="token punctuation">.</span>box<span class="token punctuation">{</span>
+  display<span class="token operator">:</span> <span class="token operator">-</span>webkit<span class="token operator">-</span>flex<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* Safari */</span>
+  display<span class="token operator">:</span> flex<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+注意，设为 Flex 布局以后，子元素的<span class="token keyword">float</span>、clear和vertical<span class="token operator">-</span>align属性将失效。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="二、基本概念"><a href="#二、基本概念" class="headerlink" title="二、基本概念"></a>二、基本概念</h5><p>采用 Flex 布局的元素，称为 Flex 容器（flex container），简称”容器”。它的所有子元素自动成为容器成员，称为 Flex 项目（flex item），简称”项目”。<br><img src="flex3.png" alt><br>容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（cross axis）。主轴的开始位置（与边框的交叉点）叫做main start，结束位置叫做main end；交叉轴的开始位置叫做cross start，结束位置叫做cross end。</p>
+<p>项目默认沿主轴排列。单个项目占据的主轴空间叫做main size，占据的交叉轴空间叫做cross size。</p>
+<h5 id="三、容器的属性"><a href="#三、容器的属性" class="headerlink" title="三、容器的属性"></a>三、容器的属性</h5><p>以下6个属性设置在容器上。</p>
+<blockquote>
+<ul>
+<li>flex-direction</li>
+<li>flex-wrap</li>
+<li>flex-flow</li>
+<li>justify-content</li>
+<li>align-items</li>
+<li>align-content</li>
+</ul>
+</blockquote>
+<h6 id="3-1-flex-direction属性"><a href="#3-1-flex-direction属性" class="headerlink" title="3.1 flex-direction属性"></a>3.1 flex-direction属性</h6><p>flex-direction属性决定主轴的方向（即项目的排列方向）。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>box <span class="token punctuation">{</span>
+  flex<span class="token operator">-</span>direction<span class="token operator">:</span> row <span class="token operator">|</span> row<span class="token operator">-</span>reverse <span class="token operator">|</span> column <span class="token operator">|</span> column<span class="token operator">-</span>reverse<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><img src="flex4.png" alt><br>它可能有4个值。</p>
+<blockquote>
+<ul>
+<li>row（默认值）：主轴为水平方向，起点在左端。</li>
+<li>row-reverse：主轴为水平方向，起点在右端。</li>
+<li>column：主轴为垂直方向，起点在上沿。</li>
+<li>column-reverse：主轴为垂直方向，起点在下沿。</li>
+</ul>
+</blockquote>
+<h5 id="3-2-flex-wrap属性"><a href="#3-2-flex-wrap属性" class="headerlink" title="3.2 flex-wrap属性"></a>3.2 flex-wrap属性</h5><p>默认情况下，项目都排在一条线（又称”轴线”）上。flex-wrap属性定义，如果一条轴线排不下，如何换行。<br><img src="flex5.png" alt><br>它可能取三个值。<br>（1）nowrap（默认）：不换行。<br><img src="flex6.png" alt><br>（2）wrap：换行，第一行在上方。<br><img src="flex7.png" alt><br>（3）wrap-reverse：换行，第一行在下方。<br><img src="flex8.png" alt></p>
+<h5 id="3-3-flex-flow"><a href="#3-3-flex-flow" class="headerlink" title="3.3 flex-flow"></a>3.3 flex-flow</h5><p>flex-flow属性是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>box <span class="token punctuation">{</span>
+  flex<span class="token operator">-</span>flow<span class="token operator">:</span> <span class="token operator">&lt;</span>flex<span class="token operator">-</span>direction<span class="token operator">></span> <span class="token operator">||</span> <span class="token operator">&lt;</span>flex<span class="token operator">-</span>wrap<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h5 id="3-4-justify-content属性"><a href="#3-4-justify-content属性" class="headerlink" title="3.4 justify-content属性"></a>3.4 justify-content属性</h5><p>justify-content属性定义了项目在主轴上的对齐方式。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>box <span class="token punctuation">{</span>
+  justify<span class="token operator">-</span>content<span class="token operator">:</span> flex<span class="token operator">-</span>start <span class="token operator">|</span> flex<span class="token operator">-</span>end <span class="token operator">|</span> center <span class="token operator">|</span> space<span class="token operator">-</span>between <span class="token operator">|</span> space<span class="token operator">-</span>around<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><img src="flex9.png" alt><br>它可能取5个值，具体对齐方式与轴的方向有关。下面假设主轴为从左到右。</p>
+<blockquote>
+<ul>
+<li>flex-start（默认值）：左对齐</li>
+<li>flex-end：右对齐</li>
+<li>center： 居中</li>
+<li>space-between：两端对齐，项目之间的间隔都相等。</li>
+<li>space-around：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。</li>
+</ul>
+</blockquote>
+<h5 id="3-5-align-items属性"><a href="#3-5-align-items属性" class="headerlink" title="3.5 align-items属性"></a>3.5 align-items属性</h5><p>align-items属性定义项目在交叉轴上如何对齐。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>box <span class="token punctuation">{</span>
+  align<span class="token operator">-</span>items<span class="token operator">:</span> flex<span class="token operator">-</span>start <span class="token operator">|</span> flex<span class="token operator">-</span>end <span class="token operator">|</span> center <span class="token operator">|</span> baseline <span class="token operator">|</span> stretch<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><img src="flex10.png" alt><br>它可能取5个值。具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下。</p>
+<blockquote>
+<ul>
+<li>flex-start：交叉轴的起点对齐。</li>
+<li>flex-end：交叉轴的终点对齐。</li>
+<li>center：交叉轴的中点对齐。</li>
+<li>baseline: 项目的第一行文字的基线对齐。</li>
+<li>stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度。</li>
+</ul>
+</blockquote>
+<h5 id="3-6-align-content属性"><a href="#3-6-align-content属性" class="headerlink" title="3.6 align-content属性"></a>3.6 align-content属性</h5><p>align-content属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>box <span class="token punctuation">{</span>
+  align<span class="token operator">-</span>content<span class="token operator">:</span> flex<span class="token operator">-</span>start <span class="token operator">|</span> flex<span class="token operator">-</span>end <span class="token operator">|</span> center <span class="token operator">|</span> space<span class="token operator">-</span>between <span class="token operator">|</span> space<span class="token operator">-</span>around <span class="token operator">|</span> stretch<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><img src="flex11.png" alt><br>该属性可能取6个值。</p>
+<blockquote>
+<ul>
+<li>flex-start：与交叉轴的起点对齐。</li>
+<li>flex-end：与交叉轴的终点对齐。</li>
+<li>center：与交叉轴的中点对齐。</li>
+<li>space-between：与交叉轴两端对齐，轴线之间的间隔平均分布。</li>
+<li>space-around：每根轴线两侧的间隔都相等。所以，轴线之间的间隔比轴线与边框的间隔大一倍。</li>
+<li>stretch（默认值）：轴线占满整个交叉轴。</li>
+</ul>
+</blockquote>
+<h5 id="四、项目的属性"><a href="#四、项目的属性" class="headerlink" title="四、项目的属性"></a>四、项目的属性</h5><p>以下6个属性设置在项目上。</p>
+<h4 id="如何用flex实现九宫格布局"><a href="#如何用flex实现九宫格布局" class="headerlink" title="如何用flex实现九宫格布局"></a>如何用flex实现九宫格布局</h4><h4 id="flex-1指的是什么-flex属性默认值是什么"><a href="#flex-1指的是什么-flex属性默认值是什么" class="headerlink" title="flex:1指的是什么 flex属性默认值是什么"></a>flex:1指的是什么 flex属性默认值是什么</h4><h4 id="分别介绍一下flex-shrink和flex-basis属性"><a href="#分别介绍一下flex-shrink和flex-basis属性" class="headerlink" title="分别介绍一下flex-shrink和flex-basis属性"></a>分别介绍一下flex-shrink和flex-basis属性</h4><p>上面看这一篇就够了<a href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html" target="_blank" rel="noopener">Flex 布局教程</a></p>
 <h4 id="grid也一起看一下"><a href="#grid也一起看一下" class="headerlink" title="grid也一起看一下"></a>grid也一起看一下</h4><p><a href="http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html" target="_blank" rel="noopener">grid网格布局</a></p>
 <h3 id="1-4-1px"><a href="#1-4-1px" class="headerlink" title="1.4 1px"></a>1.4 1px</h3><hr>
 <h4 id="移动端1px问题是怎么解决的"><a href="#移动端1px问题是怎么解决的" class="headerlink" title="移动端1px问题是怎么解决的"></a>移动端1px问题是怎么解决的</h4><p>一、产生原因<br>那么为什么会产生这个问题呢？主要是跟一个东西有关，DPR(devicePixelRatio) 设备像素比，它是默认缩放为100%的情况下，设备像素和CSS像素的比值。<br>window.devicePixelRatio=物理像素 /CSS像素<br>二、解决方案这里只细说最常用的两种方案<br>1、WWDC对iOS统给出的方案<br>2、使用边框图片<br>3、使用box-shadow实现<br><strong>4、使用伪元素</strong><br>1 条border</p>
@@ -1372,7 +1520,7 @@
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">45.4k</span>
+            <span class="white-color">48.1k</span>
             
 
             <br>

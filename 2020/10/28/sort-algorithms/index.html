@@ -1623,7 +1623,7 @@ Promise<span class="token punctuation">.</span><span class="token function">reso
   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'promise2'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'script end'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h5 id="Node-环境下的-Event-Loop"><a href="#Node-环境下的-Event-Loop" class="headerlink" title="Node 环境下的 Event Loop"></a>Node 环境下的 Event Loop</h5><p>Node中的Event Loop是基于libuv实现的，而libuv是 Node 的新跨平台抽象层，libuv使用异步，事件驱动的编程方式，核心是提供i/o的事件循环和异步回调。libuv的API包含有时间，非阻塞的网络，异步文件操作，子进程等等。<br>Event Loop就是在libuv中实现的。所以关于 Node 的 Event Loop学习，有两个官方途径可以学习:</p>
+<h4 id="Node-环境下的-Event-Loop"><a href="#Node-环境下的-Event-Loop" class="headerlink" title="Node 环境下的 Event Loop"></a>Node 环境下的 Event Loop</h4><p>Node中的Event Loop是基于libuv实现的，而libuv是 Node 的新跨平台抽象层，libuv使用异步，事件驱动的编程方式，核心是提供i/o的事件循环和异步回调。libuv的API包含有时间，非阻塞的网络，异步文件操作，子进程等等。<br>Event Loop就是在libuv中实现的。所以关于 Node 的 Event Loop学习，有两个官方途径可以学习:</p>
 <p><a href="http://docs.libuv.org/en/v1.x/design.html" target="_blank" rel="noopener">libuv 文档</a><br>官网的<a href="https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/" target="_blank" rel="noopener">What is the Event Loop?.</a></p>
 <p>在学习 Node 环境下的 Event Loop 之前呢，我们首先要明确执行环境，Node 和浏览器的Event Loop是两个有明确区分的事物，不能混为一谈。nodejs的event是基于libuv，而浏览器的event loop则在html5的规范中明确定义。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp">   ┌───────────────────────────┐
@@ -2553,7 +2553,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">45.4k</span>
+            <span class="white-color">48.1k</span>
             
 
             <br>
