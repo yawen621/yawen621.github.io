@@ -497,14 +497,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.9k
+                    5.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    18 分
+                    20 分
                 </div>
                 
                 
@@ -538,9 +538,10 @@
 <li>relative</li>
 <li>fixed</li>
 <li>absolute</li>
-<li>sticky<br>下面就依次介绍这五个值。最后一个sticky是2017年浏览器才支持的，本文将重点介绍。</li>
+<li>sticky</li>
 </ul>
 </blockquote>
+<p>下面就依次介绍这五个值。最后一个sticky是2017年浏览器才支持的，本文将重点介绍。</p>
 <h4 id="二、static-属性值"><a href="#二、static-属性值" class="headerlink" title="二、static 属性值"></a>二、static 属性值</h4><p>static是position属性的默认值。如果省略position属性，浏览器就认为该元素是static定位。<br>这时，浏览器会按照源码的顺序，决定每个元素的位置，这称为”正常的页面流”（normal flow）。每个块级元素占据自己的区块（block），元素与元素之间不产生重叠，这个位置就是元素的默认位置。<br><img src="position1.png" alt><br>注意，static定位所导致的元素位置，是浏览器自主决定的，所以这时top、bottom、left、right这四个属性无效。</p>
 <h4 id="三、relative，absolute，fixed"><a href="#三、relative，absolute，fixed" class="headerlink" title="三、relative，absolute，fixed"></a>三、relative，absolute，fixed</h4><p>relative、absolute、fixed这三个属性值有一个共同点，都是相对于某个基点的定位，不同之处仅仅在于基点不同。所以，只要理解了它们的基点是什么，就很容易掌握这三个属性值。</p>
 <p>这三种定位都不会对其他元素的位置产生影响，因此元素之间可能产生重叠。</p>
@@ -680,7 +681,48 @@
 </ul>
 </blockquote>
 <h5 id="四、项目的属性"><a href="#四、项目的属性" class="headerlink" title="四、项目的属性"></a>四、项目的属性</h5><p>以下6个属性设置在项目上。</p>
-<h4 id="如何用flex实现九宫格布局"><a href="#如何用flex实现九宫格布局" class="headerlink" title="如何用flex实现九宫格布局"></a>如何用flex实现九宫格布局</h4><h4 id="flex-1指的是什么-flex属性默认值是什么"><a href="#flex-1指的是什么-flex属性默认值是什么" class="headerlink" title="flex:1指的是什么 flex属性默认值是什么"></a>flex:1指的是什么 flex属性默认值是什么</h4><h4 id="分别介绍一下flex-shrink和flex-basis属性"><a href="#分别介绍一下flex-shrink和flex-basis属性" class="headerlink" title="分别介绍一下flex-shrink和flex-basis属性"></a>分别介绍一下flex-shrink和flex-basis属性</h4><p>上面看这一篇就够了<a href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html" target="_blank" rel="noopener">Flex 布局教程</a></p>
+<blockquote>
+<ul>
+<li>order</li>
+<li>flex-grow</li>
+<li>flex-shrink</li>
+<li>flex-basis</li>
+<li>flex</li>
+<li>align-self</li>
+</ul>
+</blockquote>
+<h5 id="4-1-order属性"><a href="#4-1-order属性" class="headerlink" title="4.1 order属性"></a>4.1 order属性</h5><p>order属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>item <span class="token punctuation">{</span>
+  order<span class="token operator">:</span> <span class="token operator">&lt;</span>integer<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><img src="flex12.png" alt></p>
+<h5 id="4-2-flex-grow属性"><a href="#4-2-flex-grow属性" class="headerlink" title="4.2 flex-grow属性"></a>4.2 flex-grow属性</h5><p>flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>item <span class="token punctuation">{</span>
+  flex<span class="token operator">-</span>grow<span class="token operator">:</span> <span class="token operator">&lt;</span>number<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* default 0 */</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><img src="flex13.png" alt><br>如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。</p>
+<h5 id="4-3-flex-shrink属性"><a href="#4-3-flex-shrink属性" class="headerlink" title="4.3 flex-shrink属性"></a>4.3 flex-shrink属性</h5><p>flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>item <span class="token punctuation">{</span>
+  flex<span class="token operator">-</span>shrink<span class="token operator">:</span> <span class="token operator">&lt;</span>number<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* default 1 */</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><img src="flex14.png" alt><br>如果所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小。如果一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小。</p>
+<p>负值对该属性无效。</p>
+<h5 id="4-4-flex-basis属性"><a href="#4-4-flex-basis属性" class="headerlink" title="4.4 flex-basis属性"></a>4.4 flex-basis属性</h5><p>flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>item <span class="token punctuation">{</span>
+  flex<span class="token operator">-</span>basis<span class="token operator">:</span> <span class="token operator">&lt;</span>length<span class="token operator">></span> <span class="token operator">|</span> <span class="token keyword">auto</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* default auto */</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>它可以设为跟width或height属性一样的值（比如350px），则项目将占据固定空间。</p>
+<h5 id="4-5-flex属性"><a href="#4-5-flex属性" class="headerlink" title="4.5 flex属性"></a>4.5 flex属性</h5><p>flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>item <span class="token punctuation">{</span>
+  flex<span class="token operator">:</span> none <span class="token operator">|</span> <span class="token punctuation">[</span> <span class="token operator">&lt;</span><span class="token string">'flex-grow'</span><span class="token operator">></span> <span class="token operator">&lt;</span><span class="token string">'flex-shrink'</span><span class="token operator">></span><span class="token operator">?</span> <span class="token operator">||</span> <span class="token operator">&lt;</span><span class="token string">'flex-basis'</span><span class="token operator">></span> <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>该属性有两个快捷值：auto (1 1 auto) 和 none (0 0 auto)。</p>
+<p>建议优先使用这个属性，而不是单独写三个分离的属性，因为浏览器会推算相关值。</p>
+<h5 id="4-6-align-self属性"><a href="#4-6-align-self属性" class="headerlink" title="4.6 align-self属性"></a>4.6 align-self属性</h5><p>align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>item <span class="token punctuation">{</span>
+  align<span class="token operator">-</span>self<span class="token operator">:</span> <span class="token keyword">auto</span> <span class="token operator">|</span> flex<span class="token operator">-</span>start <span class="token operator">|</span> flex<span class="token operator">-</span>end <span class="token operator">|</span> center <span class="token operator">|</span> baseline <span class="token operator">|</span> stretch<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><img src="flex15.png" alt><br>该属性可能取6个值，除了auto，其他都与align-items属性完全一致。</p>
 <h4 id="grid也一起看一下"><a href="#grid也一起看一下" class="headerlink" title="grid也一起看一下"></a>grid也一起看一下</h4><p><a href="http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html" target="_blank" rel="noopener">grid网格布局</a></p>
 <h3 id="1-4-1px"><a href="#1-4-1px" class="headerlink" title="1.4 1px"></a>1.4 1px</h3><hr>
 <h4 id="移动端1px问题是怎么解决的"><a href="#移动端1px问题是怎么解决的" class="headerlink" title="移动端1px问题是怎么解决的"></a>移动端1px问题是怎么解决的</h4><p>一、产生原因<br>那么为什么会产生这个问题呢？主要是跟一个东西有关，DPR(devicePixelRatio) 设备像素比，它是默认缩放为100%的情况下，设备像素和CSS像素的比值。<br>window.devicePixelRatio=物理像素 /CSS像素<br>二、解决方案这里只细说最常用的两种方案<br>1、WWDC对iOS统给出的方案<br>2、使用边框图片<br>3、使用box-shadow实现<br><strong>4、使用伪元素</strong><br>1 条border</p>
@@ -1520,7 +1562,7 @@
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">48.1k</span>
+            <span class="white-color">48.6k</span>
             
 
             <br>
