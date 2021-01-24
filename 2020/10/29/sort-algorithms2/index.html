@@ -497,14 +497,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.4k
+                    7.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    20 分
+                    28 分
                 </div>
                 
                 
@@ -524,14 +524,14 @@
 <p>关注微信号【路飞】，干货马上就来！</p>
 </blockquote>
 <p><img src="/medias/contact.jpg" alt></p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>给大家整理了一下每个 case 一些还算不错的文章吧（还包括一些躺在我收藏夹里的好文章），大家可以自己看文章总结一下答案，这样也会理解更深刻。</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>给大家整理了一下每个 case 一些还算不错的文章吧（还包括一些躺在我收藏夹里的好文章），大家可以自己看文章总结一下答案，这样也会理解更深刻。</p>
 <p><strong>并不是所有文章都需要看</strong>，希望是一个抛砖引玉的作用，大家也可以锻炼一下自己寻找有效资料的能力 ~</p>
-<p>( 文章排序不分前后，随机排序 ~)<br><img src="css.png" alt></p>
-<h3 id="1-1-position"><a href="#1-1-position" class="headerlink" title="1.1 position"></a>1.1 position</h3><hr>
+<p>( 文章排序不分前后，随机排序 ~)<br><img src="css.jpg" alt></p>
+<h1 id="1-1-position"><a href="#1-1-position" class="headerlink" title="1.1 position"></a>1.1 position</h1><hr>
 <p>CSS 有两个最重要的基本属性，前端开发必须掌握：display 和 position。</p>
 <p>display属性指定网页的布局。两个重要的布局，我已经介绍过了：弹性布局flex和网格布局grid。</p>
 <p>本文介绍非常有用的position属性。我希望通过10分钟的阅读，帮助大家轻松掌握网页定位，说清楚浏览器如何计算网页元素的位置，尤其是新引进的sticky定位。<br><img src="position.png" alt></p>
-<h4 id="一、position-属性的作用"><a href="#一、position-属性的作用" class="headerlink" title="一、position 属性的作用"></a>一、position 属性的作用</h4><p>position属性用来指定一个元素在网页上的位置，一共有5种定位方式，即position属性主要有五个值。</p>
+<h2 id="一、position-属性的作用"><a href="#一、position-属性的作用" class="headerlink" title="一、position 属性的作用"></a>一、position 属性的作用</h2><p>position属性用来指定一个元素在网页上的位置，一共有5种定位方式，即position属性主要有五个值。</p>
 <blockquote>
 <ul>
 <li>static</li>
@@ -542,15 +542,15 @@
 </ul>
 </blockquote>
 <p>下面就依次介绍这五个值。最后一个sticky是2017年浏览器才支持的，本文将重点介绍。</p>
-<h4 id="二、static-属性值"><a href="#二、static-属性值" class="headerlink" title="二、static 属性值"></a>二、static 属性值</h4><p>static是position属性的默认值。如果省略position属性，浏览器就认为该元素是static定位。<br>这时，浏览器会按照源码的顺序，决定每个元素的位置，这称为”正常的页面流”（normal flow）。每个块级元素占据自己的区块（block），元素与元素之间不产生重叠，这个位置就是元素的默认位置。<br><img src="position1.png" alt><br>注意，static定位所导致的元素位置，是浏览器自主决定的，所以这时top、bottom、left、right这四个属性无效。</p>
-<h4 id="三、relative，absolute，fixed"><a href="#三、relative，absolute，fixed" class="headerlink" title="三、relative，absolute，fixed"></a>三、relative，absolute，fixed</h4><p>relative、absolute、fixed这三个属性值有一个共同点，都是相对于某个基点的定位，不同之处仅仅在于基点不同。所以，只要理解了它们的基点是什么，就很容易掌握这三个属性值。</p>
+<h2 id="二、static-属性值"><a href="#二、static-属性值" class="headerlink" title="二、static 属性值"></a>二、static 属性值</h2><p>static是position属性的默认值。如果省略position属性，浏览器就认为该元素是static定位。<br>这时，浏览器会按照源码的顺序，决定每个元素的位置，这称为”正常的页面流”（normal flow）。每个块级元素占据自己的区块（block），元素与元素之间不产生重叠，这个位置就是元素的默认位置。<br><img src="position1.png" alt><br>注意，static定位所导致的元素位置，是浏览器自主决定的，所以这时top、bottom、left、right这四个属性无效。</p>
+<h2 id="三、relative，absolute，fixed"><a href="#三、relative，absolute，fixed" class="headerlink" title="三、relative，absolute，fixed"></a>三、relative，absolute，fixed</h2><p>relative、absolute、fixed这三个属性值有一个共同点，都是相对于某个基点的定位，不同之处仅仅在于基点不同。所以，只要理解了它们的基点是什么，就很容易掌握这三个属性值。</p>
 <p>这三种定位都不会对其他元素的位置产生影响，因此元素之间可能产生重叠。</p>
-<h5 id="3-1-relative-属性值"><a href="#3-1-relative-属性值" class="headerlink" title="3.1 relative 属性值"></a>3.1 relative 属性值</h5><p>relative表示，相对于默认位置（即static时的位置）进行偏移，即定位基点是元素的默认位置。<br><img src="position2.png" alt><br><img src="position3.png" alt><br>它必须搭配top、bottom、left、right这四个属性一起使用，用来指定偏移的方向和距离。<br><img src="position4.png" alt></p>
+<h3 id="3-1-relative-属性值"><a href="#3-1-relative-属性值" class="headerlink" title="3.1 relative 属性值"></a>3.1 relative 属性值</h3><p>relative表示，相对于默认位置（即static时的位置）进行偏移，即定位基点是元素的默认位置。<br><img src="position2.png" alt><br><img src="position3.png" alt><br>它必须搭配top、bottom、left、right这四个属性一起使用，用来指定偏移的方向和距离。<br><img src="position4.png" alt></p>
 <pre class="line-numbers language-cpp"><code class="language-cpp">div <span class="token punctuation">{</span>
   position<span class="token operator">:</span> relative<span class="token punctuation">;</span>
   top<span class="token operator">:</span> 20px<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<h5 id="3-2-absolute-属性值"><a href="#3-2-absolute-属性值" class="headerlink" title="3.2 absolute 属性值"></a>3.2 absolute 属性值</h5><p>absolute表示，相对于上级元素（一般是父元素）进行偏移，即定位基点是父元素。</p>
+<h3 id="3-2-absolute-属性值"><a href="#3-2-absolute-属性值" class="headerlink" title="3.2 absolute 属性值"></a>3.2 absolute 属性值</h3><p>absolute表示，相对于上级元素（一般是父元素）进行偏移，即定位基点是父元素。</p>
 <p>它有一个重要的限制条件：定位基点（一般是父元素）不能是static定位，否则定位基点就会变成整个网页的根元素html。另外，absolute定位也必须搭配top、bottom、left、right这四个属性一起使用。<br><img src="position5.png" alt></p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/*
   HTML 代码如下
@@ -567,13 +567,13 @@
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>上面代码中，父元素是relative定位，子元素是absolute定位，所以子元素的定位基点是父元素，相对于父元素的顶部向下偏移20px。如果父元素是static定位，上例的子元素就是距离网页的顶部向下偏移20px。</p>
 <p>注意，absolute定位的元素会被”正常页面流”忽略，即在”正常页面流”中，该元素所占空间为零，周边元素不受影响。</p>
-<h5 id="3-3-fixed-属性值"><a href="#3-3-fixed-属性值" class="headerlink" title="3.3 fixed 属性值"></a>3.3 fixed 属性值</h5><p>fixed表示，相对于视口（viewport，浏览器窗口）进行偏移，即定位基点是浏览器窗口。这会导致元素的位置不随页面滚动而变化，好像固定在网页上一样。<br><img src="position6.png" alt><br>它如果搭配top、bottom、left、right这四个属性一起使用，表示元素的初始位置是基于视口计算的，否则初始位置就是元素的默认位置。</p>
+<h3 id="3-3-fixed-属性值"><a href="#3-3-fixed-属性值" class="headerlink" title="3.3 fixed 属性值"></a>3.3 fixed 属性值</h3><p>fixed表示，相对于视口（viewport，浏览器窗口）进行偏移，即定位基点是浏览器窗口。这会导致元素的位置不随页面滚动而变化，好像固定在网页上一样。<br><img src="position6.png" alt><br>它如果搭配top、bottom、left、right这四个属性一起使用，表示元素的初始位置是基于视口计算的，否则初始位置就是元素的默认位置。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp">div <span class="token punctuation">{</span>
   position<span class="token operator">:</span> fixed<span class="token punctuation">;</span>
   top<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <p>上面代码中，div元素始终在视口顶部，不随网页滚动而变化。</p>
-<h5 id="四、sticky-属性值"><a href="#四、sticky-属性值" class="headerlink" title="四、sticky 属性值"></a>四、sticky 属性值</h5><p>sticky跟前面四个属性值都不一样，它会产生动态效果，很像relative和fixed的结合：一些时候是relative定位（定位基点是自身默认位置），另一些时候自动变成fixed定位（定位基点是视口）。</p>
+<h2 id="四、sticky-属性值"><a href="#四、sticky-属性值" class="headerlink" title="四、sticky 属性值"></a>四、sticky 属性值</h2><p>sticky跟前面四个属性值都不一样，它会产生动态效果，很像relative和fixed的结合：一些时候是relative定位（定位基点是自身默认位置），另一些时候自动变成fixed定位（定位基点是视口）。</p>
 <p>因此，它能够形成”动态固定”的效果。比如，网页的搜索工具栏，初始加载时在自己的默认位置（relative定位）。<br><img src="position7.png" alt><br>页面向下滚动时，工具栏变成固定位置，始终停留在页面头部（fixed定位）。<br><img src="position8.png" alt>等到页面重新向上滚动回到原位，工具栏也会回到默认位置。</p>
 <p>sticky生效的前提是，必须搭配top、bottom、left、right这四个属性一起使用，不能省略，否则等同于relative定位，不产生”动态固定”的效果。原因是这四个属性用来定义”偏移距离”，浏览器把它当作sticky的生效门槛。</p>
 <p>它的具体规则是，当页面滚动，父元素开始脱离视口时（即部分不可见），只要与sticky元素的距离达到生效门槛，relative定位自动切换为fixed定位；等到父元素完全脱离视口时（即完全不可见），fixed定位自动切换回relative定位。</p>
@@ -584,14 +584,14 @@
   top<span class="token operator">:</span> 20px<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>上面代码中，页面向下滚动时，#toolbar的父元素开始脱离视口，一旦视口的顶部与#toolbar的距离小于20px（门槛值），#toolbar就自动变为fixed定位，保持与视口顶部20px的距离。页面继续向下滚动，父元素彻底离开视口（即整个父元素完全不可见），#toolbar恢复成relative定位。</p>
-<h5 id="五、-sticky-的应用"><a href="#五、-sticky-的应用" class="headerlink" title="五、 sticky 的应用"></a>五、 sticky 的应用</h5><p>sticky定位可以实现一些很有用的效果。除了上面提到”动态固定”效果，这里再介绍两个。</p>
-<h5 id="5-1-堆叠效果"><a href="#5-1-堆叠效果" class="headerlink" title="5.1 堆叠效果"></a>5.1 堆叠效果</h5><p>堆叠效果（stacking）指的是页面滚动时，下方的元素覆盖上方的元素。下面是一个图片堆叠的例子，下方的图片会随着页面滚动，覆盖上方的图片（查看 <a href="https://jsbin.com/fegiqoquki/edit?html,css,output" target="_blank" rel="noopener">demo</a>）。<br><img src="position9.png" alt><br>它的原理是页面向下滚动时，每张图片都会变成fixed定位，导致后一张图片重叠在前一张图片上面。详细解释可以看<a href="https://dev.to/vinceumo/slide-stacking-effect-using-position-sticky-91f" target="_blank" rel="noopener">这里</a>。</p>
-<h5 id="5-2-表格的表头锁定"><a href="#5-2-表格的表头锁定" class="headerlink" title="5.2 表格的表头锁定"></a>5.2 表格的表头锁定</h5><p>大型表格滚动的时候，表头始终固定，也可以用sticky实现（查看 <a href="https://jsbin.com/decemanohe/edit?html,css,output" target="_blank" rel="noopener">demo</a>）。<br>需要注意的是，sticky必须设在<th>元素上面，不能设在<thead>和<tr>元素，因为这两个元素没有relative定位，也就无法产生sticky效果。详细解释可以看<a href="https://css-tricks.com/position-sticky-and-table-headers/" target="_blank" rel="noopener">这里</a>。</tr></thead></th></p>
-<h3 id="1-2-行内元素-块状元素"><a href="#1-2-行内元素-块状元素" class="headerlink" title="1.2 行内元素/块状元素"></a>1.2 行内元素/块状元素</h3><hr>
+<h2 id="五、-sticky-的应用"><a href="#五、-sticky-的应用" class="headerlink" title="五、 sticky 的应用"></a>五、 sticky 的应用</h2><p>sticky定位可以实现一些很有用的效果。除了上面提到”动态固定”效果，这里再介绍两个。</p>
+<h3 id="5-1-堆叠效果"><a href="#5-1-堆叠效果" class="headerlink" title="5.1 堆叠效果"></a>5.1 堆叠效果</h3><p>堆叠效果（stacking）指的是页面滚动时，下方的元素覆盖上方的元素。下面是一个图片堆叠的例子，下方的图片会随着页面滚动，覆盖上方的图片（查看 <a href="https://jsbin.com/fegiqoquki/edit?html,css,output" target="_blank" rel="noopener">demo</a>）。<br><img src="position9.png" alt><br>它的原理是页面向下滚动时，每张图片都会变成fixed定位，导致后一张图片重叠在前一张图片上面。详细解释可以看<a href="https://dev.to/vinceumo/slide-stacking-effect-using-position-sticky-91f" target="_blank" rel="noopener">这里</a>。</p>
+<h3 id="5-2-表格的表头锁定"><a href="#5-2-表格的表头锁定" class="headerlink" title="5.2 表格的表头锁定"></a>5.2 表格的表头锁定</h3><p>大型表格滚动的时候，表头始终固定，也可以用sticky实现（查看 <a href="https://jsbin.com/decemanohe/edit?html,css,output" target="_blank" rel="noopener">demo</a>）。<br>需要注意的是，sticky必须设在<th>元素上面，不能设在<thead>和<tr>元素，因为这两个元素没有relative定位，也就无法产生sticky效果。详细解释可以看<a href="https://css-tricks.com/position-sticky-and-table-headers/" target="_blank" rel="noopener">这里</a>。</tr></thead></th></p>
+<h1 id="1-2-行内元素-块状元素"><a href="#1-2-行内元素-块状元素" class="headerlink" title="1.2 行内元素/块状元素"></a>1.2 行内元素/块状元素</h1><hr>
 <p>1.行内元素<br>不会自动换行<br>设置宽高无效<br>设置margin上下方向无效，左右方向有效<br>设置padding上下左右方向都有效<br>常用的元素有：span 、a、b、br、u、ur等等<br>2.块状元素<br>自动换行<br>可以识别宽高<br>设置margin和padding的上下左右均有效<br>多个块状元素标签写在一起，默认排列方式为从上至下<br>3.行内块状元素<br>不会自动换行<br>可以识别宽高<br>默认排列方式为从左到右<br>常用的元素有：img、input、td等        </p>
-<h3 id="1-3-flex"><a href="#1-3-flex" class="headerlink" title="1.3 flex"></a>1.3 flex</h3><hr>
+<h1 id="1-3-flex"><a href="#1-3-flex" class="headerlink" title="1.3 flex"></a>1.3 flex</h1><hr>
 <p>网页布局（layout）是 CSS 的一个重点应用。<br><img src="flex.png" alt><br>布局的传统解决方案，基于<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model" target="_blank" rel="noopener">盒状模型</a>，依赖 display 属性 + position属性 + float属性。它对于那些特殊布局非常不方便，比如，<a href="https://css-tricks.com/centering-css-complete-guide/" target="_blank" rel="noopener">垂直居中</a>就不容易实现。<br><img src="flex1.png" alt><br>2009年，W3C 提出了一种新的方案—-Flex 布局，可以简便、完整、响应式地实现各种页面布局。目前，它已经得到了所有浏览器的支持，这意味着，现在就能很安全地使用这项功能。<br><img src="flex2.png" alt></p>
-<h4 id="介绍下flex布局"><a href="#介绍下flex布局" class="headerlink" title="介绍下flex布局"></a>介绍下flex布局</h4><p>Flex 是 Flexible Box 的缩写，意为”弹性布局”，用来为盒状模型提供最大的灵活性。</p>
+<h2 id="介绍下flex布局"><a href="#介绍下flex布局" class="headerlink" title="介绍下flex布局"></a>介绍下flex布局</h2><p>Flex 是 Flexible Box 的缩写，意为”弹性布局”，用来为盒状模型提供最大的灵活性。</p>
 <p>任何一个容器都可以指定为 Flex 布局。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>box<span class="token punctuation">{</span>
   display<span class="token operator">:</span> flex<span class="token punctuation">;</span>
@@ -606,9 +606,9 @@
   display<span class="token operator">:</span> flex<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 注意，设为 Flex 布局以后，子元素的<span class="token keyword">float</span>、clear和vertical<span class="token operator">-</span>align属性将失效。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h5 id="二、基本概念"><a href="#二、基本概念" class="headerlink" title="二、基本概念"></a>二、基本概念</h5><p>采用 Flex 布局的元素，称为 Flex 容器（flex container），简称”容器”。它的所有子元素自动成为容器成员，称为 Flex 项目（flex item），简称”项目”。<br><img src="flex3.png" alt><br>容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（cross axis）。主轴的开始位置（与边框的交叉点）叫做main start，结束位置叫做main end；交叉轴的开始位置叫做cross start，结束位置叫做cross end。</p>
+<h2 id="二、基本概念"><a href="#二、基本概念" class="headerlink" title="二、基本概念"></a>二、基本概念</h2><p>采用 Flex 布局的元素，称为 Flex 容器（flex container），简称”容器”。它的所有子元素自动成为容器成员，称为 Flex 项目（flex item），简称”项目”。<br><img src="flex3.png" alt><br>容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（cross axis）。主轴的开始位置（与边框的交叉点）叫做main start，结束位置叫做main end；交叉轴的开始位置叫做cross start，结束位置叫做cross end。</p>
 <p>项目默认沿主轴排列。单个项目占据的主轴空间叫做main size，占据的交叉轴空间叫做cross size。</p>
-<h5 id="三、容器的属性"><a href="#三、容器的属性" class="headerlink" title="三、容器的属性"></a>三、容器的属性</h5><p>以下6个属性设置在容器上。</p>
+<h2 id="三、容器的属性"><a href="#三、容器的属性" class="headerlink" title="三、容器的属性"></a>三、容器的属性</h2><p>以下6个属性设置在容器上。</p>
 <blockquote>
 <ul>
 <li>flex-direction</li>
@@ -619,7 +619,7 @@
 <li>align-content</li>
 </ul>
 </blockquote>
-<h6 id="3-1-flex-direction属性"><a href="#3-1-flex-direction属性" class="headerlink" title="3.1 flex-direction属性"></a>3.1 flex-direction属性</h6><p>flex-direction属性决定主轴的方向（即项目的排列方向）。</p>
+<h3 id="3-1-flex-direction属性"><a href="#3-1-flex-direction属性" class="headerlink" title="3.1 flex-direction属性"></a>3.1 flex-direction属性</h3><p>flex-direction属性决定主轴的方向（即项目的排列方向）。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>box <span class="token punctuation">{</span>
   flex<span class="token operator">-</span>direction<span class="token operator">:</span> row <span class="token operator">|</span> row<span class="token operator">-</span>reverse <span class="token operator">|</span> column <span class="token operator">|</span> column<span class="token operator">-</span>reverse<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
@@ -632,12 +632,12 @@
 <li>column-reverse：主轴为垂直方向，起点在下沿。</li>
 </ul>
 </blockquote>
-<h5 id="3-2-flex-wrap属性"><a href="#3-2-flex-wrap属性" class="headerlink" title="3.2 flex-wrap属性"></a>3.2 flex-wrap属性</h5><p>默认情况下，项目都排在一条线（又称”轴线”）上。flex-wrap属性定义，如果一条轴线排不下，如何换行。<br><img src="flex5.png" alt><br>它可能取三个值。<br>（1）nowrap（默认）：不换行。<br><img src="flex6.png" alt><br>（2）wrap：换行，第一行在上方。<br><img src="flex7.png" alt><br>（3）wrap-reverse：换行，第一行在下方。<br><img src="flex8.png" alt></p>
-<h5 id="3-3-flex-flow"><a href="#3-3-flex-flow" class="headerlink" title="3.3 flex-flow"></a>3.3 flex-flow</h5><p>flex-flow属性是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。</p>
+<h3 id="3-2-flex-wrap属性"><a href="#3-2-flex-wrap属性" class="headerlink" title="3.2 flex-wrap属性"></a>3.2 flex-wrap属性</h3><p>默认情况下，项目都排在一条线（又称”轴线”）上。flex-wrap属性定义，如果一条轴线排不下，如何换行。<br><img src="flex5.png" alt><br>它可能取三个值。<br>（1）nowrap（默认）：不换行。<br><img src="flex6.png" alt><br>（2）wrap：换行，第一行在上方。<br><img src="flex7.png" alt><br>（3）wrap-reverse：换行，第一行在下方。<br><img src="flex8.png" alt></p>
+<h3 id="3-3-flex-flow"><a href="#3-3-flex-flow" class="headerlink" title="3.3 flex-flow"></a>3.3 flex-flow</h3><p>flex-flow属性是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>box <span class="token punctuation">{</span>
   flex<span class="token operator">-</span>flow<span class="token operator">:</span> <span class="token operator">&lt;</span>flex<span class="token operator">-</span>direction<span class="token operator">></span> <span class="token operator">||</span> <span class="token operator">&lt;</span>flex<span class="token operator">-</span>wrap<span class="token operator">></span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<h5 id="3-4-justify-content属性"><a href="#3-4-justify-content属性" class="headerlink" title="3.4 justify-content属性"></a>3.4 justify-content属性</h5><p>justify-content属性定义了项目在主轴上的对齐方式。</p>
+<h3 id="3-4-justify-content属性"><a href="#3-4-justify-content属性" class="headerlink" title="3.4 justify-content属性"></a>3.4 justify-content属性</h3><p>justify-content属性定义了项目在主轴上的对齐方式。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>box <span class="token punctuation">{</span>
   justify<span class="token operator">-</span>content<span class="token operator">:</span> flex<span class="token operator">-</span>start <span class="token operator">|</span> flex<span class="token operator">-</span>end <span class="token operator">|</span> center <span class="token operator">|</span> space<span class="token operator">-</span>between <span class="token operator">|</span> space<span class="token operator">-</span>around<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
@@ -651,7 +651,7 @@
 <li>space-around：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。</li>
 </ul>
 </blockquote>
-<h5 id="3-5-align-items属性"><a href="#3-5-align-items属性" class="headerlink" title="3.5 align-items属性"></a>3.5 align-items属性</h5><p>align-items属性定义项目在交叉轴上如何对齐。</p>
+<h3 id="3-5-align-items属性"><a href="#3-5-align-items属性" class="headerlink" title="3.5 align-items属性"></a>3.5 align-items属性</h3><p>align-items属性定义项目在交叉轴上如何对齐。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>box <span class="token punctuation">{</span>
   align<span class="token operator">-</span>items<span class="token operator">:</span> flex<span class="token operator">-</span>start <span class="token operator">|</span> flex<span class="token operator">-</span>end <span class="token operator">|</span> center <span class="token operator">|</span> baseline <span class="token operator">|</span> stretch<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
@@ -665,7 +665,7 @@
 <li>stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度。</li>
 </ul>
 </blockquote>
-<h5 id="3-6-align-content属性"><a href="#3-6-align-content属性" class="headerlink" title="3.6 align-content属性"></a>3.6 align-content属性</h5><p>align-content属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。</p>
+<h3 id="3-6-align-content属性"><a href="#3-6-align-content属性" class="headerlink" title="3.6 align-content属性"></a>3.6 align-content属性</h3><p>align-content属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>box <span class="token punctuation">{</span>
   align<span class="token operator">-</span>content<span class="token operator">:</span> flex<span class="token operator">-</span>start <span class="token operator">|</span> flex<span class="token operator">-</span>end <span class="token operator">|</span> center <span class="token operator">|</span> space<span class="token operator">-</span>between <span class="token operator">|</span> space<span class="token operator">-</span>around <span class="token operator">|</span> stretch<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
@@ -680,7 +680,7 @@
 <li>stretch（默认值）：轴线占满整个交叉轴。</li>
 </ul>
 </blockquote>
-<h5 id="四、项目的属性"><a href="#四、项目的属性" class="headerlink" title="四、项目的属性"></a>四、项目的属性</h5><p>以下6个属性设置在项目上。</p>
+<h2 id="四、项目的属性"><a href="#四、项目的属性" class="headerlink" title="四、项目的属性"></a>四、项目的属性</h2><p>以下6个属性设置在项目上。</p>
 <blockquote>
 <ul>
 <li>order</li>
@@ -691,41 +691,42 @@
 <li>align-self</li>
 </ul>
 </blockquote>
-<h5 id="4-1-order属性"><a href="#4-1-order属性" class="headerlink" title="4.1 order属性"></a>4.1 order属性</h5><p>order属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。</p>
+<h3 id="4-1-order属性"><a href="#4-1-order属性" class="headerlink" title="4.1 order属性"></a>4.1 order属性</h3><p>order属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>item <span class="token punctuation">{</span>
   order<span class="token operator">:</span> <span class="token operator">&lt;</span>integer<span class="token operator">></span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p><img src="flex12.png" alt></p>
-<h5 id="4-2-flex-grow属性"><a href="#4-2-flex-grow属性" class="headerlink" title="4.2 flex-grow属性"></a>4.2 flex-grow属性</h5><p>flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。</p>
+<h3 id="4-2-flex-grow属性"><a href="#4-2-flex-grow属性" class="headerlink" title="4.2 flex-grow属性"></a>4.2 flex-grow属性</h3><p>flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>item <span class="token punctuation">{</span>
   flex<span class="token operator">-</span>grow<span class="token operator">:</span> <span class="token operator">&lt;</span>number<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* default 0 */</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p><img src="flex13.png" alt><br>如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。</p>
-<h5 id="4-3-flex-shrink属性"><a href="#4-3-flex-shrink属性" class="headerlink" title="4.3 flex-shrink属性"></a>4.3 flex-shrink属性</h5><p>flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。</p>
+<h3 id="4-3-flex-shrink属性"><a href="#4-3-flex-shrink属性" class="headerlink" title="4.3 flex-shrink属性"></a>4.3 flex-shrink属性</h3><p>flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>item <span class="token punctuation">{</span>
   flex<span class="token operator">-</span>shrink<span class="token operator">:</span> <span class="token operator">&lt;</span>number<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* default 1 */</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p><img src="flex14.png" alt><br>如果所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小。如果一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小。</p>
 <p>负值对该属性无效。</p>
-<h5 id="4-4-flex-basis属性"><a href="#4-4-flex-basis属性" class="headerlink" title="4.4 flex-basis属性"></a>4.4 flex-basis属性</h5><p>flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。</p>
+<h3 id="4-4-flex-basis属性"><a href="#4-4-flex-basis属性" class="headerlink" title="4.4 flex-basis属性"></a>4.4 flex-basis属性</h3><p>flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>item <span class="token punctuation">{</span>
   flex<span class="token operator">-</span>basis<span class="token operator">:</span> <span class="token operator">&lt;</span>length<span class="token operator">></span> <span class="token operator">|</span> <span class="token keyword">auto</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* default auto */</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>它可以设为跟width或height属性一样的值（比如350px），则项目将占据固定空间。</p>
-<h5 id="4-5-flex属性"><a href="#4-5-flex属性" class="headerlink" title="4.5 flex属性"></a>4.5 flex属性</h5><p>flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。</p>
+<h3 id="4-5-flex属性"><a href="#4-5-flex属性" class="headerlink" title="4.5 flex属性"></a>4.5 flex属性</h3><p>flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>item <span class="token punctuation">{</span>
   flex<span class="token operator">:</span> none <span class="token operator">|</span> <span class="token punctuation">[</span> <span class="token operator">&lt;</span><span class="token string">'flex-grow'</span><span class="token operator">></span> <span class="token operator">&lt;</span><span class="token string">'flex-shrink'</span><span class="token operator">></span><span class="token operator">?</span> <span class="token operator">||</span> <span class="token operator">&lt;</span><span class="token string">'flex-basis'</span><span class="token operator">></span> <span class="token punctuation">]</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>该属性有两个快捷值：auto (1 1 auto) 和 none (0 0 auto)。</p>
 <p>建议优先使用这个属性，而不是单独写三个分离的属性，因为浏览器会推算相关值。</p>
-<h5 id="4-6-align-self属性"><a href="#4-6-align-self属性" class="headerlink" title="4.6 align-self属性"></a>4.6 align-self属性</h5><p>align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。</p>
+<h3 id="4-6-align-self属性"><a href="#4-6-align-self属性" class="headerlink" title="4.6 align-self属性"></a>4.6 align-self属性</h3><p>align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>item <span class="token punctuation">{</span>
   align<span class="token operator">-</span>self<span class="token operator">:</span> <span class="token keyword">auto</span> <span class="token operator">|</span> flex<span class="token operator">-</span>start <span class="token operator">|</span> flex<span class="token operator">-</span>end <span class="token operator">|</span> center <span class="token operator">|</span> baseline <span class="token operator">|</span> stretch<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p><img src="flex15.png" alt><br>该属性可能取6个值，除了auto，其他都与align-items属性完全一致。</p>
-<h4 id="grid也一起看一下"><a href="#grid也一起看一下" class="headerlink" title="grid也一起看一下"></a>grid也一起看一下</h4><p><a href="http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html" target="_blank" rel="noopener">grid网格布局</a></p>
-<h3 id="1-4-1px"><a href="#1-4-1px" class="headerlink" title="1.4 1px"></a>1.4 1px</h3><hr>
-<h4 id="移动端1px问题是怎么解决的"><a href="#移动端1px问题是怎么解决的" class="headerlink" title="移动端1px问题是怎么解决的"></a>移动端1px问题是怎么解决的</h4><p>一、产生原因<br>那么为什么会产生这个问题呢？主要是跟一个东西有关，DPR(devicePixelRatio) 设备像素比，它是默认缩放为100%的情况下，设备像素和CSS像素的比值。<br>window.devicePixelRatio=物理像素 /CSS像素<br>二、解决方案这里只细说最常用的两种方案<br>1、WWDC对iOS统给出的方案<br>2、使用边框图片<br>3、使用box-shadow实现<br><strong>4、使用伪元素</strong><br>1 条border</p>
+<h2 id="grid也一起看一下"><a href="#grid也一起看一下" class="headerlink" title="grid也一起看一下"></a>grid也一起看一下</h2><p><a href="http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html" target="_blank" rel="noopener">grid网格布局</a></p>
+<h1 id="1-4-1px"><a href="#1-4-1px" class="headerlink" title="1.4 1px"></a>1.4 1px</h1><hr>
+<h2 id="移动端1px问题是怎么解决的"><a href="#移动端1px问题是怎么解决的" class="headerlink" title="移动端1px问题是怎么解决的"></a>移动端1px问题是怎么解决的</h2><h3 id="一、产生原因"><a href="#一、产生原因" class="headerlink" title="一、产生原因"></a>一、产生原因</h3><p>那么为什么会产生这个问题呢？主要是跟一个东西有关，DPR(devicePixelRatio) 设备像素比，它是默认缩放为100%的情况下，设备像素和CSS像素的比值。<br>window.devicePixelRatio=物理像素 /CSS像素</p>
+<h3 id="二、解决方案这里只细说最常用的两种方案"><a href="#二、解决方案这里只细说最常用的两种方案" class="headerlink" title="二、解决方案这里只细说最常用的两种方案"></a>二、解决方案这里只细说最常用的两种方案</h3><p>1、WWDC对iOS统给出的方案<br>2、使用边框图片<br>3、使用box-shadow实现<br><strong>4、使用伪元素</strong><br>1 条border</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>setOnePx<span class="token punctuation">{</span>
   position<span class="token operator">:</span> relative<span class="token punctuation">;</span>
   <span class="token operator">&amp;</span><span class="token operator">::</span>after<span class="token punctuation">{</span>
@@ -757,7 +758,7 @@
            border<span class="token operator">-</span>radius<span class="token operator">:</span> 4px<span class="token punctuation">;</span>
       <span class="token punctuation">}</span>
     <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>复制代码同样为伪元素设置绝对定位，并且和父元素左上角对其。将伪元素的长和宽先放大2倍，然后再设置一个边框，以左上角为中心，缩放到原来的0.5倍<br>总结：<br>优点：全机型兼容，实现了真正的1px，而且可以圆角。<br>缺点：暂用了after 伪元素，可能影响清除浮动。<br>5、设置viewport的scale值<br>这个解决方案是利用viewport+rem+js 实现的</p>
+<p>复制代码同样为伪元素设置绝对定位，并且和父元素左上角对其。将伪元素的长和宽先放大2倍，然后再设置一个边框，以左上角为中心，缩放到原来的0.5倍<br>总结：<br>优点：全机型兼容，实现了真正的1px，而且可以圆角。<br>缺点：暂用了after 伪元素，可能影响清除浮动。<br><strong>5、设置viewport的scale值</strong><br>这个解决方案是利用viewport+rem+js 实现的</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>html<span class="token operator">></span>
   <span class="token operator">&lt;</span>head<span class="token operator">></span>
       <span class="token operator">&lt;</span>title<span class="token operator">></span>1px question<span class="token operator">&lt;</span><span class="token operator">/</span>title<span class="token operator">></span>
@@ -814,17 +815,429 @@
   <span class="token operator">&lt;</span><span class="token operator">/</span>body<span class="token operator">></span>
 <span class="token operator">&lt;</span><span class="token operator">/</span>html<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>总结<br>优点：全机型兼容，直接写1px不能再方便<br>缺点：适用于新的项目，老项目可能改动大</p>
-<h4 id="介绍下rem方案和vw方案-分别有什么优缺点"><a href="#介绍下rem方案和vw方案-分别有什么优缺点" class="headerlink" title="介绍下rem方案和vw方案,分别有什么优缺点"></a>介绍下rem方案和vw方案,分别有什么优缺点</h4><h4 id="rem方案的font-size是挂在哪的"><a href="#rem方案的font-size是挂在哪的" class="headerlink" title="rem方案的font-size是挂在哪的"></a>rem方案的font-size是挂在哪的</h4><h4 id="rem方案时移动端字体是怎么处理的"><a href="#rem方案时移动端字体是怎么处理的" class="headerlink" title="rem方案时移动端字体是怎么处理的"></a>rem方案时移动端字体是怎么处理的</h4><p><a href="https://cloud.tencent.com/developer/article/1352187" target="_blank" rel="noopener">以上参考这篇文章</a></p>
-<h3 id="1-5-重绘回流"><a href="#1-5-重绘回流" class="headerlink" title="1.5 重绘回流"></a>1.5 重绘回流</h3><hr>
-<h4 id="介绍一下重绘和回流"><a href="#介绍一下重绘和回流" class="headerlink" title="介绍一下重绘和回流"></a>介绍一下重绘和回流</h4><p>在讨论回流与重绘之前，我们要知道：<br>1.浏览器使用流式布局模型 (Flow Based Layout)。<br>2.浏览器会把HTML解析成DOM，把CSS解析成CSSOM，DOM和CSSOM合并就产生了Render Tree。<br>3.有了RenderTree，我们就知道了所有节点的样式，然后计算他们在页面上的大小和位置，最后把节点绘制到页面上。<br>4.由于浏览器使用流式布局，对Render Tree的计算通常只需要遍历一次就可以完成，但table及其内部元素除外，他们可能需要多次计算，通常要花3倍于同等元素的时间，这也是为什么要避免使用table布局的原因之一。<br>一句话：回流必将引起重绘，重绘不一定会引起回流。<br><strong>回流 (Reflow)</strong><br>当Render Tree中部分或全部元素的尺寸、结构、或某些属性发生改变时，浏览器重新渲染部分或全部文档的过程称为回流。<br>会导致回流的操作：<br>页面首次渲染<br>浏览器窗口大小发生改变<br>元素尺寸或位置发生改变<br>元素内容变化（文字数量或图片大小等等）<br>元素字体大小变化<br>添加或者删除可见的DOM元素<br>激活CSS伪类（例如：:hover）<br>查询某些属性或调用某些方法<br>一些常用且会导致回流的属性和方法：<br>clientWidth、clientHeight、clientTop、clientLeft<br>offsetWidth、offsetHeight、offsetTop、offsetLeft<br>scrollWidth、scrollHeight、scrollTop、scrollLeft<br>scrollIntoView()、scrollIntoViewIfNeeded()<br>getComputedStyle()<br>getBoundingClientRect()<br>scrollTo()<br><strong>重绘 (Repaint)</strong><br>当页面中元素样式的改变并不影响它在文档流中的位置时（例如：color、background-color、visibility等），浏览器会将新样式赋予给元素并重新绘制它，这个过程称为重绘。<br><strong>性能影响</strong><br>回流比重绘的代价要更高。<br>有时即使仅仅回流一个单一的元素，它的父元素以及任何跟随它的元素也会产生回流。<br>现代浏览器会对频繁的回流或重绘操作进行优化：<br>浏览器会维护一个队列，把所有引起回流和重绘的操作放入队列中，如果队列中的任务数量或者时间间隔达到一个阈值的，浏览器就会将队列清空，进行一次批处理，这样可以把多次回流和重绘变成一次。<br>当你访问以下属性或方法时，浏览器会立刻清空队列：<br>clientWidth、clientHeight、clientTop、clientLeft<br>offsetWidth、offsetHeight、offsetTop、offsetLeft<br>scrollWidth、scrollHeight、scrollTop、scrollLeft<br>width、height<br>getComputedStyle()<br>getBoundingClientRect()<br>因为队列中可能会有影响到这些属性或方法返回值的操作，即使你希望获取的信息与队列中操作引发的改变无关，浏览器也会强行清空队列，确保你拿到的值是最精确的。</p>
-<h4 id="如何避免重绘和回流"><a href="#如何避免重绘和回流" class="headerlink" title="如何避免重绘和回流"></a>如何避免重绘和回流</h4><p><strong>CSS</strong><br>避免使用table布局。<br>尽可能在DOM树的最末端改变class。<br>避免设置多层内联样式。<br>将动画效果应用到position属性为absolute或fixed的元素上。<br>避免使用CSS表达式（例如：calc()）。<br><strong>JavaScript</strong><br>避免频繁操作样式，最好一次性重写style属性，或者将样式列表定义为class并一次性更改class属性。<br>避免频繁操作DOM，创建一个documentFragment，在它上面应用所有DOM操作，最后再把它添加到文档中。<br>也可以先为元素设置display: none，操作结束后再把它显示出来。因为在display属性为none的元素上进行的DOM操作不会引发回流和重绘。<br>避免频繁读取会引发回流/重绘的属性，如果确实需要多次使用，就用一个变量缓存起来。<br>对具有复杂动画的元素使用绝对定位，使它脱离文档流，否则会引起父元素及后续元素频繁回流。</p>
-<h3 id="1-6-居中-常见布局"><a href="#1-6-居中-常见布局" class="headerlink" title="1.6 居中/常见布局"></a>1.6 居中/常见布局</h3><hr>
-<p>说难也不难可以参考这两篇文章包够<br>(CSS 常见布局方式)[<a href="https://juejin.im/post/6844903491891118087#heading-51]" target="_blank" rel="noopener">https://juejin.im/post/6844903491891118087#heading-51]</a><br>(干货!各种常见布局实现+知名网站实例分析)[<a href="https://juejin.im/post/6844903574929932301#heading-4]" target="_blank" rel="noopener">https://juejin.im/post/6844903574929932301#heading-4]</a></p>
-<h3 id="1-7-层叠上下文-说一下z-index"><a href="#1-7-层叠上下文-说一下z-index" class="headerlink" title="1.7 层叠上下文 说一下z-index"></a>1.7 层叠上下文 说一下z-index</h3><hr>
-<p>(深入理解CSS中的层叠上下文和层叠顺序)[<a href="https://juejin.im/post/6844904116339261447#heading-12]" target="_blank" rel="noopener">https://juejin.im/post/6844904116339261447#heading-12]</a></p>
-<h3 id="1-8-Sass-Less"><a href="#1-8-Sass-Less" class="headerlink" title="1.8 Sass/Less"></a>1.8 Sass/Less</h3><hr>
-<p>(Sass.vs.Less | 简介与比较)[<a href="https://juejin.im/post/6844904169313140749]" target="_blank" rel="noopener">https://juejin.im/post/6844904169313140749]</a></p>
+<h2 id="介绍下rem方案和vw方案-分别有什么优缺点"><a href="#介绍下rem方案和vw方案-分别有什么优缺点" class="headerlink" title="介绍下rem方案和vw方案,分别有什么优缺点"></a>介绍下rem方案和vw方案,分别有什么优缺点</h2><h3 id="一、简单介绍下rem布局方案"><a href="#一、简单介绍下rem布局方案" class="headerlink" title="一、简单介绍下rem布局方案"></a>一、简单介绍下rem布局方案</h3><p>rem是css中的长度单位，1rem=根元素html的font-size值。</p>
+<p>当页面中所有元素都使用rem单位时，你只需要改变根元素font-size值，所有元素就会按比例放大或者缩小。</p>
+<p>因此我们只需要写一小段js代码，根据屏幕宽度改变html的font-size值，就可以做到弹性布局。</p>
+<p>这种方法确实便捷，兼容性也很好，是目前非常主流的弹性布局方案。</p>
+<p>但这种方案有弊端</p>
+<blockquote>
+<ul>
+<li>弊端之一：和根元素font-size值强耦合，系统字体放大或缩小时，会导致布局错乱；</li>
+<li>弊端之二：html文件头部需插入一段js代码<br>本文将介绍一种更优秀纯粹的方案。</li>
+</ul>
+</blockquote>
+<h3 id="二、vw单位实现弹性布局"><a href="#二、vw单位实现弹性布局" class="headerlink" title="二、vw单位实现弹性布局"></a>二、vw单位实现弹性布局</h3><p>我们先来看看这vw vh单位 w3c的官方解释</p>
+<blockquote>
+<ul>
+<li>vw：1% of viewport’s width</li>
+<li>vh：1% of viewport’s height<br>viewport即浏览器可视区域大小</li>
+</ul>
+</blockquote>
+<p>我们可以这样理解</p>
+<blockquote>
+<ul>
+<li>100vw = window.innerwidth</li>
+<li>100vh = window.innerheight<br>在移动端我们一般都可以认为，100vw就是屏幕宽度。若使用vw布局，就不需要再像rem那样，在js中去动态设置根元素的font-size了，sass中只需要使用这个函数做转换即可<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">//以iphone7尺寸@2x 750像素宽的视觉稿为例</span>
+@function <span class="token function">vw</span><span class="token punctuation">(</span>$px<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  @<span class="token keyword">return</span> <span class="token punctuation">(</span>$px <span class="token operator">/</span> <span class="token number">750</span><span class="token punctuation">)</span> <span class="token operator">*</span> 100vw<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ul>
+</blockquote>
+<p>//假设一个div元素在视觉稿中，宽度为120px，字体大小为12px<br>div {<br>    width: vw(120);<br>    font-size: vw(12);<br>} </p>
+<pre><code>vw单位和百分比%单位对比
+那么100vw和我们平时用的width:100%有什么区别呢？
 
+百分比%是根据父元素宽度或者高度进行计算
+而vw vh固定按照viewport来计算，不会受父元素宽高度影响。
+
+100vw包括了页面滚动条宽度（页面滚动条属于viewport范围内，100vw当然包括了页面滚动条宽度）。但把body或者html设置为width:100%时，是不包括页面滚动条的宽度的。也就是说100vw在有纵向滚动条的情况下，会比100%宽。
+
+那么就会引发一个问题：
+
+pc端使用vw单位时，如果页面内容超出一屏长度，出现了纵向滚动条，同时有元素width:100vw， 则会导致出现条横向滚动条，因为元素（100vw + 滚动条宽度）超出了viewport宽度。（移动端滚动条不占位，所以不会有这个问题）不过pc端一般不需要弹性布局，还是尽量使用width:100%更保险。
+### 为何rem布局比vw主流？兼容性
+既然rem布局有弊端，与font-size强耦合会引发副作用，vw布局相较之下更纯粹代码逻辑也更清晰，为何移动端rem布局比vw主流？
+
+我们来看看vw和rem的兼容性。
+
+相较之下，vw单位兼容性比rem稍差，ios8、安卓4.4及以上才完全支持。这也是为什么之前rem布局一直更流行的原因。
+### 总结
+目前ios8、安卓4.4以下的用户已经非常少了，caniuse上面显示，在中国这部分用户只有1.2%，比例已经非常低了，而这部分用户的手机估计只会打打电话不会使用互联网的（还是需根据各自产品的用户数据分析来决定是否使用vw）。如果你的页面只适用于微信、qq，那绝对能放心使用vw单位，还可以配合vh针对一些特殊比例屏幕做处理，彻底摆脱使用rem带来的副作用，删掉html头部计算font-size的那段js代码，让你的代码更纯粹。
+# 1.5 重绘回流
+---------------------------------------------------------------------------
+## 介绍一下重绘和回流
+在讨论回流与重绘之前，我们要知道：
+1.浏览器使用流式布局模型 (Flow Based Layout)。
+2.浏览器会把HTML解析成DOM，把CSS解析成CSSOM，DOM和CSSOM合并就产生了Render Tree。
+3.有了RenderTree，我们就知道了所有节点的样式，然后计算他们在页面上的大小和位置，最后把节点绘制到页面上。
+4.由于浏览器使用流式布局，对Render Tree的计算通常只需要遍历一次就可以完成，但table及其内部元素除外，他们可能需要多次计算，通常要花3倍于同等元素的时间，这也是为什么要避免使用table布局的原因之一。
+一句话：回流必将引起重绘，重绘不一定会引起回流。
+### 回流 (Reflow)
+当Render Tree中部分或全部元素的尺寸、结构、或某些属性发生改变时，浏览器重新渲染部分或全部文档的过程称为回流。
+会导致回流的操作：
+页面首次渲染
+浏览器窗口大小发生改变
+元素尺寸或位置发生改变
+元素内容变化（文字数量或图片大小等等）
+元素字体大小变化
+添加或者删除可见的DOM元素
+激活CSS伪类（例如：:hover）
+查询某些属性或调用某些方法
+一些常用且会导致回流的属性和方法：
+clientWidth、clientHeight、clientTop、clientLeft
+offsetWidth、offsetHeight、offsetTop、offsetLeft
+scrollWidth、scrollHeight、scrollTop、scrollLeft
+scrollIntoView()、scrollIntoViewIfNeeded()
+getComputedStyle()
+getBoundingClientRect()
+scrollTo()
+### 重绘 (Repaint)
+当页面中元素样式的改变并不影响它在文档流中的位置时（例如：color、background-color、visibility等），浏览器会将新样式赋予给元素并重新绘制它，这个过程称为重绘。
+### 性能影响
+回流比重绘的代价要更高。
+有时即使仅仅回流一个单一的元素，它的父元素以及任何跟随它的元素也会产生回流。
+现代浏览器会对频繁的回流或重绘操作进行优化：
+浏览器会维护一个队列，把所有引起回流和重绘的操作放入队列中，如果队列中的任务数量或者时间间隔达到一个阈值的，浏览器就会将队列清空，进行一次批处理，这样可以把多次回流和重绘变成一次。
+当你访问以下属性或方法时，浏览器会立刻清空队列：
+clientWidth、clientHeight、clientTop、clientLeft
+offsetWidth、offsetHeight、offsetTop、offsetLeft
+scrollWidth、scrollHeight、scrollTop、scrollLeft
+width、height
+getComputedStyle()
+getBoundingClientRect()
+因为队列中可能会有影响到这些属性或方法返回值的操作，即使你希望获取的信息与队列中操作引发的改变无关，浏览器也会强行清空队列，确保你拿到的值是最精确的。
+## 如何避免重绘和回流
+### CSS
+避免使用table布局。
+尽可能在DOM树的最末端改变class。
+避免设置多层内联样式。
+将动画效果应用到position属性为absolute或fixed的元素上。
+避免使用CSS表达式（例如：calc()）。
+### JavaScript
+避免频繁操作样式，最好一次性重写style属性，或者将样式列表定义为class并一次性更改class属性。
+避免频繁操作DOM，创建一个documentFragment，在它上面应用所有DOM操作，最后再把它添加到文档中。
+也可以先为元素设置display: none，操作结束后再把它显示出来。因为在display属性为none的元素上进行的DOM操作不会引发回流和重绘。
+避免频繁读取会引发回流/重绘的属性，如果确实需要多次使用，就用一个变量缓存起来。
+对具有复杂动画的元素使用绝对定位，使它脱离文档流，否则会引起父元素及后续元素频繁回流。
+# 1.6 居中/常见布局
+---------------------------------------------------------------------------
+[以CSS为中心：完整指南](https://css-tricks.com/centering-css-complete-guide/)
+## 两列自适应布局
+&gt; 两列自适应布局是指一列由内容撑开，另一列撑满剩余宽度的布局方式
+### 1.float+overflow:hidden
+```cpp
+&lt;style&gt;
+    .contain {
+        overflow: hidden;
+        zoom: 1;
+    }
+    .left {
+        float: left;
+        background: blue;
+    }
+    .right {
+        overflow: hidden;
+        zoom: 1;
+        background: yellow;
+    }
+&lt;/style&gt;
+&lt;div class=&quot;contain&quot;&gt;
+    &lt;div class=&quot;left&quot;&gt;左栏&lt;/div&gt;
+    &lt;div class=&quot;right&quot;&gt;右栏&lt;/div&gt;
+&lt;/div&gt;</code></pre><h3 id="2-flex布局"><a href="#2-flex布局" class="headerlink" title="2.flex布局"></a>2.flex布局</h3><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>style<span class="token operator">></span>
+    <span class="token punctuation">.</span>contain <span class="token punctuation">{</span>
+        display<span class="token operator">:</span> flex<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>right <span class="token punctuation">{</span>
+        flex<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>style<span class="token operator">></span>
+<span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"contain"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"left"</span><span class="token operator">></span>左栏<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"right"</span><span class="token operator">></span>右栏<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="3-grid布局"><a href="#3-grid布局" class="headerlink" title="3.grid布局"></a>3.grid布局</h3><pre class="line-numbers language-cpp"><code class="language-cpp">style<span class="token operator">></span>
+    <span class="token punctuation">.</span>contain <span class="token punctuation">{</span>
+        display<span class="token operator">:</span> grid<span class="token punctuation">;</span>
+        grid<span class="token operator">-</span><span class="token keyword">template</span><span class="token operator">-</span>columns<span class="token operator">:</span> <span class="token keyword">auto</span> 1fr<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>style<span class="token operator">></span>
+<span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"contain"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"left"</span><span class="token operator">></span>左栏<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"right"</span><span class="token operator">></span>右栏<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="三栏布局——两边固定宽度中间自适应"><a href="#三栏布局——两边固定宽度中间自适应" class="headerlink" title="三栏布局——两边固定宽度中间自适应"></a>三栏布局——两边固定宽度中间自适应</h2><h3 id="1-float布局"><a href="#1-float布局" class="headerlink" title="1.float布局"></a>1.float布局</h3><blockquote>
+<p>float布局使用时注意清除浮动。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</blockquote>
+<style>
+    /*父元素清除浮动*/
+    .float:after {
+        content: "";
+        height: 0;
+        display: block;
+        clear: both;
+        visibility: hidden;
+    }
+    .float {
+        *zoom: 1;
+    }
+    .float .left {
+        float: left;
+        width: 300px;
+        height: 300px;
+        background: red;
+    }
+    .float .right {
+        float: right;
+        width: 300px;
+        height: 300px;
+        background: blue;
+    }
+    .float .center {
+        background: yellow;
+        height: 400px;
+        margin-left: 300px;
+        margin-right: 300px;
+    }
+</style>
+<section class="float">
+    <div class="left">左边</div>
+    <div class="right">右边</div>
+    <div class="center">中间</div>
+</section>
+```
+### 2.Position 布局
+> Position布局只是根据定位属性去直接设置元素位置。不推荐使用
+```cpp
+<style>
+    .position {
+        position: relative;
+    }
+    .position .left {
+        position: absolute;
+        left: 0;
+        width: 300px;
+        height: 300px;
+        background: red;
+    }
+    .position .center {
+        position: absolute;
+        left: 300px;
+        right: 300px;
+        height: 400px;
+        background: yellow;
+    }
+    .position .right {
+        position: absolute;
+        right: 0;
+        width: 300px;
+        height: 300px;
+        background: blue;
+    }
+</style>
+<section class="position">
+    <div class="left">左边</div>
+    <div class="center">中间</div>
+    <div class="right">右边</div>
+</section>
+```
+### 4.table 布局
+> table布局使用起来方便,没有兼容性也不存在问题，但使用不方便
+```cpp
+<style>
+    .table {
+        width: 100%;
+        display: table;
+    }
+    .table .left {
+        display: table-cell;
+        width: 300px;
+        background: red;
+    }
+    .table .center {
+        display: table-cell;
+        background: yellow;
+    }
+    .table .right {
+        display: table-cell;
+        width: 300px;
+        background: blue;
+    }
+</style>
+<section class="table">
+    <div class="left">左边</div>
+    <div class="center">中间</div>
+    <div class="right">右边</div>
+</section>
+```
+### 5.grid布局
+> grid布局很强大，但是兼容性很差。
+```cpp
+<style>
+    .grid {
+        display: grid;
+        grid-template-rows: 100px;
+        grid-template-columns: 300px auto 300px;
+    }
+    .grid .left {
+        background: red;
+    }
+    .grid .center {
+        background: yellow;
+    }
+    .grid .right {
+        background: blue;
+    }
+</style>
+<section class="grid">
+    <div class="left">左边</div>
+    <div class="right">右边</div>
+    <div class="center">中间</div>
+</section>
+```
+## 圣杯布局
+三个部分都设定为左浮动，然后设置center的宽度为100%，此时，left和right部分会跳到下一行；
+通过设置margin-left为负值让left和right部分回到与center部分同一行；
+```cpp
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    .main {
+      padding-left: 300px;
+      padding-right: 300px;
+    }
+    .center {
+      float: left;
+      width: 100%;
+      height: 400px;
+      background: #4ba946;
+    }
+    .left {
+      float: left;
+      width: 300px;
+      height: 300px;
+      background: #0376c2;
+      margin-left: -100%;
+      position: relative;
+      left: -300px;
+    }
+    .right {
+      float: left;
+      width: 300px;
+      height: 300px;
+      background: #9889c1;
+      margin-left: -300px;
+      position: relative;
+      right: -300px;
+    }
+  </style>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+<section class="main">
+  <div class="center">中间</div>
+  <div class="left">左边</div>
+  <div class="right">右边</div>
+</section>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"react":{"opacity":0.7}});</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"react":{"opacity":0.7}});</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"react":{"opacity":0.7}});</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"react":{"opacity":0.7}});</script></body>
+```
+缺点:
+center部分的最小宽度不能小于left部分的宽度，否则会left部分掉到下一行
+如果其中一列内容高度拉长(如下图)，其他两列的背景并不会自动填充。(借助伪等高布局可解决)
+## 双飞翼布局
+实现步骤(前两步与圣杯布局一样)
+三个部分都设定为左浮动，然后设置center的宽度为100%，此时，left和right部分会跳到下一行；
+通过设置margin-left为负值让left和right部分回到与center部分同一行；
+center部分增加一个内层div，并设margin: 0 200px；
+
+<p>缺点<br>多加一层 dom 树节点，增加渲染树生成的计算量。</p>
+<h2 id="多列等高布局——圣杯布局"><a href="#多列等高布局——圣杯布局" class="headerlink" title="多列等高布局——圣杯布局"></a>多列等高布局——圣杯布局</h2><p>实现步骤：<br>1.三部分都设定为浮动，设置center的宽度为100%。<br>2.设置 left 和 right的margin-left为负值让left和right部分回到与center部分同一行。<br>3.设置相对定位，让left和right部分移动到两边。<br>4.伪等高布局</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>container <span class="token punctuation">{</span>
+    overflow<span class="token operator">:</span> hidden<span class="token punctuation">;</span><span class="token comment" spellcheck="true">//把溢出背景切掉</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">.</span>center<span class="token punctuation">,</span><span class="token punctuation">.</span>left<span class="token punctuation">,</span><span class="token punctuation">.</span>right <span class="token punctuation">{</span>
+    padding<span class="token operator">-</span>bottom<span class="token operator">:</span> 10000px<span class="token punctuation">;</span>
+    margin<span class="token operator">-</span>bottom<span class="token operator">:</span> <span class="token operator">-</span>10000px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>示例：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>style<span class="token operator">></span>
+    <span class="token punctuation">.</span>container <span class="token punctuation">{</span>
+        padding<span class="token operator">-</span>left<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        padding<span class="token operator">-</span>right<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        overflow<span class="token operator">:</span> hidden<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/*关键*/</span>
+    <span class="token punctuation">.</span>container <span class="token punctuation">.</span>center<span class="token punctuation">,</span> <span class="token punctuation">.</span>left<span class="token punctuation">,</span> <span class="token punctuation">.</span>right <span class="token punctuation">{</span>
+        padding<span class="token operator">-</span>bottom<span class="token operator">:</span> 10000px<span class="token punctuation">;</span>
+        margin<span class="token operator">-</span>bottom<span class="token operator">:</span> <span class="token operator">-</span>10000px<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>container <span class="token punctuation">.</span>center <span class="token punctuation">{</span>
+        <span class="token keyword">float</span><span class="token operator">:</span> left<span class="token punctuation">;</span>
+        width<span class="token operator">:</span> <span class="token number">100</span><span class="token operator">%</span><span class="token punctuation">;</span>
+        height<span class="token operator">:</span> 400px<span class="token punctuation">;</span>
+        background<span class="token operator">:</span> yellow<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>container <span class="token punctuation">.</span>left <span class="token punctuation">{</span>
+        <span class="token keyword">float</span><span class="token operator">:</span> left<span class="token punctuation">;</span>
+        width<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        height<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        margin<span class="token operator">-</span>left<span class="token operator">:</span> <span class="token operator">-</span><span class="token number">100</span><span class="token operator">%</span><span class="token punctuation">;</span>
+        background<span class="token operator">:</span> red<span class="token punctuation">;</span>
+        position<span class="token operator">:</span> relative<span class="token punctuation">;</span>
+        left<span class="token operator">:</span> <span class="token operator">-</span>300px<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>container <span class="token punctuation">.</span>right <span class="token punctuation">{</span>
+        <span class="token keyword">float</span><span class="token operator">:</span> left<span class="token punctuation">;</span>
+        width<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        height<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        margin<span class="token operator">-</span>left<span class="token operator">:</span> <span class="token operator">-</span>300px<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*right 的宽度*/</span>
+        background<span class="token operator">:</span> blue<span class="token punctuation">;</span>
+        position<span class="token operator">:</span> relative<span class="token punctuation">;</span>
+        right<span class="token operator">:</span> <span class="token operator">-</span>300px<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>style<span class="token operator">></span>
+<span class="token operator">&lt;</span>section <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"container"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"center"</span><span class="token operator">></span>中间<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"left"</span><span class="token operator">></span>左边<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"right"</span><span class="token operator">></span>右边<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>section<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="粘连布局"><a href="#粘连布局" class="headerlink" title="粘连布局"></a>粘连布局</h2><p>描述：<br>有一块内容<main>，当<main>的高度足够长的时候，紧跟在<main>后面的元素<footer>会跟在<main>元素的后面。当<main>元素比较短的时候(比如小于屏幕的高度),我们期望这个<footer>元素能够“粘连”在屏幕的底部。<br>实现步骤：<br>```cpp</footer></main></main></footer></main></main></main></p>
+<style>
+    html, body {
+        height: 100%;
+    }
+    .wrap {
+        min-height: 100%;/*设置min-height，变为视口高度*/
+        background: blue;
+        overflow: hidden;
+    }
+    .main {
+        padding-bottom: 50px;
+    }
+    .footer {
+        height: 50px;
+        margin-top: -50px;
+        background: red;
+    }
+</style>
+<div class="wrap">
+    <article class="main">
+        <p>1</p>
+        <p>2</p>
+        <p>3</p>
+    </article>
+</div>
+<footer class="footer">footer</footer>
+``
+# 1.7 层叠上下文 说一下z-index 
+---------------------------------------------------------------------------
+(深入理解CSS中的层叠上下文和层叠顺序)[https://juejin.im/post/6844904116339261447#heading-12]
+# 1.8 Sass/Less
+---------------------------------------------------------------------------
+(Sass.vs.Less | 简介与比较)[https://juejin.im/post/6844904169313140749]
             </div>
             <hr />
 
@@ -1562,7 +1975,7 @@
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">48.6k</span>
+            <span class="white-color">50.8k</span>
             
 
             <br>
