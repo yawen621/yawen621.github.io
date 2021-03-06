@@ -1077,9 +1077,9 @@ article .article-tags .chip {
     word-wrap:break-word;
 }
 
-#articleContent .img-item {
+/* #articleContent .img-item {
     text-align: center;
-}
+} */
 
 #articleContent img {
     max-width: 100%;

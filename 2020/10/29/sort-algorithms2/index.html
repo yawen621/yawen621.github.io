@@ -497,14 +497,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.3k
+                    17.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    28 分
+                    67 分
                 </div>
                 
                 
@@ -837,115 +837,60 @@
 <blockquote>
 <ul>
 <li>100vw = window.innerwidth</li>
-<li>100vh = window.innerheight<br>在移动端我们一般都可以认为，100vw就是屏幕宽度。若使用vw布局，就不需要再像rem那样，在js中去动态设置根元素的font-size了，sass中只需要使用这个函数做转换即可<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">//以iphone7尺寸@2x 750像素宽的视觉稿为例</span>
-@function <span class="token function">vw</span><span class="token punctuation">(</span>$px<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  @<span class="token keyword">return</span> <span class="token punctuation">(</span>$px <span class="token operator">/</span> <span class="token number">750</span><span class="token punctuation">)</span> <span class="token operator">*</span> 100vw<span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
+<li>100vh = window.innerheight</li>
 </ul>
 </blockquote>
-<p>//假设一个div元素在视觉稿中，宽度为120px，字体大小为12px<br>div {<br>    width: vw(120);<br>    font-size: vw(12);<br>} </p>
-<pre><code>vw单位和百分比%单位对比
-那么100vw和我们平时用的width:100%有什么区别呢？
-
-百分比%是根据父元素宽度或者高度进行计算
-而vw vh固定按照viewport来计算，不会受父元素宽高度影响。
-
-100vw包括了页面滚动条宽度（页面滚动条属于viewport范围内，100vw当然包括了页面滚动条宽度）。但把body或者html设置为width:100%时，是不包括页面滚动条的宽度的。也就是说100vw在有纵向滚动条的情况下，会比100%宽。
-
-那么就会引发一个问题：
-
-pc端使用vw单位时，如果页面内容超出一屏长度，出现了纵向滚动条，同时有元素width:100vw， 则会导致出现条横向滚动条，因为元素（100vw + 滚动条宽度）超出了viewport宽度。（移动端滚动条不占位，所以不会有这个问题）不过pc端一般不需要弹性布局，还是尽量使用width:100%更保险。
-### 为何rem布局比vw主流？兼容性
-既然rem布局有弊端，与font-size强耦合会引发副作用，vw布局相较之下更纯粹代码逻辑也更清晰，为何移动端rem布局比vw主流？
-
-我们来看看vw和rem的兼容性。
-
-相较之下，vw单位兼容性比rem稍差，ios8、安卓4.4及以上才完全支持。这也是为什么之前rem布局一直更流行的原因。
-### 总结
-目前ios8、安卓4.4以下的用户已经非常少了，caniuse上面显示，在中国这部分用户只有1.2%，比例已经非常低了，而这部分用户的手机估计只会打打电话不会使用互联网的（还是需根据各自产品的用户数据分析来决定是否使用vw）。如果你的页面只适用于微信、qq，那绝对能放心使用vw单位，还可以配合vh针对一些特殊比例屏幕做处理，彻底摆脱使用rem带来的副作用，删掉html头部计算font-size的那段js代码，让你的代码更纯粹。
-# 1.5 重绘回流
----------------------------------------------------------------------------
-## 介绍一下重绘和回流
-在讨论回流与重绘之前，我们要知道：
-1.浏览器使用流式布局模型 (Flow Based Layout)。
-2.浏览器会把HTML解析成DOM，把CSS解析成CSSOM，DOM和CSSOM合并就产生了Render Tree。
-3.有了RenderTree，我们就知道了所有节点的样式，然后计算他们在页面上的大小和位置，最后把节点绘制到页面上。
-4.由于浏览器使用流式布局，对Render Tree的计算通常只需要遍历一次就可以完成，但table及其内部元素除外，他们可能需要多次计算，通常要花3倍于同等元素的时间，这也是为什么要避免使用table布局的原因之一。
-一句话：回流必将引起重绘，重绘不一定会引起回流。
-### 回流 (Reflow)
-当Render Tree中部分或全部元素的尺寸、结构、或某些属性发生改变时，浏览器重新渲染部分或全部文档的过程称为回流。
-会导致回流的操作：
-页面首次渲染
-浏览器窗口大小发生改变
-元素尺寸或位置发生改变
-元素内容变化（文字数量或图片大小等等）
-元素字体大小变化
-添加或者删除可见的DOM元素
-激活CSS伪类（例如：:hover）
-查询某些属性或调用某些方法
-一些常用且会导致回流的属性和方法：
-clientWidth、clientHeight、clientTop、clientLeft
-offsetWidth、offsetHeight、offsetTop、offsetLeft
-scrollWidth、scrollHeight、scrollTop、scrollLeft
-scrollIntoView()、scrollIntoViewIfNeeded()
-getComputedStyle()
-getBoundingClientRect()
-scrollTo()
-### 重绘 (Repaint)
-当页面中元素样式的改变并不影响它在文档流中的位置时（例如：color、background-color、visibility等），浏览器会将新样式赋予给元素并重新绘制它，这个过程称为重绘。
-### 性能影响
-回流比重绘的代价要更高。
-有时即使仅仅回流一个单一的元素，它的父元素以及任何跟随它的元素也会产生回流。
-现代浏览器会对频繁的回流或重绘操作进行优化：
-浏览器会维护一个队列，把所有引起回流和重绘的操作放入队列中，如果队列中的任务数量或者时间间隔达到一个阈值的，浏览器就会将队列清空，进行一次批处理，这样可以把多次回流和重绘变成一次。
-当你访问以下属性或方法时，浏览器会立刻清空队列：
-clientWidth、clientHeight、clientTop、clientLeft
-offsetWidth、offsetHeight、offsetTop、offsetLeft
-scrollWidth、scrollHeight、scrollTop、scrollLeft
-width、height
-getComputedStyle()
-getBoundingClientRect()
-因为队列中可能会有影响到这些属性或方法返回值的操作，即使你希望获取的信息与队列中操作引发的改变无关，浏览器也会强行清空队列，确保你拿到的值是最精确的。
-## 如何避免重绘和回流
-### CSS
-避免使用table布局。
-尽可能在DOM树的最末端改变class。
-避免设置多层内联样式。
-将动画效果应用到position属性为absolute或fixed的元素上。
-避免使用CSS表达式（例如：calc()）。
-### JavaScript
-避免频繁操作样式，最好一次性重写style属性，或者将样式列表定义为class并一次性更改class属性。
-避免频繁操作DOM，创建一个documentFragment，在它上面应用所有DOM操作，最后再把它添加到文档中。
-也可以先为元素设置display: none，操作结束后再把它显示出来。因为在display属性为none的元素上进行的DOM操作不会引发回流和重绘。
-避免频繁读取会引发回流/重绘的属性，如果确实需要多次使用，就用一个变量缓存起来。
-对具有复杂动画的元素使用绝对定位，使它脱离文档流，否则会引起父元素及后续元素频繁回流。
-# 1.6 居中/常见布局
----------------------------------------------------------------------------
-[以CSS为中心：完整指南](https://css-tricks.com/centering-css-complete-guide/)
-## 两列自适应布局
-&gt; 两列自适应布局是指一列由内容撑开，另一列撑满剩余宽度的布局方式
-### 1.float+overflow:hidden
-```cpp
-&lt;style&gt;
-    .contain {
-        overflow: hidden;
-        zoom: 1;
-    }
-    .left {
-        float: left;
-        background: blue;
-    }
-    .right {
-        overflow: hidden;
-        zoom: 1;
-        background: yellow;
-    }
-&lt;/style&gt;
-&lt;div class=&quot;contain&quot;&gt;
-    &lt;div class=&quot;left&quot;&gt;左栏&lt;/div&gt;
-    &lt;div class=&quot;right&quot;&gt;右栏&lt;/div&gt;
-&lt;/div&gt;</code></pre><h3 id="2-flex布局"><a href="#2-flex布局" class="headerlink" title="2.flex布局"></a>2.flex布局</h3><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>style<span class="token operator">></span>
+<p>在移动端我们一般都可以认为，100vw就是屏幕宽度。若使用vw布局，就不需要再像rem那样，在js中去动态设置根元素的font-size了，sass中只需要使用这个函数做转换即可</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">//以iphone7尺寸@2x 750像素宽的视觉稿为例</span>
+@function <span class="token function">vw</span><span class="token punctuation">(</span>$px<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    @<span class="token keyword">return</span> <span class="token punctuation">(</span>$px <span class="token operator">/</span> <span class="token number">750</span><span class="token punctuation">)</span> <span class="token operator">*</span> 100vw<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//假设一个div元素在视觉稿中，宽度为120px，字体大小为12px</span>
+div <span class="token punctuation">{</span>
+    width<span class="token operator">:</span> <span class="token function">vw</span><span class="token punctuation">(</span><span class="token number">120</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    font<span class="token operator">-</span>size<span class="token operator">:</span> <span class="token function">vw</span><span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>vw单位和百分比%单位对比<br>那么100vw和我们平时用的width:100%有什么区别呢？</p>
+<p>百分比%是根据父元素宽度或者高度进行计算<br>而vw vh固定按照viewport来计算，不会受父元素宽高度影响。</p>
+<p>100vw包括了页面滚动条宽度（页面滚动条属于viewport范围内，100vw当然包括了页面滚动条宽度）。但把body或者html设置为width:100%时，是不包括页面滚动条的宽度的。也就是说100vw在有纵向滚动条的情况下，会比100%宽。</p>
+<p>那么就会引发一个问题：</p>
+<p>pc端使用vw单位时，如果页面内容超出一屏长度，出现了纵向滚动条，同时有元素width:100vw， 则会导致出现条横向滚动条，因为元素（100vw + 滚动条宽度）超出了viewport宽度。（移动端滚动条不占位，所以不会有这个问题）不过pc端一般不需要弹性布局，还是尽量使用width:100%更保险。</p>
+<h3 id="为何rem布局比vw主流？兼容性"><a href="#为何rem布局比vw主流？兼容性" class="headerlink" title="为何rem布局比vw主流？兼容性"></a>为何rem布局比vw主流？兼容性</h3><p>既然rem布局有弊端，与font-size强耦合会引发副作用，vw布局相较之下更纯粹代码逻辑也更清晰，为何移动端rem布局比vw主流？</p>
+<p>我们来看看vw和rem的兼容性。</p>
+<p>相较之下，vw单位兼容性比rem稍差，ios8、安卓4.4及以上才完全支持。这也是为什么之前rem布局一直更流行的原因。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>目前ios8、安卓4.4以下的用户已经非常少了，caniuse上面显示，在中国这部分用户只有1.2%，比例已经非常低了，而这部分用户的手机估计只会打打电话不会使用互联网的（还是需根据各自产品的用户数据分析来决定是否使用vw）。如果你的页面只适用于微信、qq，那绝对能放心使用vw单位，还可以配合vh针对一些特殊比例屏幕做处理，彻底摆脱使用rem带来的副作用，删掉html头部计算font-size的那段js代码，让你的代码更纯粹。</p>
+<h1 id="1-5-重绘回流"><a href="#1-5-重绘回流" class="headerlink" title="1.5 重绘回流"></a>1.5 重绘回流</h1><hr>
+<h2 id="介绍一下重绘和回流"><a href="#介绍一下重绘和回流" class="headerlink" title="介绍一下重绘和回流"></a>介绍一下重绘和回流</h2><p>在讨论回流与重绘之前，我们要知道：<br>1.浏览器使用流式布局模型 (Flow Based Layout)。<br>2.浏览器会把HTML解析成DOM，把CSS解析成CSSOM，DOM和CSSOM合并就产生了Render Tree。<br>3.有了RenderTree，我们就知道了所有节点的样式，然后计算他们在页面上的大小和位置，最后把节点绘制到页面上。<br>4.由于浏览器使用流式布局，对Render Tree的计算通常只需要遍历一次就可以完成，但table及其内部元素除外，他们可能需要多次计算，通常要花3倍于同等元素的时间，这也是为什么要避免使用table布局的原因之一。<br>一句话：回流必将引起重绘，重绘不一定会引起回流。</p>
+<h3 id="回流-Reflow"><a href="#回流-Reflow" class="headerlink" title="回流 (Reflow)"></a>回流 (Reflow)</h3><p>当Render Tree中部分或全部元素的尺寸、结构、或某些属性发生改变时，浏览器重新渲染部分或全部文档的过程称为回流。<br>会导致回流的操作：<br>页面首次渲染<br>浏览器窗口大小发生改变<br>元素尺寸或位置发生改变<br>元素内容变化（文字数量或图片大小等等）<br>元素字体大小变化<br>添加或者删除可见的DOM元素<br>激活CSS伪类（例如：:hover）<br>查询某些属性或调用某些方法<br>一些常用且会导致回流的属性和方法：<br>clientWidth、clientHeight、clientTop、clientLeft<br>offsetWidth、offsetHeight、offsetTop、offsetLeft<br>scrollWidth、scrollHeight、scrollTop、scrollLeft<br>scrollIntoView()、scrollIntoViewIfNeeded()<br>getComputedStyle()<br>getBoundingClientRect()<br>scrollTo()</p>
+<h3 id="重绘-Repaint"><a href="#重绘-Repaint" class="headerlink" title="重绘 (Repaint)"></a>重绘 (Repaint)</h3><p>当页面中元素样式的改变并不影响它在文档流中的位置时（例如：color、background-color、visibility等），浏览器会将新样式赋予给元素并重新绘制它，这个过程称为重绘。</p>
+<h3 id="性能影响"><a href="#性能影响" class="headerlink" title="性能影响"></a>性能影响</h3><p>回流比重绘的代价要更高。<br>有时即使仅仅回流一个单一的元素，它的父元素以及任何跟随它的元素也会产生回流。<br>现代浏览器会对频繁的回流或重绘操作进行优化：<br>浏览器会维护一个队列，把所有引起回流和重绘的操作放入队列中，如果队列中的任务数量或者时间间隔达到一个阈值的，浏览器就会将队列清空，进行一次批处理，这样可以把多次回流和重绘变成一次。<br>当你访问以下属性或方法时，浏览器会立刻清空队列：<br>clientWidth、clientHeight、clientTop、clientLeft<br>offsetWidth、offsetHeight、offsetTop、offsetLeft<br>scrollWidth、scrollHeight、scrollTop、scrollLeft<br>width、height<br>getComputedStyle()<br>getBoundingClientRect()<br>因为队列中可能会有影响到这些属性或方法返回值的操作，即使你希望获取的信息与队列中操作引发的改变无关，浏览器也会强行清空队列，确保你拿到的值是最精确的。</p>
+<h2 id="如何避免重绘和回流"><a href="#如何避免重绘和回流" class="headerlink" title="如何避免重绘和回流"></a>如何避免重绘和回流</h2><h3 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h3><p>避免使用table布局。<br>尽可能在DOM树的最末端改变class。<br>避免设置多层内联样式。<br>将动画效果应用到position属性为absolute或fixed的元素上。<br>避免使用CSS表达式（例如：calc()）。</p>
+<h3 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h3><p>避免频繁操作样式，最好一次性重写style属性，或者将样式列表定义为class并一次性更改class属性。<br>避免频繁操作DOM，创建一个documentFragment，在它上面应用所有DOM操作，最后再把它添加到文档中。<br>也可以先为元素设置display: none，操作结束后再把它显示出来。因为在display属性为none的元素上进行的DOM操作不会引发回流和重绘。<br>避免频繁读取会引发回流/重绘的属性，如果确实需要多次使用，就用一个变量缓存起来。<br>对具有复杂动画的元素使用绝对定位，使它脱离文档流，否则会引起父元素及后续元素频繁回流。</p>
+<h1 id="1-6-居中-常见布局"><a href="#1-6-居中-常见布局" class="headerlink" title="1.6 居中/常见布局"></a>1.6 居中/常见布局</h1><hr>
+<p><a href="https://css-tricks.com/centering-css-complete-guide/" target="_blank" rel="noopener">以CSS为中心：完整指南</a></p>
+<h2 id="两列自适应布局"><a href="#两列自适应布局" class="headerlink" title="两列自适应布局"></a>两列自适应布局</h2><blockquote>
+<p>两列自适应布局是指一列由内容撑开，另一列撑满剩余宽度的布局方式</p>
+</blockquote>
+<h3 id="1-float-overflow-hidden"><a href="#1-float-overflow-hidden" class="headerlink" title="1.float+overflow:hidden"></a>1.float+overflow:hidden</h3><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>style<span class="token operator">></span>
+    <span class="token punctuation">.</span>contain <span class="token punctuation">{</span>
+        overflow<span class="token operator">:</span> hidden<span class="token punctuation">;</span>
+        zoom<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>left <span class="token punctuation">{</span>
+        <span class="token keyword">float</span><span class="token operator">:</span> left<span class="token punctuation">;</span>
+        background<span class="token operator">:</span> blue<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>right <span class="token punctuation">{</span>
+        overflow<span class="token operator">:</span> hidden<span class="token punctuation">;</span>
+        zoom<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        background<span class="token operator">:</span> yellow<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>style<span class="token operator">></span>
+<span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"contain"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"left"</span><span class="token operator">></span>左栏<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"right"</span><span class="token operator">></span>右栏<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-flex布局"><a href="#2-flex布局" class="headerlink" title="2.flex布局"></a>2.flex布局</h3><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>style<span class="token operator">></span>
     <span class="token punctuation">.</span>contain <span class="token punctuation">{</span>
         display<span class="token operator">:</span> flex<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
@@ -957,7 +902,7 @@ getBoundingClientRect()
     <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"left"</span><span class="token operator">></span>左栏<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
     <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"right"</span><span class="token operator">></span>右栏<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
 <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="3-grid布局"><a href="#3-grid布局" class="headerlink" title="3.grid布局"></a>3.grid布局</h3><pre class="line-numbers language-cpp"><code class="language-cpp">style<span class="token operator">></span>
+<h3 id="3-grid布局"><a href="#3-grid布局" class="headerlink" title="3.grid布局"></a>3.grid布局</h3><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>style<span class="token operator">></span>
     <span class="token punctuation">.</span>contain <span class="token punctuation">{</span>
         display<span class="token operator">:</span> grid<span class="token punctuation">;</span>
         grid<span class="token operator">-</span><span class="token keyword">template</span><span class="token operator">-</span>columns<span class="token operator">:</span> <span class="token keyword">auto</span> 1fr<span class="token punctuation">;</span>
@@ -969,190 +914,198 @@ getBoundingClientRect()
 <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="三栏布局——两边固定宽度中间自适应"><a href="#三栏布局——两边固定宽度中间自适应" class="headerlink" title="三栏布局——两边固定宽度中间自适应"></a>三栏布局——两边固定宽度中间自适应</h2><h3 id="1-float布局"><a href="#1-float布局" class="headerlink" title="1.float布局"></a>1.float布局</h3><blockquote>
 <p>float布局使用时注意清除浮动。</p>
-<pre class="line-numbers language-cpp"><code class="language-cpp"><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </blockquote>
-<style>
-    /*父元素清除浮动*/
-    .float:after {
-        content: "";
-        height: 0;
-        display: block;
-        clear: both;
-        visibility: hidden;
-    }
-    .float {
-        *zoom: 1;
-    }
-    .float .left {
-        float: left;
-        width: 300px;
-        height: 300px;
-        background: red;
-    }
-    .float .right {
-        float: right;
-        width: 300px;
-        height: 300px;
-        background: blue;
-    }
-    .float .center {
-        background: yellow;
-        height: 400px;
-        margin-left: 300px;
-        margin-right: 300px;
-    }
-</style>
-<section class="float">
-    <div class="left">左边</div>
-    <div class="right">右边</div>
-    <div class="center">中间</div>
-</section>
-```
-### 2.Position 布局
-> Position布局只是根据定位属性去直接设置元素位置。不推荐使用
-```cpp
-<style>
-    .position {
-        position: relative;
-    }
-    .position .left {
-        position: absolute;
-        left: 0;
-        width: 300px;
-        height: 300px;
-        background: red;
-    }
-    .position .center {
-        position: absolute;
-        left: 300px;
-        right: 300px;
-        height: 400px;
-        background: yellow;
-    }
-    .position .right {
-        position: absolute;
-        right: 0;
-        width: 300px;
-        height: 300px;
-        background: blue;
-    }
-</style>
-<section class="position">
-    <div class="left">左边</div>
-    <div class="center">中间</div>
-    <div class="right">右边</div>
-</section>
-```
-### 4.table 布局
-> table布局使用起来方便,没有兼容性也不存在问题，但使用不方便
-```cpp
-<style>
-    .table {
-        width: 100%;
-        display: table;
-    }
-    .table .left {
-        display: table-cell;
-        width: 300px;
-        background: red;
-    }
-    .table .center {
-        display: table-cell;
-        background: yellow;
-    }
-    .table .right {
-        display: table-cell;
-        width: 300px;
-        background: blue;
-    }
-</style>
-<section class="table">
-    <div class="left">左边</div>
-    <div class="center">中间</div>
-    <div class="right">右边</div>
-</section>
-```
-### 5.grid布局
-> grid布局很强大，但是兼容性很差。
-```cpp
-<style>
-    .grid {
-        display: grid;
-        grid-template-rows: 100px;
-        grid-template-columns: 300px auto 300px;
-    }
-    .grid .left {
-        background: red;
-    }
-    .grid .center {
-        background: yellow;
-    }
-    .grid .right {
-        background: blue;
-    }
-</style>
-<section class="grid">
-    <div class="left">左边</div>
-    <div class="right">右边</div>
-    <div class="center">中间</div>
-</section>
-```
-## 圣杯布局
-三个部分都设定为左浮动，然后设置center的宽度为100%，此时，left和right部分会跳到下一行；
-通过设置margin-left为负值让left和right部分回到与center部分同一行；
-```cpp
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="UTF-8">
-  <title>Title</title>
-  <style>
-    .main {
-      padding-left: 300px;
-      padding-right: 300px;
-    }
-    .center {
-      float: left;
-      width: 100%;
-      height: 400px;
-      background: #4ba946;
-    }
-    .left {
-      float: left;
-      width: 300px;
-      height: 300px;
-      background: #0376c2;
-      margin-left: -100%;
-      position: relative;
-      left: -300px;
-    }
-    .right {
-      float: left;
-      width: 300px;
-      height: 300px;
-      background: #9889c1;
-      margin-left: -300px;
-      position: relative;
-      right: -300px;
-    }
-  </style>
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
-<body>
-<section class="main">
-  <div class="center">中间</div>
-  <div class="left">左边</div>
-  <div class="right">右边</div>
-</section>
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"react":{"opacity":0.7}});</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"react":{"opacity":0.7}});</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"react":{"opacity":0.7}});</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":false},"react":{"opacity":0.7}});</script></body>
-```
-缺点:
-center部分的最小宽度不能小于left部分的宽度，否则会left部分掉到下一行
-如果其中一列内容高度拉长(如下图)，其他两列的背景并不会自动填充。(借助伪等高布局可解决)
-## 双飞翼布局
-实现步骤(前两步与圣杯布局一样)
-三个部分都设定为左浮动，然后设置center的宽度为100%，此时，left和right部分会跳到下一行；
-通过设置margin-left为负值让left和right部分回到与center部分同一行；
-center部分增加一个内层div，并设margin: 0 200px；
-
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>style<span class="token operator">></span>
+    <span class="token comment" spellcheck="true">/*父元素清除浮动*/</span>
+    <span class="token punctuation">.</span><span class="token keyword">float</span><span class="token operator">:</span>after <span class="token punctuation">{</span>
+        content<span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">;</span>
+        height<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        display<span class="token operator">:</span> block<span class="token punctuation">;</span>
+        clear<span class="token operator">:</span> both<span class="token punctuation">;</span>
+        visibility<span class="token operator">:</span> hidden<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span><span class="token keyword">float</span> <span class="token punctuation">{</span>
+        <span class="token operator">*</span>zoom<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span><span class="token keyword">float</span> <span class="token punctuation">.</span>left <span class="token punctuation">{</span>
+        <span class="token keyword">float</span><span class="token operator">:</span> left<span class="token punctuation">;</span>
+        width<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        height<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        background<span class="token operator">:</span> red<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span><span class="token keyword">float</span> <span class="token punctuation">.</span>right <span class="token punctuation">{</span>
+        <span class="token keyword">float</span><span class="token operator">:</span> right<span class="token punctuation">;</span>
+        width<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        height<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        background<span class="token operator">:</span> blue<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span><span class="token keyword">float</span> <span class="token punctuation">.</span>center <span class="token punctuation">{</span>
+        background<span class="token operator">:</span> yellow<span class="token punctuation">;</span>
+        height<span class="token operator">:</span> 400px<span class="token punctuation">;</span>
+        margin<span class="token operator">-</span>left<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        margin<span class="token operator">-</span>right<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>style<span class="token operator">></span>
+<span class="token operator">&lt;</span>section <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"float"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"left"</span><span class="token operator">></span>左边<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"right"</span><span class="token operator">></span>右边<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"center"</span><span class="token operator">></span>中间<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>section<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-Position-布局"><a href="#2-Position-布局" class="headerlink" title="2.Position 布局"></a>2.Position 布局</h3><blockquote>
+<p>Position布局只是根据定位属性去直接设置元素位置。不推荐使用</p>
+</blockquote>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>style<span class="token operator">></span>
+    <span class="token punctuation">.</span>position <span class="token punctuation">{</span>
+        position<span class="token operator">:</span> relative<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>position <span class="token punctuation">.</span>left <span class="token punctuation">{</span>
+        position<span class="token operator">:</span> absolute<span class="token punctuation">;</span>
+        left<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        width<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        height<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        background<span class="token operator">:</span> red<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>position <span class="token punctuation">.</span>center <span class="token punctuation">{</span>
+        position<span class="token operator">:</span> absolute<span class="token punctuation">;</span>
+        left<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        right<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        height<span class="token operator">:</span> 400px<span class="token punctuation">;</span>
+        background<span class="token operator">:</span> yellow<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>position <span class="token punctuation">.</span>right <span class="token punctuation">{</span>
+        position<span class="token operator">:</span> absolute<span class="token punctuation">;</span>
+        right<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        width<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        height<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        background<span class="token operator">:</span> blue<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>style<span class="token operator">></span>
+<span class="token operator">&lt;</span>section <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"position"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"left"</span><span class="token operator">></span>左边<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"center"</span><span class="token operator">></span>中间<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"right"</span><span class="token operator">></span>右边<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>section<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="3-Flex-布局"><a href="#3-Flex-布局" class="headerlink" title="3.Flex 布局"></a>3.Flex 布局</h3><blockquote>
+<p>flex布局比较强大,只能支持到IE10及以上。</p>
+</blockquote>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>style<span class="token operator">></span>
+    <span class="token punctuation">.</span>flex <span class="token punctuation">{</span>
+        display<span class="token operator">:</span> flex<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>flex <span class="token punctuation">.</span>left <span class="token punctuation">{</span>
+        width<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        background<span class="token operator">:</span> red<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>flex <span class="token punctuation">.</span>center <span class="token punctuation">{</span>
+        flex<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        background<span class="token operator">:</span> yellow<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>flex <span class="token punctuation">.</span>right <span class="token punctuation">{</span>
+        width<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        background<span class="token operator">:</span> blue<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>style<span class="token operator">></span>
+<span class="token operator">&lt;</span>section <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"flex"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"left"</span><span class="token operator">></span>左边<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"center"</span><span class="token operator">></span>中间<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"right"</span><span class="token operator">></span>右边<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>section<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="4-table-布局"><a href="#4-table-布局" class="headerlink" title="4.table 布局"></a>4.table 布局</h3><blockquote>
+<p>table布局使用起来方便,没有兼容性也不存在问题，但使用不方便</p>
+</blockquote>
+<pre class="line-numbers language-cpp"><code class="language-cpp"> <span class="token operator">&lt;</span>style<span class="token operator">></span>
+    <span class="token punctuation">.</span>table <span class="token punctuation">{</span>
+        width<span class="token operator">:</span> <span class="token number">100</span><span class="token operator">%</span><span class="token punctuation">;</span>
+        display<span class="token operator">:</span> table<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>table <span class="token punctuation">.</span>left <span class="token punctuation">{</span>
+        display<span class="token operator">:</span> table<span class="token operator">-</span>cell<span class="token punctuation">;</span>
+        width<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        background<span class="token operator">:</span> red<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>table <span class="token punctuation">.</span>center <span class="token punctuation">{</span>
+        display<span class="token operator">:</span> table<span class="token operator">-</span>cell<span class="token punctuation">;</span>
+        background<span class="token operator">:</span> yellow<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>table <span class="token punctuation">.</span>right <span class="token punctuation">{</span>
+        display<span class="token operator">:</span> table<span class="token operator">-</span>cell<span class="token punctuation">;</span>
+        width<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+        background<span class="token operator">:</span> blue<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>style<span class="token operator">></span>
+<span class="token operator">&lt;</span>section <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"table"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"left"</span><span class="token operator">></span>左边<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"center"</span><span class="token operator">></span>中间<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"right"</span><span class="token operator">></span>右边<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>section<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="5-grid布局"><a href="#5-grid布局" class="headerlink" title="5.grid布局"></a>5.grid布局</h3><blockquote>
+<p>grid布局很强大，但是兼容性很差。</p>
+</blockquote>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>style<span class="token operator">></span>
+    <span class="token punctuation">.</span>grid <span class="token punctuation">{</span>
+        display<span class="token operator">:</span> grid<span class="token punctuation">;</span>
+        grid<span class="token operator">-</span><span class="token keyword">template</span><span class="token operator">-</span>rows<span class="token operator">:</span> 100px<span class="token punctuation">;</span>
+        grid<span class="token operator">-</span><span class="token keyword">template</span><span class="token operator">-</span>columns<span class="token operator">:</span> 300px <span class="token keyword">auto</span> 300px<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>grid <span class="token punctuation">.</span>left <span class="token punctuation">{</span>
+        background<span class="token operator">:</span> red<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>grid <span class="token punctuation">.</span>center <span class="token punctuation">{</span>
+        background<span class="token operator">:</span> yellow<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>grid <span class="token punctuation">.</span>right <span class="token punctuation">{</span>
+        background<span class="token operator">:</span> blue<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>style<span class="token operator">></span>
+<span class="token operator">&lt;</span>section <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"grid"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"left"</span><span class="token operator">></span>左边<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"right"</span><span class="token operator">></span>右边<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"center"</span><span class="token operator">></span>中间<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>section<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="圣杯布局"><a href="#圣杯布局" class="headerlink" title="圣杯布局"></a>圣杯布局</h2><p>三个部分都设定为左浮动，然后设置center的宽度为100%，此时，left和right部分会跳到下一行；<br>通过设置margin-left为负值让left和right部分回到与center部分同一行；</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>head<span class="token operator">></span>
+  <span class="token operator">&lt;</span>meta charset<span class="token operator">=</span><span class="token string">"UTF-8"</span><span class="token operator">></span>
+  <span class="token operator">&lt;</span>title<span class="token operator">></span>Title<span class="token operator">&lt;</span><span class="token operator">/</span>title<span class="token operator">></span>
+  <span class="token operator">&lt;</span>style<span class="token operator">></span>
+    <span class="token punctuation">.</span>main <span class="token punctuation">{</span>
+      padding<span class="token operator">-</span>left<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+      padding<span class="token operator">-</span>right<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>center <span class="token punctuation">{</span>
+      <span class="token keyword">float</span><span class="token operator">:</span> left<span class="token punctuation">;</span>
+      width<span class="token operator">:</span> <span class="token number">100</span><span class="token operator">%</span><span class="token punctuation">;</span>
+      height<span class="token operator">:</span> 400px<span class="token punctuation">;</span>
+      background<span class="token operator">:</span> #4ba946<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>left <span class="token punctuation">{</span>
+      <span class="token keyword">float</span><span class="token operator">:</span> left<span class="token punctuation">;</span>
+      width<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+      height<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+      background<span class="token operator">:</span> #0376c2<span class="token punctuation">;</span>
+      margin<span class="token operator">-</span>left<span class="token operator">:</span> <span class="token operator">-</span><span class="token number">100</span><span class="token operator">%</span><span class="token punctuation">;</span>
+      position<span class="token operator">:</span> relative<span class="token punctuation">;</span>
+      left<span class="token operator">:</span> <span class="token operator">-</span>300px<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>right <span class="token punctuation">{</span>
+      <span class="token keyword">float</span><span class="token operator">:</span> left<span class="token punctuation">;</span>
+      width<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+      height<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+      background<span class="token operator">:</span> #9889c1<span class="token punctuation">;</span>
+      margin<span class="token operator">-</span>left<span class="token operator">:</span> <span class="token operator">-</span>300px<span class="token punctuation">;</span>
+      position<span class="token operator">:</span> relative<span class="token punctuation">;</span>
+      right<span class="token operator">:</span> <span class="token operator">-</span>300px<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>style<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>head<span class="token operator">></span>
+<span class="token operator">&lt;</span>body<span class="token operator">></span>
+<span class="token operator">&lt;</span>section <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"main"</span><span class="token operator">></span>
+  <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"center"</span><span class="token operator">></span>中间<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+  <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"left"</span><span class="token operator">></span>左边<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+  <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"right"</span><span class="token operator">></span>右边<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>section<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>body<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>缺点:<br>center部分的最小宽度不能小于left部分的宽度，否则会left部分掉到下一行<br>如果其中一列内容高度拉长(如下图)，其他两列的背景并不会自动填充。(借助伪等高布局可解决)</p>
+<h2 id="双飞翼布局"><a href="#双飞翼布局" class="headerlink" title="双飞翼布局"></a>双飞翼布局</h2><p>实现步骤(前两步与圣杯布局一样)<br>三个部分都设定为左浮动，然后设置center的宽度为100%，此时，left和right部分会跳到下一行；<br>通过设置margin-left为负值让left和right部分回到与center部分同一行；<br>center部分增加一个内层div，并设margin: 0 200px；</p>
 <p>缺点<br>多加一层 dom 树节点，增加渲染树生成的计算量。</p>
 <h2 id="多列等高布局——圣杯布局"><a href="#多列等高布局——圣杯布局" class="headerlink" title="多列等高布局——圣杯布局"></a>多列等高布局——圣杯布局</h2><p>实现步骤：<br>1.三部分都设定为浮动，设置center的宽度为100%。<br>2.设置 left 和 right的margin-left为负值让left和right部分回到与center部分同一行。<br>3.设置相对定位，让left和right部分移动到两边。<br>4.伪等高布局</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>container <span class="token punctuation">{</span>
@@ -1204,40 +1157,564 @@ center部分增加一个内层div，并设margin: 0 200px；
     <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"left"</span><span class="token operator">></span>左边<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
     <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"right"</span><span class="token operator">></span>右边<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
 <span class="token operator">&lt;</span><span class="token operator">/</span>section<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="粘连布局"><a href="#粘连布局" class="headerlink" title="粘连布局"></a>粘连布局</h2><p>描述：<br>有一块内容<main>，当<main>的高度足够长的时候，紧跟在<main>后面的元素<footer>会跟在<main>元素的后面。当<main>元素比较短的时候(比如小于屏幕的高度),我们期望这个<footer>元素能够“粘连”在屏幕的底部。<br>实现步骤：<br>```cpp</footer></main></main></footer></main></main></main></p>
-<style>
-    html, body {
-        height: 100%;
-    }
-    .wrap {
-        min-height: 100%;/*设置min-height，变为视口高度*/
-        background: blue;
-        overflow: hidden;
-    }
-    .main {
-        padding-bottom: 50px;
-    }
-    .footer {
-        height: 50px;
-        margin-top: -50px;
-        background: red;
-    }
-</style>
-<div class="wrap">
-    <article class="main">
-        <p>1</p>
-        <p>2</p>
-        <p>3</p>
-    </article>
+<h2 id="粘连布局"><a href="#粘连布局" class="headerlink" title="粘连布局"></a>粘连布局</h2><p>描述：<br>有一块内容<code>&lt;main&gt;</code>，当<code>&lt;main&gt;</code>的高度足够长的时候，紧跟在<code>&lt;main&gt;</code>后面的元素<code>&lt;footer&gt;</code>会跟在<code>&lt;main&gt;</code>元素的后面。当<code>&lt;main&gt;</code>元素比较短的时候(比如小于屏幕的高度),我们期望这个<code>&lt;footer&gt;</code>元素能够“粘连”在屏幕的底部。<br>实现步骤：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>style<span class="token operator">></span>
+    html<span class="token punctuation">,</span> body <span class="token punctuation">{</span>
+        height<span class="token operator">:</span> <span class="token number">100</span><span class="token operator">%</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>wrap <span class="token punctuation">{</span>
+        min<span class="token operator">-</span>height<span class="token operator">:</span> <span class="token number">100</span><span class="token operator">%</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">/*设置min-height，变为视口高度*/</span>
+        background<span class="token operator">:</span> blue<span class="token punctuation">;</span>
+        overflow<span class="token operator">:</span> hidden<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>main <span class="token punctuation">{</span>
+        padding<span class="token operator">-</span>bottom<span class="token operator">:</span> 50px<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>footer <span class="token punctuation">{</span>
+        height<span class="token operator">:</span> 50px<span class="token punctuation">;</span>
+        margin<span class="token operator">-</span>top<span class="token operator">:</span> <span class="token operator">-</span>50px<span class="token punctuation">;</span>
+        background<span class="token operator">:</span> red<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>style<span class="token operator">></span>
+<span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"wrap"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>article <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"main"</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>p<span class="token operator">></span><span class="token number">1</span><span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">></span>
+        <span class="token operator">&lt;</span>p<span class="token operator">></span><span class="token number">2</span><span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">></span>
+        <span class="token operator">&lt;</span>p<span class="token operator">></span><span class="token number">3</span><span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>article<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span>footer <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"footer"</span><span class="token operator">></span>footer<span class="token operator">&lt;</span><span class="token operator">/</span>footer<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="1-7-层叠上下文-说一下z-index"><a href="#1-7-层叠上下文-说一下z-index" class="headerlink" title="1.7 层叠上下文 说一下z-index"></a>1.7 层叠上下文 说一下z-index</h1><hr>
+<p>零、世间的道理都是想通的<br>在这个世界上，凡事都有个先后顺序，凡物都有个论资排辈。比方说食堂排队打饭，对吧，讲求先到先得，总不可能一拥而上。再比如说话语权，老婆的话永远是对的，领导的话永远是对的。</p>
+<p>在CSS届，也是如此。只是，一般情况下，大家歌舞升平，看不出什么差异，即所谓的众生平等。但是，当发生冲突发生纠葛的时候，显然，是不可能做到完全等同的，先后顺序，身份差异就显现出来了。例如，杰克和罗斯，只能一人浮在木板上，此时，出现了冲突，结果大家都知道的。那对于CSS世界中的元素而言，所谓的“冲突”指什么呢，其中，很重要的一个层面就是“层叠显示冲突”。</p>
+<p>默认情况下，网页内容是没有偏移角的垂直视觉呈现，当内容发生层叠的时候，一定会有一个前后的层叠顺序产生，有点类似于真实世界中论资排辈的感觉。</p>
+<p>而要理解网页中元素是如何“论资排辈”的，就需要深入理解CSS中的层叠上下文和层叠顺序。</p>
+<p>我们大家可能都熟悉CSS中的z-index属性，需要跟大家讲的是，z-index实际上只是CSS层叠上下文和层叠顺序中的一叶小舟。</p>
+<h2 id="一、什么是层叠上下文"><a href="#一、什么是层叠上下文" class="headerlink" title="一、什么是层叠上下文"></a>一、什么是层叠上下文</h2><p>层叠上下文，英文称作”stacking context”. 是HTML中的一个三维的概念。如果一个元素含有层叠上下文，我们可以理解为这个元素在z轴上就“高人一等”。</p>
+<p>这里出现了一个名词-z轴，指的是什么呢？</p>
+<p>表示的是用户与屏幕的这条看不见的垂直线（参见下图示意-红线）：<br><img src="zindex.png" alt><br>层叠上下文是一个概念，跟「块状格式化上下文(BFC)」类似。然而，概念这个东西是比较虚比较抽象的，要想轻松理解，我们需要将其具象化。</p>
+<p>怎么个具象化法呢？</p>
+<p>你可以把「层叠上下文」理解为当官：网页中有很多很多的元素，我们可以看成是真实世界的芸芸众生。真实世界里，我们大多数人是普通老百姓们，还有一部分人是做官的官员。OK，这里的“官员”就可以理解为网页中的层叠上下文元素。</p>
+<p>换句话说，页面中的元素有了层叠上下文，就好比我们普通老百姓当了官，一旦当了官，相比普通老百姓而言，离皇帝更近了，对不对，就等同于网页中元素级别更高，离我们用户更近了。<br><img src="zindex.gif" alt></p>
+<h2 id="二、什么是层叠水平"><a href="#二、什么是层叠水平" class="headerlink" title="二、什么是层叠水平"></a>二、什么是层叠水平</h2><p>再来说说层叠水平。“层叠水平”英文称作”stacking level”，决定了同一个层叠上下文中元素在z轴上的显示顺序。level这个词很容易让我们联想到我们真正世界中的三六九等、论资排辈。真实世界中，每个人都是独立的个体，包括同卵双胞胎，有差异就有区分。例如，双胞胎虽然长得像Ctrl+C/Ctrl+V得到的，但实际上，出生时间还是有先后顺序的，先出生的那个就大，大哥或大姐。网页中的元素也是如此，页面中的每个元素都是独立的个体，他们一定是会有一个类似的排名排序的情况存在。而这个排名排序、论资排辈就是我们这里所说的“层叠水平”。层叠上下文元素的层叠水平可以理解为官员的职级，1品2品，县长省长之类；对于普通元素，这个嘛……你自己随意理解。</p>
+<p>于是，显而易见，所有的元素都有层叠水平，包括层叠上下文元素，层叠上下文元素的层叠水平可以理解为官员的职级，1品2品，县长省长之类。然后，对于普通元素的层叠水平，我们的探讨仅仅局限在当前层叠上下文元素中。为什么呢？因为否则没有意义。</p>
+<p>这么理解吧~ 上面提过元素具有层叠上下文好比当官，大家都知道的，这当官的家里都有丫鬟啊保镖啊管家啊什么的。所谓打狗看主人，A官员家里的管家和B官员家里的管家做PK实际上是没有意义的，因为他们牛不牛逼完全由他们的主子决定的。一人得道鸡犬升天，你说这和珅家里的管家和七侠镇娄知县县令家里的管家有可比性吗？李总理的秘书是不是分分钟灭了你村支部书记的秘书（如果有）。</p>
+<p>翻译成术语就是：普通元素的层叠水平优先由层叠上下文决定，因此，层叠水平的比较只有在当前层叠上下文元素中才有意义。<br><img src="zindex.gif" alt><br>需要注意的是，诸位千万不要把层叠水平和CSS的z-index属性混为一谈。没错，某些情况下z-index确实可以影响层叠水平，但是，只限于定位元素以及flex盒子的孩子元素；而层叠水平所有的元素都存在。</p>
+<h2 id="三、什么是层叠顺序"><a href="#三、什么是层叠顺序" class="headerlink" title="三、什么是层叠顺序"></a>三、什么是层叠顺序</h2><p>再来说说层叠顺序。“层叠顺序”英文称作”stacking order”. 表示元素发生层叠时候有着特定的垂直显示顺序，注意，这里跟上面两个不一样，上面的层叠上下文和层叠水平是概念，而这里的层叠顺序是规则。</p>
+<p>在CSS2.1的年代，在CSS3还没有出现的时候（注意这里的前提），层叠顺序规则遵循下面这张图：<br><img src="zindex1.png" alt><br>有人可能有见过类似图，那个图是很多很多年前老外绘制的，英文内容。而是更关键的是国内估计没有同行进行过验证与实践，实际上很多关键信息缺失。上面是我自己手动重绘的中文版同时补充很多其他地方绝对没有的重要知识信息。如果想要无水印高清大图，点击这里购买(0.5元)。</p>
+<p>缺失的关键信息包括：</p>
+<p>位于最低水平的border/background指的是层叠上下文元素的边框和背景色。每一个层叠顺序规则适用于一个完整的层叠上下文元素。<br>原图没有呈现inline-block的层叠顺序，实际上，inline-block和inline水平元素是同等level级别。<br>z-index:0实际上和z-index:auto单纯从层叠水平上看，是可以看成是一样的。注意这里的措辞——“单纯从层叠水平上看”，实际上，两者在层叠上下文领域有着根本性的差异。<br>下面我要向大家发问了，大家有没有想过，为什么内联元素的层叠顺序要比浮动元素和块状元素都高？<br><img src="zindex1.gif" alt><br>为什么呢？我明明感觉浮动元素和块状元素要更屌一点啊。</p>
+<p>嘿嘿嘿，我就不卖关子了，直接看下图的标注说明：<br><img src="zindex2.png" alt><br>诸如border/background一般为装饰属性，而浮动和块状元素一般用作布局，而内联元素都是内容。网页中最重要的是什么？当然是内容了哈，对不对！</p>
+<p>因此，一定要让内容的层叠顺序相当高，当发生层叠是很好，重要的文字啊图片内容可以优先暴露在屏幕上。例如，文字和浮动图片重叠的时候：<br><img src="zindex.jpg" alt><br>上面说的这些层叠顺序规则还是老时代的，如果把CSS3也牵扯进来，科科，事情就不一样了。</p>
+<h2 id="四、务必牢记的层叠准则"><a href="#四、务必牢记的层叠准则" class="headerlink" title="四、务必牢记的层叠准则"></a>四、务必牢记的层叠准则</h2><p>下面这两个是层叠领域的黄金准则。当元素发生层叠的时候，其覆盖关系遵循下面2个准则：</p>
+<p><strong>谁大谁上</strong>：当具有明显的层叠水平标示的时候，如识别的z-indx值，在同一个层叠上下文领域，层叠水平值大的那一个覆盖小的那一个。通俗讲就是官大的压死官小的。<br><strong>后来居上</strong>：当元素的层叠水平一致、层叠顺序相同的时候，在DOM流中处于后面的元素会覆盖前面的元素。<br>在CSS和HTML领域，只要元素发生了重叠，都离不开上面这两个黄金准则。因为后面会有多个实例说明，这里就到此为止。</p>
+<h2 id="五、层叠上下文的特性"><a href="#五、层叠上下文的特性" class="headerlink" title="五、层叠上下文的特性"></a>五、层叠上下文的特性</h2><p>层叠上下文元素有如下特性：</p>
+<p>层叠上下文的层叠水平要比普通元素高（原因后面会说明）；<br>层叠上下文可以阻断元素的混合模式（见此文第二部分说明）；<br>层叠上下文可以嵌套，内部层叠上下文及其所有子元素均受制于外部的层叠上下文。<br>每个层叠上下文和兄弟元素独立，也就是当进行层叠变化或渲染的时候，只需要考虑后代元素。<br>每个层叠上下文是自成体系的，当元素发生层叠的时候，整个元素被认为是在父层叠上下文的层叠顺序中。<br>翻译成真实世界语言就是：</p>
+<p>当官的比老百姓更有机会面见圣上；<br>领导下去考察，会被当地官员阻隔只看到繁荣看不到真实民情；<br>一个家里，爸爸可以当官，孩子也是可以同时当官的。但是，孩子这个官要受爸爸控制。<br>自己当官，兄弟不占光。有什么福利或者变故只会影响自己的孩子们。<br>每个当官的都有属于自己的小团体，当家眷管家发生摩擦磕碰的时候（包括和其他官员的家眷管家），都是要优先看当官的也就是主子的脸色。</p>
+<h2 id="六、层叠上下文的创建"><a href="#六、层叠上下文的创建" class="headerlink" title="六、层叠上下文的创建"></a>六、层叠上下文的创建</h2><p>卖了这么多文字，到底层叠上下文是个什么鬼，倒是拿出来瞅瞅啊！</p>
+<p>哈哈。如同块状格式化上下文，层叠上下文也基本上是有一些特定的CSS属性创建的。我将其总结为3个流派，也就是做官的3种途径：</p>
+<blockquote>
+<p>皇亲国戚派：页面根元素天生具有层叠上下文，称之为“根层叠上下文”。<br>科考入选派：z-index值为数值的定位元素的传统层叠上下文。<br>其他当官途径：其他CSS3属性。</p>
+</blockquote>
+<h3 id="①-根层叠上下文"><a href="#①-根层叠上下文" class="headerlink" title="①. 根层叠上下文"></a>①. 根层叠上下文</h3><p>指的是页面根元素，也就是滚动条的默认的始作俑者<html>元素。这就是为什么，绝对定位元素在left/top等值定位的时候，如果没有其他定位元素限制，会相对浏览器窗口定位的原因。</html></p>
+<h3 id="②-定位元素与传统层叠上下文"><a href="#②-定位元素与传统层叠上下文" class="headerlink" title="②. 定位元素与传统层叠上下文"></a>②. 定位元素与传统层叠上下文</h3><p>对于包含有position:relative/position:absolute的定位元素，以及FireFox/IE浏览器（不包括Chrome等webkit内核浏览器）（目前，也就是2016年初是这样）下含有position:fixed声明的定位元素，当其z-index值不是auto的时候，会创建层叠上下文。</p>
+<p>知道了这一点，有些现象就好理解了。</p>
+<p>如下HTML代码：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>div style<span class="token operator">=</span><span class="token string">"position:relative; z-index:auto;"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token string">"mm1.jpg"</span> style<span class="token operator">=</span><span class="token string">"position:absolute; z-index:2;"</span><span class="token operator">></span>    <span class="token operator">&lt;</span><span class="token operator">--</span> 横妹子 <span class="token operator">--</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span>div style<span class="token operator">=</span><span class="token string">"position:relative; z-index:auto;"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token string">"mm2.jpg"</span> style<span class="token operator">=</span><span class="token string">"position:relative; z-index:1;"</span><span class="token operator">></span>    <span class="token operator">&lt;</span><span class="token operator">--</span> 竖妹子 <span class="token operator">--</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="zindex1.jpg" alt><br>大家会发现，竖着的妹子(mm2)被横着的妹子(mm1)给覆盖了。</p>
+<p>下面，我们对父级简单调整下，把z-index:auto改成层叠水平一致的z-index:0, 代码如下：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>div style<span class="token operator">=</span><span class="token string">"position:relative; z-index:0;"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token string">"mm1.jpg"</span> style<span class="token operator">=</span><span class="token string">"position:absolute; z-index:2;"</span><span class="token operator">></span>    <span class="token operator">&lt;</span><span class="token operator">--</span> 横妹子 <span class="token operator">--</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span>div style<span class="token operator">=</span><span class="token string">"position:relative; z-index:0;"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token string">"mm2.jpg"</span> style<span class="token operator">=</span><span class="token string">"position:relative; z-index:1;"</span><span class="token operator">></span>    <span class="token operator">&lt;</span><span class="token operator">--</span> 竖妹子 <span class="token operator">--</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="zindex2.jpg" alt><br>为什么小小的改变会有想法的结果呢？<br><img src="zindex2.gif" alt><br>差别就在于，z-index:0所在的<code>&lt;div&gt;</code>元素是层叠上下文元素，而z-index:auto所在的<code>&lt;div&gt;</code>元素是一个普通的元素，于是，里面的两个<code>&lt;img&gt;</code>妹子的层叠比较就不受父级的影响，两者直接套用层叠黄金准则，这里，两者有着明显不一的z-index值，因此，遵循“谁大谁上”的准则，于是，z-index为2的那个横妹子，就趴在了z-index为1的竖妹子身上。</p>
+<p>而z-index一旦变成数值，哪怕是0，都会创建一个层叠上下文。此时，层叠规则就发生了变化。层叠上下文的特性里面最后一条——自成体系。两个<code>&lt;img&gt;</code>妹子的层叠顺序比较变成了优先比较其父级层叠上下文元素的层叠顺序。这里，由于两者都是z-index:0，层叠顺序这一块两者一样大，此时，遵循层叠黄金准则的另外一个准则“后来居上”，根据在DOM流中的位置决定谁在上面，于是，位于后面的竖着的妹子就自然而然趴在了横着的妹子身上。对，没错，<code>&lt;img&gt;</code>元素上的z-index打酱油了！</p>
+<p>有时候，我们在网页重构的时候，会发现，z-index嵌套错乱，看看是不是受父级的层叠上下文元素干扰了。然后，可能没多大意义了，但我还是提一下，算是祭奠下，IE6/IE7浏览器有个bug，就是z-index:auto的定位元素也会创建层叠上下文。这就是为什么在过去，IE6/IE7的z-index会搞死人的原因。</p>
+<p>然后，我再提一下position:fixed, 在过去，position:fixed和relative/absolute在层叠上下文这一块是一路货色，都是需要z-index为数值才行。但是，不知道什么时候起，Chrome等webkit内核浏览器，position:fixed元素天然层叠上下文元素，无需z-index为数值。根据我的测试，目前，IE以及FireFox仍是老套路。</p>
+<h3 id="③-CSS3与新时代的层叠上下文"><a href="#③-CSS3与新时代的层叠上下文" class="headerlink" title="③. CSS3与新时代的层叠上下文"></a>③. CSS3与新时代的层叠上下文</h3><p>CSS3的出现除了带来了新属性，同时还对过去的很多规则发出了挑战。例如，CSS3 transform对overflow隐藏对position:fixed定位的影响等。而这里，层叠上下文这一块的影响要更加广泛与显著。</p>
+<p>如下：<br>z-index值不为auto的flex项(父元素display:flex|inline-flex).<br>元素的opacity值不是1.<br>元素的transform值不是none.<br>元素mix-blend-mode值不是normal.<br>元素的filter值不是none.<br>元素的isolation值是isolate.<br>will-change指定的属性值为上面任意一个。<br>元素的-webkit-overflow-scrolling设为touch.<br>基本上每一项都有很多槽点。</p>
+<ol>
+<li>display:flex|inline-flex与层叠上下文<br>注意，这里的规则有些负责复杂。要满足两个条件才能形成层叠上下文：条件1是父级需要是display:flex或者display:inline-flex水平，条件2是子元素的z-index不是auto，必须是数值。此时，这个子元素为层叠上下文元素，没错，注意了，是子元素，不是flex父级元素。</li>
+</ol>
+<p>眼见为实，给大家上例子吧。</p>
+<p>如下HTML和CSS代码：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"box"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>div<span class="token operator">></span>
+        <span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token string">"mm1.jpg"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token punctuation">.</span>box <span class="token punctuation">{</span>  <span class="token punctuation">}</span>
+<span class="token punctuation">.</span>box <span class="token operator">></span> div <span class="token punctuation">{</span> background<span class="token operator">-</span>color<span class="token operator">:</span> blue<span class="token punctuation">;</span> z<span class="token operator">-</span>index<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>    <span class="token comment" spellcheck="true">/* 此时该div是普通元素，z-index无效 */</span>
+<span class="token punctuation">.</span>box <span class="token operator">></span> div <span class="token operator">></span> img <span class="token punctuation">{</span> 
+  position<span class="token operator">:</span> relative<span class="token punctuation">;</span> z<span class="token operator">-</span>index<span class="token operator">:</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> right<span class="token operator">:</span> <span class="token operator">-</span>150px<span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">/* 注意这里是负值z-index */</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>结果：<br><img src="zindex1.jpg" alt><br>会发现，妹子在蓝色背景上面显示了，为什么呢？层叠顺序图可以找到答案，如下：<br><img src="zindex3.png" alt><br>从上图可以看出负值z-index的层叠顺序在当前第一个父层叠上下文元素的上面，而此时，那个z-index值为1的蓝色背景<div>的父元素的display值是flex，一下子升官发财变成层叠上下文元素了，于是，图片在蓝色背景上面显示了。这个现象也证实了层叠上下文元素是flex子元素，而不是flex容器元素。</div></p>
+<p>另外，另外，这个例子也颠覆了我们传统的对z-index的理解。在CSS2.1时代，z-index属性必须和定位元素一起使用才有作用，但是，在CSS3的世界里，非定位元素也能和z-index愉快地搞基。</p>
+<ol start="2">
+<li>opacity与层叠上下文<br>我们直接看代码，原理和上面例子一样，就不解释了。</li>
+</ol>
+<p>如下HTML和CSS代码：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"box"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token string">"mm1.jpg"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token punctuation">.</span>box <span class="token punctuation">{</span> background<span class="token operator">-</span>color<span class="token operator">:</span> blue<span class="token punctuation">;</span>  <span class="token punctuation">}</span>
+<span class="token punctuation">.</span>box <span class="token operator">></span> img <span class="token punctuation">{</span> 
+  position<span class="token operator">:</span> relative<span class="token punctuation">;</span> z<span class="token operator">-</span>index<span class="token operator">:</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> right<span class="token operator">:</span> <span class="token operator">-</span>150px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>结果如下：</p>
+<div style="background-color:#0074D9; width:256px;">
+  <img loading="lazy" src="zindex1.jpg" style="position: relative; z-index: -1; right: -150px;">
 </div>
-<footer class="footer">footer</footer>
-``
-# 1.7 层叠上下文 说一下z-index 
----------------------------------------------------------------------------
-(深入理解CSS中的层叠上下文和层叠顺序)[https://juejin.im/post/6844904116339261447#heading-12]
-# 1.8 Sass/Less
----------------------------------------------------------------------------
-(Sass.vs.Less | 简介与比较)[https://juejin.im/post/6844904169313140749]
+
+<p>然后价格透明度，例如50%透明：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>box <span class="token punctuation">{</span> background<span class="token operator">-</span>color<span class="token operator">:</span> blue<span class="token punctuation">;</span> opacity<span class="token operator">:</span> <span class="token number">0.5</span><span class="token punctuation">;</span>  <span class="token punctuation">}</span>
+<span class="token punctuation">.</span>box <span class="token operator">></span> img <span class="token punctuation">{</span> 
+  position<span class="token operator">:</span> relative<span class="token punctuation">;</span> z<span class="token operator">-</span>index<span class="token operator">:</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> right<span class="token operator">:</span> <span class="token operator">-</span>150px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<div style="background-color:#0074D9; width:256px; opacity: 0.5;">
+  <img loading="lazy" src="zindex1.jpg" style="position: relative; z-index: -1; right: -150px;">
+</div>
+
+<p>原因就是半透明元素具有层叠上下文，妹子图片的z-index:-1无法穿透，于是，在蓝色背景上面乖乖显示了。</p>
+<ol start="3">
+<li>transform与层叠上下文<br>应用了transform变换的元素同样具有菜单上下文。</li>
+</ol>
+<p>我们直接看应用后的结果，如下CSS代码：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>box <span class="token punctuation">{</span> background<span class="token operator">-</span>color<span class="token operator">:</span> blue<span class="token punctuation">;</span> transform<span class="token operator">:</span> <span class="token function">rotate</span><span class="token punctuation">(</span>15deg<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token punctuation">}</span>
+<span class="token punctuation">.</span>box <span class="token operator">></span> img <span class="token punctuation">{</span> 
+  position<span class="token operator">:</span> relative<span class="token punctuation">;</span> z<span class="token operator">-</span>index<span class="token operator">:</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> right<span class="token operator">:</span> <span class="token operator">-</span>150px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>结果如下：</p>
+<div style="background-color:#0074D9; width:256px; -ms-transform: rotate(15deg); transform: rotate(15deg);">
+  <img loading="lazy" src="zindex1.jpg" style="position: relative; z-index: -1; right: -150px;">
+</div>
+
+<p>妹子同样在蓝色背景之上</p>
+<ol start="4">
+<li>mix-blend-mode与层叠上下文<br>mix-blend-mode类似于PS中的混合模式，之前专门有文章介绍-“CSS3混合模式mix-blend-mode简介”。</li>
+</ol>
+<p>元素和白色背景混合。无论哪种模式，要么全白，要么没有任何变化。为了让大家有直观感受，因此，下面例子我特意加了个原创平铺背景：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>box <span class="token punctuation">{</span> background<span class="token operator">-</span>color<span class="token operator">:</span> blue<span class="token punctuation">;</span> mix<span class="token operator">-</span>blend<span class="token operator">-</span>mode<span class="token operator">:</span> darken<span class="token punctuation">;</span>  <span class="token punctuation">}</span>
+<span class="token punctuation">.</span>box <span class="token operator">></span> img <span class="token punctuation">{</span> 
+  position<span class="token operator">:</span> relative<span class="token punctuation">;</span> z<span class="token operator">-</span>index<span class="token operator">:</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> right<span class="token operator">:</span> <span class="token operator">-</span>150px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>结果如下：</p>
+<div style="background:url(zindex.gif) repeat-x left center;">
+<div style="background-color:#0074D9; width:256px; mix-blend-mode: darken;">
+  <img loading="lazy" src="zindex1.jpg" style="position: relative; z-index: -1; right: -150px;">
+</div>
+</div>
+
+<p>需要注意的是，目前，IE浏览器(包括IE14)还不支持mix-blend-mode，因此，要想看到妹子在背景色之上，请使用Chrome或FireFox。</p>
+<p>同样的，因为蓝色背景元素升级成了层叠上下文，因此，z-index:-1无法穿透，在蓝色背景上显示了。</p>
+<ol start="5">
+<li>filter与层叠上下文<br>此处说的filter是CSS3中规范的滤镜，不是旧IE时代私有的那些，虽然目的类似。同样的，我之前有提过，例如图片的灰度或者图片的毛玻璃效果等。</li>
+</ol>
+<p>我们使用常见的模糊效果示意下：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>box <span class="token punctuation">{</span> background<span class="token operator">-</span>color<span class="token operator">:</span> blue<span class="token punctuation">;</span> filter<span class="token operator">:</span> <span class="token function">blur</span><span class="token punctuation">(</span>5px<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token punctuation">}</span>
+<span class="token punctuation">.</span>box <span class="token operator">></span> img <span class="token punctuation">{</span> 
+  position<span class="token operator">:</span> relative<span class="token punctuation">;</span> z<span class="token operator">-</span>index<span class="token operator">:</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> right<span class="token operator">:</span> <span class="token operator">-</span>150px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>结果如下：</p>
+<div style="background-color:#0074D9; width:256px; -webkit-filter: blur(5px); filter: blur(5px);">
+  <img loading="lazy" src="zindex1.jpg" style="position: relative; z-index: -1; right: -150px;">
+</div>
+
+<p>好吧，果然被你猜对了，妹子蓝色床上躺着，只是你眼镜摘了，看得有些不够真切罢了。</p>
+<ol start="6">
+<li>isolation:isolate与层叠上下文<br>isolation:isolate这个声明是mix-blend-mode应运而生的。默认情况下，mix-blend-mode会混合z轴所有层叠在下面的元素，要是我们不希望某个层叠的元素参与混合怎么办呢？就是使用isolation:isolate。由于一言难尽，我特意为此写了篇文章：“理解CSS3 isolation: isolate的表现和作用”，解释了其阻隔混合模式的原理，建议大家看下。</li>
+</ol>
+<p>要演示这个效果，我需要重新设计下，如下HTML结构：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token string">"img/mm2.jpg"</span> <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"mode"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"box"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token string">"mm1.jpg"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token punctuation">.</span>mode <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">/* 竖妹子绝对定位，同时混合模式 */</span>
+  position<span class="token operator">:</span> absolute<span class="token punctuation">;</span> mix<span class="token operator">-</span>blend<span class="token operator">-</span>mode<span class="token operator">:</span> darken<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>    
+<span class="token punctuation">.</span>box <span class="token punctuation">{</span>
+  background<span class="token operator">:</span> blue<span class="token punctuation">;</span>         
+<span class="token punctuation">}</span>
+<span class="token punctuation">.</span>box <span class="token operator">></span> img <span class="token punctuation">{</span> 
+  position<span class="token operator">:</span> relative<span class="token punctuation">;</span> z<span class="token operator">-</span>index<span class="token operator">:</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>结构如下：<br><img src="zindex2.jpg" style="position: absolute;mix-blend-mode: darken; "></p>
+<div style="background-color:#0074D9; width:256px;height:250px;">
+  <img src="zindex1.jpg" style="position: relative; z-index: -1;">
+</div>
+
+
+<p>会发现，横妹子被混合模式了。此时，我们给妹子所在容器增加isolation:isolate，如下CSS所示：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>mode <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">/* 竖妹子绝对定位，同时混合模式 */</span>
+  position<span class="token operator">:</span> absolute<span class="token punctuation">;</span> mix<span class="token operator">-</span>blend<span class="token operator">-</span>mode<span class="token operator">:</span> darken<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>    
+<span class="token punctuation">.</span>box <span class="token punctuation">{</span>
+  background<span class="token operator">:</span> blue<span class="token punctuation">;</span> isolation<span class="token operator">:</span>isolate<span class="token punctuation">;</span>         
+<span class="token punctuation">}</span>
+<span class="token punctuation">.</span>box <span class="token operator">></span> img <span class="token punctuation">{</span> 
+  position<span class="token operator">:</span> relative<span class="token punctuation">;</span> z<span class="token operator">-</span>index<span class="token operator">:</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>结果为：<br><img src="zindex2.jpg" style="position: absolute;mix-blend-mode: darken;"></p>
+<div style="background-color:#0074D9; width:256px;height:250px;isolation:isolate;">
+  <img src="zindex1.jpg" style="position: relative; z-index: -1;">
+</div>
+
+<ol start="7">
+<li>will-change与层叠上下文<br>关于will-change，如果有同学还不了解，可以参见我之前写的文章：“使用CSS3 will-change提高页面滚动、动画等渲染性能”。</li>
+</ol>
+<p>都是类似的演示代码：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>box <span class="token punctuation">{</span> background<span class="token operator">-</span>color<span class="token operator">:</span> blue<span class="token punctuation">;</span> will<span class="token operator">-</span>change<span class="token operator">:</span> transform<span class="token punctuation">;</span>  <span class="token punctuation">}</span>
+<span class="token punctuation">.</span>box <span class="token operator">></span> img <span class="token punctuation">{</span> 
+  position<span class="token operator">:</span> relative<span class="token punctuation">;</span> z<span class="token operator">-</span>index<span class="token operator">:</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> right<span class="token operator">:</span> <span class="token operator">-</span>150px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>结果如下：</p>
+<div style="background-color:#0074D9; width:256px; will-change: transform;">
+  <img loading="lazy" src="zindex1.jpg" style="position: relative; z-index: -1; right: -150px;">
+</div>
+
+<p>果然不出所料，妹子上了蓝色的背景。</p>
+<h2 id="七、层叠上下文与层叠顺序"><a href="#七、层叠上下文与层叠顺序" class="headerlink" title="七、层叠上下文与层叠顺序"></a>七、层叠上下文与层叠顺序</h2><p>本文多次提到，一旦普通元素具有了层叠上下文，其层叠顺序就会变高。那它的层叠顺序究竟在哪个位置呢？</p>
+<p>这里需要分两种情况讨论：</p>
+<p>如果层叠上下文元素不依赖z-index数值，则其层叠顺序是z-index:auto可看成z:index:0级别；<br>如果层叠上下文元素依赖z-index数值，则其层叠顺序由z-index值决定。<br>于是乎，我们上面提供的层叠顺序表，实际上还是缺少其他重要信息。我又花功夫重新绘制了一个更完整的7阶层叠顺序图（同样的版权所有，商业请购买，可得无水印大图）：<br><img src="zindex4.png" alt><br>大家知道为什么定位元素会层叠在普通元素的上面吗？</p>
+<p>其根本原因就在于，元素一旦成为定位元素，其z-index就会自动生效，此时其z-index就是默认的auto，也就是0级别，根据上面的层叠顺序表，就会覆盖inline或block或float元素。</p>
+<p>而不支持z-index的层叠上下文元素天然z-index:auto级别，也就意味着，层叠上下文元素和定位元素是一个层叠顺序的，于是当他们发生层叠的时候，遵循的是“后来居上”准则。</p>
+<p>我们可以速度测试下：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token string">"mm1"</span> style<span class="token operator">=</span><span class="token string">"position:relative"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token string">"mm2"</span> style<span class="token operator">=</span><span class="token string">"transform:scale(1);"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token string">"mm2"</span> style<span class="token operator">=</span><span class="token string">"transform:scale(1);"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token string">"mm1"</span> style<span class="token operator">=</span><span class="token string">"position:relative"</span><span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="zindex7.png" alt><br>会发现，两者样式一模一样，仅仅是在DOM流中的位置不一样，导致他们的层叠表现不一样，后面的妹子趴在了前面妹子的身上。这也说明了，层叠上下文元素的层叠顺序就是z-index:auto级别。</p>
+<p>z-index值与层叠顺序<br>如果元素支持z-index值，则层叠顺序就要好理解些了，比较数值大小嘛，小盆友都会，本质上是应用的“谁大谁上”的准则。在以前，我们只需要关心定位元素的z-index就好，但是，在CSS3时代，flex子项也支持z-index，使得我们面对的情况比以前要负复杂。然而，好的是，规则都是一样的，对于z-index的使用和表现也是如此，套用上面的7阶层叠顺序表就可以了。</p>
+<p>同样，举个简单例子，看下z-index:-1和z-index:1变化对层叠表现的影响，如下两段HTML：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>div style<span class="token operator">=</span><span class="token string">"display:flex; background:blue;"</span><span class="token operator">></span>
+   <span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token string">"mm1.jpg"</span> style<span class="token operator">=</span><span class="token string">"z-index:-1;"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span>div style<span class="token operator">=</span><span class="token string">"display:flex; background:blue;"</span><span class="token operator">></span>
+   <span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token string">"mm1.jpg"</span> style<span class="token operator">=</span><span class="token string">"z-index:1;"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="zindex8.png" alt><br>一个与层叠上下文相关的有趣的显示现象<br>在实际项目中，我们可能会渐进使用CSS3的fadeIn淡入animation效果增强体验，于是，我们可能就会遇到类似下面的现象：</p>
+<p>您可以狠狠地点击这里：CSS3 fadeIn淡入animation动画有趣现象</p>
+<p>有一个绝对定位的黑色半透明层覆盖在图片上，默认显示是这样的：<br><img src="zindex5.png" alt><br>但是，一旦图片开始走fadeIn淡出的CSS3动画，文字跑到图片后面去了：<br><img src="zindex6.png" alt><br>为什么会这样？</p>
+<p>实际上，学了本文的内容，就很简单了！fadeIn动画本质是opacity透明度的变化：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">@keyframes fadeIn <span class="token punctuation">{</span>
+  <span class="token number">0</span><span class="token operator">%</span> <span class="token punctuation">{</span> 
+    opacity<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token number">100</span><span class="token operator">%</span> <span class="token punctuation">{</span>
+    opacity<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>要知道，opacity的值不是1的时候，是具有层叠上下文的，层叠顺序是z-index:auto级别，跟没有z-index值的absolute绝对定位元素是平起平坐的。而本demo中的文字元素在图片元素的前面，于是，当CSS3动画只要不是最终一瞬间的opacity: 1，位于DOM流后面的图片就会遵循“后来居上”准则，覆盖文字。</p>
+<p>这就是原因，于是，我们想要解决这个问题就很简单。</p>
+<ol>
+<li>调整DOM流的先后顺序；</li>
+<li>提高文字的层叠顺序，例如，设置z-index:1;</li>
+</ol>
+<h2 id="八、结束语"><a href="#八、结束语" class="headerlink" title="八、结束语"></a>八、结束语</h2><p>只要元素发生层叠，要解释其表现，基本上就本文的这些内容了。</p>
+<p>我发现很多重构小伙伴都有z-index滥用，或者使用不规范的问题。我觉得最主要的原因还是对理解层叠上下文以及层叠顺序这些概念都不了解。例如，只要使用了定位元素，尤其absolute绝对定位，都离不开设置一个z-index值；或者只要元素被其他元素覆盖了，例如变成定位元素或者增加z-index值升级。页面一复杂，必然搞得乱七八糟。</p>
+<p>实际上，在我看来，觉得多数常见，z-index根本就没有出现的必要。知道了内联元素的层叠水平比块状元素高，于是，某条线你想覆盖上去的时候，需要设置position:relative吗？不需要，inline-block化就可以。因为IE6/IE7 position:relative会创建层叠上下文，很烦的。</p>
+<p>OK，本文已经够长了，就不多啰嗦了。</p>
+<p>行为匆忙，出错在所难免，欢迎大力指正。也欢迎各种形式的交流，或者指出文中概念性的错误。</p>
+<h1 id="1-8-Sass-Less"><a href="#1-8-Sass-Less" class="headerlink" title="1.8 Sass/Less"></a>1.8 Sass/Less</h1><hr>
+<p>“我应该选择哪种CSS预处理器语言?”</p>
+<h2 id="什么是CSS-预处理器？"><a href="#什么是CSS-预处理器？" class="headerlink" title="什么是CSS 预处理器？"></a>什么是CSS 预处理器？</h2><p>CSS 预处理器定义了一种新的语言，其基本思想是，用一种专门的编程语言，为 CSS 增加了一些编程的特性，将 CSS 作为目标生成文件，然后开发者就只要使用这种语言进行CSS的编码工作。</p>
+<h2 id="为什么要使用CSS预处理器？"><a href="#为什么要使用CSS预处理器？" class="headerlink" title="为什么要使用CSS预处理器？"></a>为什么要使用CSS预处理器？</h2><p>CSS仅仅是一个标记语言，不可以自定义变量，不可以引用。<br>CSS有具体以下几个缺点：</p>
+<p>语法不够强大，比如无法嵌套书写，导致模块化开发中需要书写很多重复的选择器；<br>没有变量和合理的样式复用机制，使得逻辑上相关的属性值必须以字面量的形式重复输出，导致难以维护。</p>
+<blockquote>
+<p>预编译很容易造成后代选择器的滥用</p>
+</blockquote>
+<p>使用预处理器的优点</p>
+<p>提供CSS层缺失的样式层复用机制<br>减少冗余代码<br>提高样式代码的可维护性</p>
+<h2 id="Sass-amp-Less"><a href="#Sass-amp-Less" class="headerlink" title="Sass&amp;Less"></a>Sass&amp;Less</h2><ul>
+<li>Less （Leaner Style Sheets 的缩写） 是一门向后兼容的 CSS 扩展语言。因为 Less 和 CSS 非常像，Less 仅对 CSS 语言增加了少许方便的扩展，学习很容易。</li>
+<li>sass，作为”世界上最成熟、最稳定、最强大的专业级CSS扩展语言”。兼容所有版本的css，且有无数框架使用sass构建，如Compass，Bourbon，和Susy。<blockquote>
+<p>SASS版本3.0之前的后缀名为.sass，而版本3.0之后的后缀名.scss。</p>
+</blockquote>
+</li>
+</ul>
+<p>Sass 和 Less 这类语言，其实可以理解成 CSS 的超集，它们在CSS 原本的语法格式基础上，增加了编程语言的特性，如变量的使用、逻辑语句的支持、函数等。让 CSS 代码更容易维护和复用。<br>但浏览器最终肯定是只认识 CSS 文件的，它无法处理 CSS 中的那些变量、逻辑语句，所以需要有一个编译的过程，将 Sass 或 Less 写的代码转换成标准的 CSS 代码，这个过程就称为 CSS 预处理。</p>
+<h3 id="ruby-sass"><a href="#ruby-sass" class="headerlink" title="ruby sass"></a>ruby sass</h3><p>Ruby Sass 是 Sass 的最初实现，但是 已经于 2019年 3 月 26 日将寿终正寝。我们已经不再对它提供任何支持了，请 Ruby Sass 用户 迁移到其它实现版本（LibSass 或 Dart Sass）。<br>why？<br>最开始，用 Ruby 编写 Sass 能够很方便地 吸引已有的用户甚至整个 Ruby 生态来使用<br>后来，Node.js 在前端开发中变得无处不在，而 Ruby 则 逐渐淡入了后台。与此同时，Sass 项目的规模 已经远远超出了作者最初的设想，对 Sass 在性能上的需求 也已经超过了 Ruby 的能力。</p>
+<h3 id="Dart-sass"><a href="#Dart-sass" class="headerlink" title="Dart-sass"></a>Dart-sass</h3><p>sass于2016年11月正式对外公布了alpha版本的Dart Sass 42项目，即他们使用Dart对Sass进行了重写。<br>根据sass-lang官方网站的说法：<br>Dart Sass是Sass的主要实现，这意味着它在其他实现之前先获得了新功能。它快速，易于安装，并且可以编译为纯JavaScript，从而可以轻松集成到现代Web开发工作流中。<br>纯 JS 版本 比独立版本执行速度慢，但是它很容易集成到 现有的工作流中，并且允许你通过 JavaScript 自定义函数和 importer。通过执行 npm install –save-dev sass 命令将其添加到项目中并通过 require() 引入。</p>
+<blockquote>
+<p>通过 npm 安装时，Dart Sass 提供了一个 JavaScript API 用于 兼容 Node Sass。 完全兼容的工作正在进行中</p>
+</blockquote>
+<h3 id="libSass"><a href="#libSass" class="headerlink" title="libSass"></a>libSass</h3><p>Sass 最初是用 Ruby 编写的。LibSass 是用 C/C++ 实现的 Sass 引擎。 核心点在于其简单、快速、易于集成。<br>LibSass 只是一个工具库。如需在本地运行（即，编译 Sass 代码)，你需要一个 LibSass 的封装。目前已经有很多 针对 LibSass 的封装了。</p>
+<ul>
+<li>Sass C，个用 C 语言开发的封装</li>
+<li>sass.cr 是针对 Crystal 编程语言 的 LibSass 封装。</li>
+<li>go-libsass 是最活跃的 Go 语言封装</li>
+</ul>
+<h2 id="Less"><a href="#Less" class="headerlink" title="Less"></a>Less</h2><blockquote>
+<p>Less 是一门 CSS 预处理语言，它扩展了 CSS 语言，增加了变量、Mixin、函数等特性，使 CSS 更易维护和扩展。</p>
+</blockquote>
+<p>Less 可以运行在 Node 或浏览器端。一个合法的CSS代码段本身也是一段合法的LESS代码段。</p>
+<p>LESS 提供了变量、嵌套、混合、操作符、函数等一般编程所需的抽象机制。</p>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>变量允许我们在一个地方定义一系列通用的值，然后在整个样式表中调用。</p>
+<blockquote>
+<p>在做全局样式调整的时候，可能只需要修改几行代码就可以了。</p>
+</blockquote>
+<pre class="line-numbers language-cpp"><code class="language-cpp">@width<span class="token operator">:</span> 10px<span class="token punctuation">;</span>
+@height<span class="token operator">:</span> @width <span class="token operator">+</span> 10px<span class="token punctuation">;</span>
+
+<span class="token macro property">#header {</span>
+  width<span class="token operator">:</span> @width<span class="token punctuation">;</span>
+  height<span class="token operator">:</span> @height<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>编译为：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#header {</span>
+  width<span class="token operator">:</span> 10px<span class="token punctuation">;</span>
+  height<span class="token operator">:</span> 20px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="混合（Mixins）"><a href="#混合（Mixins）" class="headerlink" title="混合（Mixins）"></a>混合（Mixins）</h3><p>混合（Mixin）是一种将一组属性从一个规则集包含（或混入）到另一个规则集的方法。假设我们定义了一个类（class）如下：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>bordered <span class="token punctuation">{</span>
+  border<span class="token operator">-</span>top<span class="token operator">:</span> dotted 1px black<span class="token punctuation">;</span>
+  border<span class="token operator">-</span>bottom<span class="token operator">:</span> solid 2px black<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如果希望在其它规则集中使用这些属性，只需像下面这样输入所需属性的类（class）名称即可</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#menu a {</span>
+  color<span class="token operator">:</span> #<span class="token number">111</span><span class="token punctuation">;</span>
+  <span class="token punctuation">.</span><span class="token function">bordered</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token punctuation">.</span>post a <span class="token punctuation">{</span>
+  color<span class="token operator">:</span> red<span class="token punctuation">;</span>
+  <span class="token punctuation">.</span><span class="token function">bordered</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="嵌套（Nesting）"><a href="#嵌套（Nesting）" class="headerlink" title="嵌套（Nesting）"></a>嵌套（Nesting）</h3><p>Less 提供了使用嵌套（nesting）代替层叠或与层叠结合使用的能力。假设我们有以下 CSS 代码：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#header {</span>
+  color<span class="token operator">:</span> black<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token macro property">#header .navigation {</span>
+  font<span class="token operator">-</span>size<span class="token operator">:</span> 12px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token macro property">#header .logo {</span>
+  width<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>用 Less 语言我们可以这样书写代码：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#header {</span>
+  color<span class="token operator">:</span> black<span class="token punctuation">;</span>
+  <span class="token punctuation">.</span>navigation <span class="token punctuation">{</span>
+    font<span class="token operator">-</span>size<span class="token operator">:</span> 12px<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token punctuation">.</span>logo <span class="token punctuation">{</span>
+    width<span class="token operator">:</span> 300px<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>用 Less 书写的代码更加简洁，并且模仿了 HTML 的组织结构。</p>
+</blockquote>
+<p>你还可以使用此方法将伪选择器（pseudo-selectors）与混合（mixins）一同使用。下面是一个经典的 clearfix 技巧，重写为一个混合（mixin） (&amp; 表示当前选择器的父级）：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>clearfix <span class="token punctuation">{</span>
+  display<span class="token operator">:</span> block<span class="token punctuation">;</span>
+  zoom<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+  <span class="token operator">&amp;</span><span class="token operator">:</span>after <span class="token punctuation">{</span>
+    content<span class="token operator">:</span> <span class="token string">" "</span><span class="token punctuation">;</span>
+    display<span class="token operator">:</span> block<span class="token punctuation">;</span>
+    font<span class="token operator">-</span>size<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    height<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    clear<span class="token operator">:</span> both<span class="token punctuation">;</span>
+    visibility<span class="token operator">:</span> hidden<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="运算（Operations）"><a href="#运算（Operations）" class="headerlink" title="运算（Operations）"></a>运算（Operations）</h3><p>算术运算符 +、-、*、/ 可以对任何数字、颜色或变量进行运算<br>注意，如果运算符两侧变量单位不同，在加、减或比较之前会进行单位换算。计算的结果以最左侧操作数的单位类型为准。如果单位换算无效或失去意义，则忽略单位。无效的单位换算例如：px 到 cm 或 rad 到 % 的转换。</p>
+<blockquote>
+<p>没有单位则不做转换</p>
+</blockquote>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// 所有操作数被转换成相同的单位</span>
+@conversion<span class="token number">-1</span><span class="token operator">:</span> 5cm <span class="token operator">+</span> 10mm<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 结果是 6cm</span>
+@conversion<span class="token number">-2</span><span class="token operator">:</span> <span class="token number">2</span> <span class="token operator">-</span> 3cm <span class="token operator">-</span> 5mm<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 结果是 -1.5cm</span>
+
+<span class="token comment" spellcheck="true">// conversion is impossible</span>
+@incompatible<span class="token operator">-</span>units<span class="token operator">:</span> <span class="token number">2</span> <span class="token operator">+</span> 5px <span class="token operator">-</span> 3cm<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 结果是 4px</span>
+
+<span class="token comment" spellcheck="true">// example with variables</span>
+@base<span class="token operator">:</span> <span class="token number">5</span><span class="token operator">%</span><span class="token punctuation">;</span>
+@filler<span class="token operator">:</span> @base <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 结果是 10%</span>
+@other<span class="token operator">:</span> @base <span class="token operator">+</span> @filler<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 结果是 15%</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>乘法和除法不作转换。因为这两种运算在大多数情况下都没有意义，一个长度乘以一个长度就得到一个区域，而 CSS 是不支持指定区域的。Less 将按数字的原样进行操作，并将为计算结果指定明确的单位类型。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">@base<span class="token operator">:</span> 2cm <span class="token operator">*</span> 3mm<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 结果是 6cm</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>你还可以对颜色进行算术运算：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">@color<span class="token operator">:</span> #<span class="token number">224488</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//结果是 #112244</span>
+background<span class="token operator">-</span>color<span class="token operator">:</span> #<span class="token number">112244</span> <span class="token operator">+</span> #<span class="token number">111</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 结果是 #223355</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="函数（Functions）"><a href="#函数（Functions）" class="headerlink" title="函数（Functions）"></a>函数（Functions）</h3><p>Less 内置了多种函数用于转换颜色、处理字符串、算术运算等。这些函数在Less 函数手册中有详细介绍。<br>函数的用法非常简单。下面这个例子将介绍如何利用 percentage 函数将 0.5 转换为 50%，将颜色饱和度增加 5%，以及颜色亮度降低 25% 并且色相值增加 8 等用法：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">@base<span class="token operator">:</span> #f04615<span class="token punctuation">;</span>
+@width<span class="token operator">:</span> <span class="token number">0.5</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">.</span><span class="token keyword">class</span> <span class="token punctuation">{</span>
+  width<span class="token operator">:</span> <span class="token function">percentage</span><span class="token punctuation">(</span>@width<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// returns `50%`</span>
+  color<span class="token operator">:</span> <span class="token function">saturate</span><span class="token punctuation">(</span>@base<span class="token punctuation">,</span> <span class="token number">5</span><span class="token operator">%</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  background<span class="token operator">-</span>color<span class="token operator">:</span> <span class="token function">spin</span><span class="token punctuation">(</span><span class="token function">lighten</span><span class="token punctuation">(</span>@base<span class="token punctuation">,</span> <span class="token number">25</span><span class="token operator">%</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="导入（Importing）"><a href="#导入（Importing）" class="headerlink" title="导入（Importing）"></a>导入（Importing）</h3><p>你可以导入一个 .less 文件，此文件中的所有变量就可以全部使用了。如果导入的文件是 .less 扩展名，则可以将扩展名省略掉：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">@import <span class="token string">"library"</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// library.less</span>
+@import <span class="token string">"typo.css"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="Sass"><a href="#Sass" class="headerlink" title="Sass"></a>Sass</h2><blockquote>
+<p>Sass 是一款强化 CSS 的辅助工具，它在 CSS 语法的基础上增加了变量 (variables)、嵌套 (nested rules)、混合 (mixins)、导入 (inline imports) 等高级功能，这些拓展令 CSS 更加强大与优雅。</p>
+</blockquote>
+<p>特色功能 (Features)</p>
+<ul>
+<li>完全兼容 CSS3</li>
+<li>在 CSS 基础上增加变量、嵌套 (nesting)、混合 (mixins) 等功能</li>
+<li>通过函数进行颜色值与属性值的运算</li>
+<li>提供控制指令 (control directives)等高级功能</li>
+<li>自定义输出格式<h3 id="变量-1"><a href="#变量-1" class="headerlink" title="变量"></a>变量</h3>sass使用$符号来标识变量(老版本的sass使用!来标识变量。<pre class="line-numbers language-cpp"><code class="language-cpp">$highlight<span class="token operator">-</span>color<span class="token operator">:</span> #F90<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+与CSS属性不同，变量可以在css规则块定义之外存在。当变量定义在css规则块内，那么该变量只能在此规则块内使用。<pre class="line-numbers language-cpp"><code class="language-cpp">$nav<span class="token operator">-</span>color<span class="token operator">:</span> #F90<span class="token punctuation">;</span>
+nav <span class="token punctuation">{</span>
+$width<span class="token operator">:</span> 100px<span class="token punctuation">;</span>
+width<span class="token operator">:</span> $width<span class="token punctuation">;</span>
+color<span class="token operator">:</span> $nav<span class="token operator">-</span>color<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ul>
+<p>//编译后</p>
+<p>nav {<br>  width: 100px;<br>  color: #F90;<br>}</p>
+<pre><code>&gt; 在声明变量时，变量值也可以引用其他变量。
+### 嵌套（Nesting）
+基本用法与less相同
+子组合选择器和同层组合选择器：&gt;、+和~
+这三个组合选择器必须和其他选择器配合使用，以指定浏览器仅选择某种特定上下文中的元素。
+
+这些组合选择器可以毫不费力地应用到sass的规则嵌套中。可以把它们放在外层选择器后边，或里层选择器前边：
+```cpp
+article {
+  ~ article { border-top: 1px dashed #ccc }
+  &gt; section { background: #eee }
+  dl &gt; {
+    dt { color: #333 }
+    dd { color: #555 }
+  }
+  nav + &amp; { margin-top: 0 }
+}</code></pre><p>sass会如你所愿地将这些嵌套规则一一解开组合在一起：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">article <span class="token operator">~</span> article <span class="token punctuation">{</span> border<span class="token operator">-</span>top<span class="token operator">:</span> 1px dashed #ccc <span class="token punctuation">}</span>
+article <span class="token operator">></span> footer <span class="token punctuation">{</span> background<span class="token operator">:</span> #eee <span class="token punctuation">}</span>
+article dl <span class="token operator">></span> dt <span class="token punctuation">{</span> color<span class="token operator">:</span> #<span class="token number">333</span> <span class="token punctuation">}</span>
+article dl <span class="token operator">></span> dd <span class="token punctuation">{</span> color<span class="token operator">:</span> #<span class="token number">555</span> <span class="token punctuation">}</span>
+nav <span class="token operator">+</span> article <span class="token punctuation">{</span> margin<span class="token operator">-</span>top<span class="token operator">:</span> <span class="token number">0</span> <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="嵌套属性"><a href="#嵌套属性" class="headerlink" title="嵌套属性;"></a>嵌套属性;</h3><p>在sass中，除了CSS选择器，属性也可以进行嵌套。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">nav <span class="token punctuation">{</span>
+  border<span class="token operator">:</span> <span class="token punctuation">{</span>
+  style<span class="token operator">:</span> solid<span class="token punctuation">;</span>
+  width<span class="token operator">:</span> 1px<span class="token punctuation">;</span>
+  color<span class="token operator">:</span> #ccc<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>嵌套属性的规则是这样的：把属性名从中划线-的地方断开，在根属性后边添加一个冒号:，紧跟一个{ }块，把子属性部分写在这个{ }块中。就像css选择器嵌套一样，sass会把你的子属性一一解开，把根属性和子属性部分通过中划线-连接起来，最后生成的效果与你手动一遍遍写的css样式一样：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">nav <span class="token punctuation">{</span>
+  border<span class="token operator">-</span>style<span class="token operator">:</span> solid<span class="token punctuation">;</span>
+  border<span class="token operator">-</span>width<span class="token operator">:</span> 1px<span class="token punctuation">;</span>
+  border<span class="token operator">-</span>color<span class="token operator">:</span> #ccc<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>对于属性的缩写形式，你甚至可以像下边这样来嵌套，指明例外规则：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">nav <span class="token punctuation">{</span>
+  border<span class="token operator">:</span> 1px solid #ccc <span class="token punctuation">{</span>
+  left<span class="token operator">:</span> 0px<span class="token punctuation">;</span>
+  right<span class="token operator">:</span> 0px<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="混合器"><a href="#混合器" class="headerlink" title="混合器;"></a>混合器;</h3><p>混合器使用@mixin标识符定义，这个标识符给一大段样式赋予一个名字，可以轻易地通过引用这个名字重用这段样式。</p>
+<p>下边的这段sass代码，定义了一个非常简单的混合器，目的是添加跨浏览器的圆角边框。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">@mixin rounded<span class="token operator">-</span>corners <span class="token punctuation">{</span>
+  <span class="token operator">-</span>moz<span class="token operator">-</span>border<span class="token operator">-</span>radius<span class="token operator">:</span> 5px<span class="token punctuation">;</span>
+  <span class="token operator">-</span>webkit<span class="token operator">-</span>border<span class="token operator">-</span>radius<span class="token operator">:</span> 5px<span class="token punctuation">;</span>
+  border<span class="token operator">-</span>radius<span class="token operator">:</span> 5px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后就可以在样式表中通过@include来使用这个混合器。@include调用会把混合器中的所有样式提取出来放在@include被调用的地方。如果像下边这样写：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">notice <span class="token punctuation">{</span>
+  background<span class="token operator">-</span>color<span class="token operator">:</span> green<span class="token punctuation">;</span>
+  border<span class="token operator">:</span> 2px solid #00aa00<span class="token punctuation">;</span>
+  @include rounded<span class="token operator">-</span>corners<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">//sass最终生成：</span>
+
+<span class="token punctuation">.</span>notice <span class="token punctuation">{</span>
+  background<span class="token operator">-</span>color<span class="token operator">:</span> green<span class="token punctuation">;</span>
+  border<span class="token operator">:</span> 2px solid #00aa00<span class="token punctuation">;</span>
+  <span class="token operator">-</span>moz<span class="token operator">-</span>border<span class="token operator">-</span>radius<span class="token operator">:</span> 5px<span class="token punctuation">;</span>
+  <span class="token operator">-</span>webkit<span class="token operator">-</span>border<span class="token operator">-</span>radius<span class="token operator">:</span> 5px<span class="token punctuation">;</span>
+  border<span class="token operator">-</span>radius<span class="token operator">:</span> 5px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>less及sass都支持混合器传参，具体内容参见参考文档 2、3</p>
+</blockquote>
+<h3 id="导入SASS文件"><a href="#导入SASS文件" class="headerlink" title="导入SASS文件;"></a>导入SASS文件;</h3><p>css有一个特别不常用的特性，即@import规则，它允许在一个css文件中导入其他css文件。然而，后果是只有执行到@import时，浏览器才会去下载其他css文件，这导致页面加载起来特别慢。<br>sass也有一个@import规则，但不同的是，sass的@import规则在生成css文件时就把相关文件导入进来。这意味着所有相关的样式被归纳到了同一个css文件中，而无需发起额外的下载请求。</p>
+<blockquote>
+<p>使用sass的@import规则并不需要指明被导入文件的全名。你可以省略.sass或.scss文件后缀</p>
+</blockquote>
+<p>使用SASS部分文件<br>当通过@import把sass样式分散到多个文件时，你通常只想生成少数几个css文件。那些专门为@import命令而编写的sass文件，并不需要生成对应的独立css文件，这样的sass文件称为局部文件。<br>sass局部文件的文件名以下划线开头。这样，sass就不会在编译时单独编译这个文件输出css<br>默认变量值;<br>!default用于变量，含义是：如果这个变量被声明赋值了，那就用它声明的值，否则就用这个默认值。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">$fancybox<span class="token operator">-</span>width<span class="token operator">:</span> 400px <span class="token operator">!</span><span class="token keyword">default</span><span class="token punctuation">;</span>
+<span class="token punctuation">.</span>fancybox <span class="token punctuation">{</span>
+width<span class="token operator">:</span> $fancybox<span class="token operator">-</span>width<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在上例中，如果用户在导入你的sass局部文件之前声明了一个$fancybox-width变量，那么你的局部文件中对$fancybox-width赋值400px的操作就无效。如果用户没有做这样的声明，则$fancybox-width将默认为400px。</p>
+<h2 id="相同与差异"><a href="#相同与差异" class="headerlink" title="相同与差异"></a>相同与差异</h2><h3 id="相同之处："><a href="#相同之处：" class="headerlink" title="相同之处："></a>相同之处：</h3><p>Less和Sass在语法上有些共性，比如下面这些：<br>1、混入(Mixins)——class中的class；<br>2、参数混入——可以传递参数的class，就像函数一样；<br>3、嵌套规则——Class中嵌套class，从而减少重复的代码；<br>4、运算——CSS中用上数学；<br>5、颜色功能——可以编辑颜色；<br>6、名字空间(namespace)——分组样式，从而可以被调用；<br>7、作用域——局部修改样式；<br>8、JavaScript 赋值——在CSS中使用JavaScript表达式赋值。</p>
+<h3 id="不同之处："><a href="#不同之处：" class="headerlink" title="不同之处："></a>不同之处：</h3><table>
+<thead>
+<tr>
+<th align="left">类别</th>
+<th align="left">Sass</th>
+<th align="left">less</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">环境</td>
+<td align="left">dart或其他</td>
+<td align="left">基于javascript，可以运行在 Node 或浏览器端</td>
+</tr>
+<tr>
+<td align="left">使用</td>
+<td align="left">复杂</td>
+<td align="left">简单(相对而言)</td>
+</tr>
+<tr>
+<td align="left">功能</td>
+<td align="left">复杂</td>
+<td align="left">简单(相对而言)</td>
+</tr>
+<tr>
+<td align="left">处理机制</td>
+<td align="left">服务端处理</td>
+<td align="left">可以运行在 Node 或浏览器端</td>
+</tr>
+<tr>
+<td align="left">变量</td>
+<td align="left">以 $ 开头</td>
+<td align="left">以 @ 开头</td>
+</tr>
+<tr>
+<td align="left">文件后缀</td>
+<td align="left">.sass 或. scss</td>
+<td align="left">.less</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>目前大部分的实现都是随着前端项目一起打包构建，只在学习或演示的时候才区分使用环境，所以不用在意处理机制，以上只是单纯的对比两者本身。</p>
+</blockquote>
+<blockquote>
+<p>请不要忘记Dart Sass，它快速，易于安装，并且可以编译为纯JavaScript，从而可以轻松集成到现代Web开发工作流中。</p>
+</blockquote>
+<ul>
+<li>在Less中，仅允许循环数值。<br>在Sass中，我们可以遍历任何类型的数据。但在Less中，我们只能使用递归函数循环数值。</li>
+</ul>
+<ul>
+<li>条件语句<br>Less 中并不支持条件语句，当然，可以通过内置函数 if 以及 and，or，not 这些来模拟条件语句。<br>在 Sass 中是支持条件语句的，但也不是像其他编程语言直接 if 这样通过保留字来编写，需要加个 @ 符号</li>
+</ul>
+<ul>
+<li>框架-<br>sass框架谁有空可以在评论区补充一下<h3 id="用哪个？"><a href="#用哪个？" class="headerlink" title="用哪个？"></a>用哪个？</h3>不知道～</li>
+</ul>
+<p>LESS环境较Sass简单<br>LESS使用较Sass简单，大概？<br>相对而言，国内前端团队使用LESS的同学会略多于Sass<br>从功能出发，Sass较LESS略强大一些<br>Sass在市面上有一些成熟的框架，比如说Compass，而且有很多框架也在使用Sass，比如说Foundation<br>就国外讨论的热度来说，Sass绝对优于LESS<br>就学习教程来说，Sass的教程要优于LESS(本身来说，less官方文档也够用了)。</p>
+
             </div>
             <hr />
 
@@ -1975,7 +2452,7 @@ center部分增加一个内层div，并设margin: 0 200px；
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">50.8k</span>
+            <span class="white-color">65.2k</span>
             
 
             <br>

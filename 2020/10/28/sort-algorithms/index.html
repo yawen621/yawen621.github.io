@@ -497,14 +497,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    17.1k
+                    20.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    67 分
+                    80 分
                 </div>
                 
                 
@@ -1800,6 +1800,138 @@ Object<span class="token punctuation">.</span><span class="token function">defin
 <pre class="line-numbers language-cpp"><code class="language-cpp">function <span class="token function">a</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token punctuation">}</span> 
 var b <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">a</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function">isPrototypeOf</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//true</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h1 id="1-11-异步编程"><a href="#1-11-异步编程" class="headerlink" title="1.11 异步编程"></a>1.11 异步编程</h1><h2 id="单线程异步"><a href="#单线程异步" class="headerlink" title="单线程异步"></a>单线程异步</h2><p>JavaScript语言的一大特点就是单线程，在某个特定的时刻只有特定的代码能够被执行，并阻塞其它的代码，也就是说，同一个时间只能做一件事。</p>
+<p>常用的异步操作最主要有网络请求，请求会有响应时间，在响应结果回来之前要处理其它事情；IO操作，比如读取某个文件，在此过程中做其它事情；定时函数。</p>
+<p>异步是由浏览器的两个或以上常驻线程共同完成，列如异步请求：JS执行线程发起异步请求，浏览器开一条新的http请求来执行请求，当监视到请求已完成，它会把函数插入到JS执行队列的尾部等待处理。<br><img src="async.jpg" alt><br>通过如图所示定时函数实例，可以看出异步处理过程。先是打印一个1，然后执行setTimeout函数，约定在0秒后再打印一个2，然后打印一个3，执行结果为先打印1，再打印3，最后再打印2，说明整个过程已经发生异步过程。<br><img src="async1.jpg" alt><br>Javascript有一个主要的执行主线程，但是setTimeout、IO操作、网络异步请求等都会有一个回调函数，这些操作都是通过浏览器API实现的，当定时器时间到了或者请求结果回来时，会将回调函数push到一个javascript任务队列中，当javascript主线程任务执行完毕后，才会从任务队列中继续拿等待代码再执行。具体流程总结如下：</p>
+<p>（1） 所有同步任务都在主线程上执行，形成一个执行栈（execution context stack）。</p>
+<p>（2） 主线程之外，还存在一个”任务队列”（task queue）。只要异步任务有了运行结果，就在”任务队列”之中放置一个事件。</p>
+<p>（3） 一旦”执行栈”中的所有同步任务执行完毕，系统就会读取”任务队列”，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。</p>
+<p>（4） 主线程不断重复上面的第三步。</p>
+<h2 id="异步解决方案"><a href="#异步解决方案" class="headerlink" title="异步解决方案"></a>异步解决方案</h2><p>了解了Javascript单线程与异步关系，如何书写日常工作中的工程代码呢？怎样能在异步请求结束后执行特定方法？目前，javascript异步编程经历了几个阶段，且在不断演进。</p>
+<h3 id="Callback"><a href="#Callback" class="headerlink" title="Callback"></a>Callback</h3><p>最开始是回调函数，当事件完成后执行回调函数，相当于完成异步操作。我们可以像使用变量一样使用函数，作为另一个函数的参数，在另一个函数中作为返回结果，在另一个函数中调用它。当我们作为参数传递一个回调函数给另一个函数时，我们只传递了这个函数的定义，并没有在参数中执行它。当函数拥有了在参数中定义的回调函数后，它可以在任何时候调用(也就是回调)它。<br><img src="async2.jpg" alt><br>我们在工作中最长接触的就是发送Ajax异步请求，在第一个请求发送完后，用它的参数处理第二个请求，再用第二个请求的参数请求第三个，三层嵌套代码如图所示。<br><img src="async3.jpg" alt><br>如图所示为mongoDB在node.js中的实例，嵌套了六层。当多个异步事务多级依赖时，回调函数会形成多级的嵌套，代码变成金字塔型结构。虽然能解决异步问题，但这使得代码得看难懂，更使得调试、重构的过程充满风险。</p>
+<h3 id="Promise-1"><a href="#Promise-1" class="headerlink" title="Promise"></a>Promise</h3><p>Promise比传统解决方案更加合理和强大，是更加好的异步解决方案，promise对象有以下四个特点：</p>
+<ol>
+<li><p>promise 可能有三种状态：等待（pending）、已完成（resolved）、已拒绝（rejected）。</p>
+</li>
+<li><p>promise 的状态只可能从“等待”转到“完成”态或者“拒绝”态，不能逆向转换，同时“完成”态和“拒绝”态不能相互转换。</p>
+</li>
+<li><p>promise对象必须实现then方法，而且then必须返回一个promise ，同一个 promise 的then可以调用多次（链式），并且回调的执行顺序跟它们被定义时的顺序一致。</p>
+</li>
+<li><p>then方法接受两个参数，第一个参数是成功时的回调，在 promise 由“等待”态转换到“完成”态时调用，另一个是失败时的回调，在 promise 由“等待”态转换到“拒绝”态时调用<br><img src="async4.jpg" alt><br>如图所示，左侧创建promise对象，隔2000秒后执行，最后返回promise对象。Promise有立即执行性，当创建完对象后，在已完成或已拒绝之前代码都会执行一遍。右侧为打印结果，可以看到创建promise对象被打印出来，并成功生成promise对象，当执行then时，此时已经返回成功状态，所以一直执行成功的回调函数。<br><img src="async5.jpg" alt><br>那么，promise如何解决异步问题的呢？又有哪些特点呢？具体如下：</p>
+</li>
+</ol>
+<p>（1） 代码看起来更加符合逻辑、可读性更强。</p>
+<p>（2） Promise并没有改变JS异步执行的本质，从写法上甚至还能看到一点点callback的影子。</p>
+<p>如图所示为链式调用方式，第一个请求成功后，就去执行下一个，如果任何一个请求未成功，直接catch掉error，并打印出来。</p>
+<h3 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h3><p>我们希望以同步方式写异步代码，可以使逻辑更加清晰，代码量减少更多。为了实现这种目标，我们又演进出generator解决方案。<br><img src="async6.jpg" alt><br>Generator函数很特殊，理解起来比promise和callback更加难，从语法上将，generator具备以下特质：</p>
+<p>（1） 定义Generator时，需要使用function*。</p>
+<p>（2） 使用时生成一个Generator对象。</p>
+<p>（3） 执行.next()激活暂停状态，开始执行内部代码，直到遇到yield，返回此时执行的结果，并记住此时执行的上下文，暂停。</p>
+<p>（4） 再次执行.next()时重复第三步。</p>
+<p>如图所示，首先定义了test=add(5)，函数并没有执行，只是生成了一个generator对象，函数属于暂停状态，只有当执行.next()时，才会激活暂停状态，开始执行内部代码，直到遇到第一个yield才会返回执行结果，并记住上下文，暂停，交出控制权。再次执行.next()时，找到第二个yield，再次记住上下文，暂停，交出控制权，依此重复。<br><img src="async7.jpg" alt><br>如图所示，封装一个异步任务，定义一个generator对象，执行请求后交出控制权，通过promise判断是否要继续执行。在异步事件发生后，首先将控制权交给别人，让程序执行其它代码，当异步事件完成后，将控制权抢回来，继续执行其它操作。Generator需要一个自动执行器配合使用，实现正常思维下的异步处理，有了自动执行器，异步请求可以用同步的方式写异步代码，直接将请求全部写在一起。</p>
+<h3 id="Async-Await"><a href="#Async-Await" class="headerlink" title="Async/Await"></a>Async/Await</h3><p><img src="async8.jpg" alt><br>通过进一步的演进，async和await函数应运而生。它们的个性特征如下：</p>
+<p>（1） async 表示这是一个async函数，而await只能在这个函数里面使用。</p>
+<p>（2） await 表示在这里等待await后面的操作执行完毕，再执行下一句代码。</p>
+<p>（3） await 后面紧跟着的最好是一个耗时的操作或者是一个异步操作。</p>
+<p>（4） await后面必须是一个Promise对象，如果不是会被转化为一个已完成状态的Promise<br><img src="async9.jpg" alt><br>Async与generator的写法类似，本质上是generator的语法糖。其内置执行器，具备更好的语义，更广的适用性。并且返回值是Promise。</p>
+<h1 id="1-12-DOM"><a href="#1-12-DOM" class="headerlink" title="1.12 DOM"></a>1.12 DOM</h1><h2 id="事件冒泡、捕获等理解"><a href="#事件冒泡、捕获等理解" class="headerlink" title="事件冒泡、捕获等理解"></a>事件冒泡、捕获等理解</h2><p>事件冒泡和事件捕获分别由微软和网景公司提出，这两个概念都是为了解决页面中事件流（事件发生顺序）的问题。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>div id<span class="token operator">=</span><span class="token string">"outer"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>p id<span class="token operator">=</span><span class="token string">"inner"</span><span class="token operator">></span>Click me<span class="token operator">!</span><span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>上面的代码当中一个div元素当中有一个p子元素，如果两个元素都有一个click的处理函数，那么我们怎么才能知道哪一个函数会首先被触发呢？</p>
+<p>为了解决这个问题微软和网景提出了两种几乎完全相反的概念。</p>
+<h3 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h3><p>微软提出了名为事件冒泡(event bubbling)的事件流。事件冒泡可以形象地比喻为把一颗石头投入水中，泡泡会一直从水底冒出水面。也就是说，事件会从最内层的元素开始发生，一直向上传播，直到document对象。因此上面的例子在事件冒泡的概念下发生click事件的顺序应该是p -&gt; div -&gt; body -&gt; html -&gt; document</p>
+<h3 id="事件捕获"><a href="#事件捕获" class="headerlink" title="事件捕获"></a>事件捕获</h3><p>网景提出另一种事件流名为事件捕获(event capturing)。与事件冒泡相反，事件会从最外层开始发生，直到最具体的元素。上面的例子在事件捕获的概念下发生click事件的顺序应该是document -&gt; html -&gt; body -&gt; div -&gt; p事件冒泡和事件捕获过程图：<br><img src="event.jpg" alt><br>1-5是捕获过程，5-6是目标阶段，6-10是冒泡阶段；</p>
+<h2 id="addEventListener-的第三个参数"><a href="#addEventListener-的第三个参数" class="headerlink" title="addEventListener 的第三个参数"></a>addEventListener 的第三个参数</h2><p>DOM2级事件”中规定的事件流同时支持了事件捕获阶段和事件冒泡阶段，而作为开发者，我们可以选择事件处理函数在哪一个阶段被调用。addEventListener方法用来为一个特定的元素绑定一个事件处理函数，是JavaScript中的常用方法。addEventListener有三个参数：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"> element<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span>event<span class="token punctuation">,</span> function<span class="token punctuation">,</span> useCapture<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>event</td>
+<td>必须。字符串，指定事件名。注意: 不要使用 “on” 前缀。 例如，使用 “click” ,而不是使用 “onclick”。 提示： 所有 HTML DOM 事件，可以查看我们完整的 <a href="https://www.runoob.com/jsref/dom-obj-event.html" target="_blank" rel="noopener">HTML DOM Event 对象参考手册</a>。</td>
+</tr>
+<tr>
+<td>function</td>
+<td>必须。指定要事件触发时执行的函数。 当事件对象会作为第一个参数传入函数。 事件对象的类型取决于特定的事件。例如， “click” 事件属于 MouseEvent(鼠标事件) 对象。</td>
+</tr>
+<tr>
+<td>useCapture</td>
+<td>可选。布尔值，指定事件是否在捕获或冒泡阶段执行。可能值:- true - 事件句柄在捕获阶段执行（即在事件捕获阶段调用处理函数）- false- false- 默认。事件句柄在冒泡阶段执行（即表示在事件冒泡的阶段调用事件处理函数）</td>
+</tr>
+</tbody></table>
+<h2 id="事件代理"><a href="#事件代理" class="headerlink" title="事件代理"></a>事件代理</h2><p>在实际的开发当中，利用事件流的特性，我们可以使用一种叫做事件代理的方法。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token operator">&lt;</span>ul <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"color_list"</span><span class="token operator">></span>        
+    <span class="token operator">&lt;</span>li<span class="token operator">></span>red<span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>        
+    <span class="token operator">&lt;</span>li<span class="token operator">></span>orange<span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>        
+    <span class="token operator">&lt;</span>li<span class="token operator">></span>yellow<span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>        
+    <span class="token operator">&lt;</span>li<span class="token operator">></span>green<span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>        
+    <span class="token operator">&lt;</span>li<span class="token operator">></span>blue<span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>        
+    <span class="token operator">&lt;</span>li<span class="token operator">></span>purple<span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>    
+<span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+<span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"box"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span>color_list<span class="token punctuation">{</span>            
+    display<span class="token operator">:</span> flex<span class="token punctuation">;</span>            
+    display<span class="token operator">:</span> <span class="token operator">-</span>webkit<span class="token operator">-</span>flex<span class="token punctuation">;</span>        
+<span class="token punctuation">}</span>        
+<span class="token punctuation">.</span>color_list li<span class="token punctuation">{</span>            
+    width<span class="token operator">:</span> 100px<span class="token punctuation">;</span>            
+    height<span class="token operator">:</span> 100px<span class="token punctuation">;</span>            
+    list<span class="token operator">-</span>style<span class="token operator">:</span> none<span class="token punctuation">;</span>            
+    text<span class="token operator">-</span>align<span class="token operator">:</span> center<span class="token punctuation">;</span>            
+    line<span class="token operator">-</span>height<span class="token operator">:</span> 100px<span class="token punctuation">;</span>        
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//每个li加上对应的颜色，此处省略</span>
+<span class="token punctuation">.</span>box<span class="token punctuation">{</span>            
+    width<span class="token operator">:</span> 600px<span class="token punctuation">;</span>            
+    height<span class="token operator">:</span> 150px<span class="token punctuation">;</span>            
+    background<span class="token operator">-</span>color<span class="token operator">:</span> #cccccc<span class="token punctuation">;</span>            
+    line<span class="token operator">-</span>height<span class="token operator">:</span> 150px<span class="token punctuation">;</span>            
+    text<span class="token operator">-</span>align<span class="token operator">:</span> center<span class="token punctuation">;</span>        
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="event1.jpg" alt><br>我们想要在点击每个 li 标签时，输出li当中的颜色（innerHTML） 。常规做法是遍历每个 li ,然后在每个 li 上绑定一个点击事件：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">var color_list<span class="token operator">=</span>document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">".color_list"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            
+var colors<span class="token operator">=</span>color_list<span class="token punctuation">.</span><span class="token function">getElementsByTagName</span><span class="token punctuation">(</span><span class="token string">"li"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            
+var box<span class="token operator">=</span>document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">".box"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            
+<span class="token keyword">for</span><span class="token punctuation">(</span>var n<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>n<span class="token operator">&lt;</span>colors<span class="token punctuation">.</span>length<span class="token punctuation">;</span>n<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>                
+    colors<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">,</span><span class="token function">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>                    
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>innerHTML<span class="token punctuation">)</span>                    
+        box<span class="token punctuation">.</span>innerHTML<span class="token operator">=</span><span class="token string">"该颜色为 "</span><span class="token operator">+</span><span class="token keyword">this</span><span class="token punctuation">.</span>innerHTML<span class="token punctuation">;</span>                
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>            
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这种做法在 li 较少的时候可以使用，但如果有一万个 li ，那就会导致性能降低（少了遍历所有 li 节点的操作，性能上肯定更加优化）。</p>
+<p>这时就需要事件代理出场了，利用事件流的特性，我们只绑定一个事件处理函数也可以完成：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">function <span class="token function">colorChange</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>                
+    var e<span class="token operator">=</span>e<span class="token operator">||</span>window<span class="token punctuation">.</span>event<span class="token punctuation">;</span><span class="token comment" spellcheck="true">//兼容性的处理         </span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>target<span class="token punctuation">.</span>nodeName<span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">==</span><span class="token operator">=</span><span class="token string">"li"</span><span class="token punctuation">)</span><span class="token punctuation">{</span>                    
+        box<span class="token punctuation">.</span>innerHTML<span class="token operator">=</span><span class="token string">"该颜色为 "</span><span class="token operator">+</span>e<span class="token punctuation">.</span>target<span class="token punctuation">.</span>innerHTML<span class="token punctuation">;</span>                
+    <span class="token punctuation">}</span>                            
+<span class="token punctuation">}</span>            
+color_list<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">,</span>colorChange<span class="token punctuation">,</span><span class="token boolean">false</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>由于事件冒泡机制，点击了 li 后会冒泡到 ul ，此时就会触发绑定在 ul 上的点击事件，再利用 target 找到事件实际发生的元素，就可以达到预期的效果。使用事件代理的好处不仅在于将多个事件处理函数减为一个，而且对于不同的元素可以有不同的处理方法。假如上述列表元素当中添加了其他的元素节点（如：a、span等），我们不必再一次循环给每一个元素绑定事件，直接修改事件代理的事件处理函数即可。<br>（1）toLowerCase() 方法用于把字符串转换为小写。语法：stringObject.toLowerCase()返回值：一个新的字符串，在其中 stringObject 的所有大写字符全部被转换为了小写字符。<br>（2）nodeName 属性指定节点的节点名称。如果节点是元素节点，则 nodeName 属性返回标签名。如果节点是属性节点，则 nodeName 属性返回属性的名称。对于其他节点类型，nodeName 属性返回不同节点类型的不同名称。<br>所有主流浏览器均支持 nodeName 属性。</p>
+<h3 id="冒泡还是捕获？"><a href="#冒泡还是捕获？" class="headerlink" title="冒泡还是捕获？"></a>冒泡还是捕获？</h3><p>对于事件代理来说，在事件捕获或者事件冒泡阶段处理并没有明显的优劣之分，但是由于事件冒泡的事件流模型被所有主流的浏览器兼容，从兼容性角度来说还是建议大家使用事件冒泡模型。</p>
+<h3 id="IE浏览器兼容"><a href="#IE浏览器兼容" class="headerlink" title="IE浏览器兼容"></a>IE浏览器兼容</h3><p>IE浏览器对addEventListener兼容性并不算太好，只有IE9以上可以使用。<br><img src="event2.jpg" alt><br>要兼容旧版本的IE浏览器，可以使用IE的attachEvent函数</p>
+<blockquote>
+<p>object.attachEvent(event, function)</p>
+</blockquote>
+<p>两个参数与addEventListener相似，分别是事件和处理函数，默认是事件冒泡阶段调用处理函数，要注意的是，写事件名时候要加上”on”前缀（”onload”、”onclick”等）。</p>
+<h3 id="阻止事件冒泡"><a href="#阻止事件冒泡" class="headerlink" title="阻止事件冒泡"></a>阻止事件冒泡</h3><ol>
+<li>给子级加 event.stopPropagation()<pre class="line-numbers language-cpp"><code class="language-cpp">$<span class="token punctuation">(</span><span class="token string">"#div1"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">mousedown</span><span class="token punctuation">(</span><span class="token function">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+ var e<span class="token operator">=</span>event<span class="token operator">||</span>window<span class="token punctuation">.</span>event<span class="token punctuation">;</span>
+ event<span class="token punctuation">.</span><span class="token function">stopPropagation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li>在事件处理函数中返回 false<pre class="line-numbers language-cpp"><code class="language-cpp">$<span class="token punctuation">(</span><span class="token string">"#div1"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">mousedown</span><span class="token punctuation">(</span><span class="token function">function</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span><span class="token punctuation">{</span>
+ var e<span class="token operator">=</span>e<span class="token operator">||</span>window<span class="token punctuation">.</span>event<span class="token punctuation">;</span>
+ <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+但是这两种方式是有区别的。return false 不仅阻止了事件往上冒泡，而且阻止了事件本身(默认事件)。event.stopPropagation()则只阻止事件往上冒泡，不阻止事件本身。</li>
+<li>event.target==event.currentTarget，让触发事件的元素等于绑定事件的元素，也可以阻止事件冒泡；<br><img src="event3.jpg" alt><br><img src="event4.jpg" alt><br>阻止默认事件<br>（1）event.preventDefault( )<br>（2）return false</li>
+</ol>
 
             </div>
             <hr />
@@ -2539,7 +2671,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">50.8k</span>
+            <span class="white-color">65.2k</span>
             
 
             <br>
