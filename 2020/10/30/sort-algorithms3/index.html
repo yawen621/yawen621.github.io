@@ -497,14 +497,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.5k
+                    9.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    37 分
+                    36 分
                 </div>
                 
                 
@@ -542,17 +542,19 @@
 <li><p>用户也可以直接向 Controller 发送指令（改变 URL 触发 hashChange 事件），再由 Controller 发送给 View。</p>
 </li>
 <li><p>Controller 非常薄，只起到路由的作用，而 View 非常厚，业务逻辑都部署在 View。所以，Backbone 索性取消了 Controller，只保留一个 Router（路由器） 。</p>
-<h3 id="四、MVP"><a href="#四、MVP" class="headerlink" title="四、MVP"></a>四、MVP</h3><p>MVP 模式将 Controller 改名为 Presenter，同时改变了通信方向。<br><img src="mvc6.png" alt></p>
 </li>
+</ol>
+<h3 id="四、MVP"><a href="#四、MVP" class="headerlink" title="四、MVP"></a>四、MVP</h3><p>MVP 模式将 Controller 改名为 Presenter，同时改变了通信方向。<br><img src="mvc6.png" alt></p>
+<ol>
 <li><p>各部分之间的通信，都是双向的。</p>
 </li>
 <li><p>View 与 Model 不发生联系，都通过 Presenter 传递。</p>
 </li>
 <li><p>View 非常薄，不部署任何业务逻辑，称为”被动视图”（Passive View），即没有任何主动性，而 Presenter非常厚，所有逻辑都部署在那里。</p>
-<h3 id="五、MVVM"><a href="#五、MVVM" class="headerlink" title="五、MVVM"></a>五、MVVM</h3><p>MVVM 模式将 Presenter 改名为 ViewModel，基本上与 MVP 模式完全一致。<br><img src="mvc7.png" alt><br>唯一的区别是，它采用双向绑定（data-binding）：View的变动，自动反映在 ViewModel，反之亦然。Angular 和 Ember 都采用这种模式。</p>
-<h1 id="1-2-生命周期"><a href="#1-2-生命周期" class="headerlink" title="1.2 生命周期"></a>1.2 生命周期</h1></li>
+</li>
 </ol>
-<hr>
+<h3 id="五、MVVM"><a href="#五、MVVM" class="headerlink" title="五、MVVM"></a>五、MVVM</h3><p>MVVM 模式将 Presenter 改名为 ViewModel，基本上与 MVP 模式完全一致。<br><img src="mvc7.png" alt><br>唯一的区别是，它采用双向绑定（data-binding）：View的变动，自动反映在 ViewModel，反之亦然。Angular 和 Ember 都采用这种模式。</p>
+<h1 id="1-2-生命周期"><a href="#1-2-生命周期" class="headerlink" title="1.2 生命周期"></a>1.2 生命周期</h1><hr>
 <h2 id="nextTick是如何实现的"><a href="#nextTick是如何实现的" class="headerlink" title="nextTick是如何实现的"></a>nextTick是如何实现的</h2><blockquote>
 <p>官方文档说明：<br>用法：<br>先搬运下文档 (Vue-nextTick)[<a href="https://cn.vuejs.org/v2/api/#Vue-nextTick]" target="_blank" rel="noopener">https://cn.vuejs.org/v2/api/#Vue-nextTick]</a><br>在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// 修改数据</span>
@@ -686,37 +688,58 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <ul>
 <li>bserver 监听器：用来监听属性的变化通知订阅者</li>
 <li>Watcher 订阅者：收到属性的变化，然后更新视图</li>
-<li>Compile 解析器：解析指令，初始化模版，绑定订阅者<br><img src="v-model1.jpg" alt><br>顺着这条思路我们一步一步去实现。<h3 id="监听器-Observer"><a href="#监听器-Observer" class="headerlink" title="监听器 Observer"></a>监听器 Observer</h3>监听器的作用就是去监听数据的每一个属性，我们上面也说了使用 Object.defineProperty 方法，当我们监听到属性发生变化之后我们需要通知 Watcher 订阅者执行更新函数去更新视图，在这个过程中我们可能会有很多个订阅者 Watcher 所以我们要创建一个容器 Dep 去做一个统一的管理。<pre class="line-numbers language-cpp"><code class="language-cpp">function <span class="token function">defineReactive</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> key<span class="token punctuation">,</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-<span class="token comment" spellcheck="true">//递归调用，监听所有属性</span>
-<span class="token function">observer</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
-var dep <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">Dep</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> key<span class="token punctuation">,</span> <span class="token punctuation">{</span>
-  get<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>Dep<span class="token punctuation">.</span>target<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      dep<span class="token punctuation">.</span><span class="token function">addSub</span><span class="token punctuation">(</span>Dep<span class="token punctuation">.</span>target<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">return</span> value<span class="token punctuation">;</span>
-  <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  set<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span>newVal<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>value <span class="token operator">!=</span><span class="token operator">=</span> newVal<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      value <span class="token operator">=</span> newVal<span class="token punctuation">;</span>
-      dep<span class="token punctuation">.</span><span class="token function">notify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//通知订阅器</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
+<li>Compile 解析器：解析指令，初始化模版，绑定订阅者<br><img src="v-model1.jpg" alt><br>顺着这条思路我们一步一步去实现。</li>
 </ul>
-<p>function observer(data) {<br>  if (!data || typeof data !== “object”) {<br>    return;<br>  }<br>  Object.keys(data).forEach(key =&gt; {<br>    defineReactive(data, key, data[key]);<br>  });<br>}</p>
-<p>function Dep() {<br>  this.subs = [];<br>}<br>Dep.prototype.addSub = function (sub) {<br>  this.subs.push(sub);<br>}<br>Dep.prototype.notify = function () {<br>  console.log(‘属性变化通知 Watcher 执行更新视图函数’);<br>  this.subs.forEach(sub =&gt; {<br>    sub.update();<br>  })<br>}<br>Dep.target = null;</p>
-<pre><code>以上我们就创建了一个监听器 Observer，我们现在可以尝试一下给一个对象添加监听然后改变属性会有何变化。
-```cpp
-var modeng = {
-  age: 18
-}
-observer(modeng);
-modeng.age = 20;</code></pre><p>我们可以看到浏览器控制台打印出 “属性变化通知 Watcher 执行更新视图函数” 说明我们实现的监听器没毛病，既然监听器有了，我们就可以通知属性变化了，那肯定是需要 Watcher 的时候了。</p>
+<h3 id="监听器-Observer"><a href="#监听器-Observer" class="headerlink" title="监听器 Observer"></a>监听器 Observer</h3><p>监听器的作用就是去监听数据的每一个属性，我们上面也说了使用 Object.defineProperty 方法，当我们监听到属性发生变化之后我们需要通知 Watcher 订阅者执行更新函数去更新视图，在这个过程中我们可能会有很多个订阅者 Watcher 所以我们要创建一个容器 Dep 去做一个统一的管理。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">function <span class="token function">defineReactive</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> key<span class="token punctuation">,</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">//递归调用，监听所有属性</span>
+  <span class="token function">observer</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  var dep <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">Dep</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> key<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    get<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>Dep<span class="token punctuation">.</span>target<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        dep<span class="token punctuation">.</span><span class="token function">addSub</span><span class="token punctuation">(</span>Dep<span class="token punctuation">.</span>target<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    set<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span>newVal<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>value <span class="token operator">!=</span><span class="token operator">=</span> newVal<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        value <span class="token operator">=</span> newVal<span class="token punctuation">;</span>
+        dep<span class="token punctuation">.</span><span class="token function">notify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//通知订阅器</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+function <span class="token function">observer</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>data <span class="token operator">||</span> typeof data <span class="token operator">!=</span><span class="token operator">=</span> <span class="token string">"object"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>key <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token function">defineReactive</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> key<span class="token punctuation">,</span> data<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+function <span class="token function">Dep</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>subs <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+Dep<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>addSub <span class="token operator">=</span> <span class="token function">function</span> <span class="token punctuation">(</span>sub<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>subs<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>sub<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+Dep<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>notify <span class="token operator">=</span> <span class="token function">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'属性变化通知 Watcher 执行更新视图函数'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>subs<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>sub <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    sub<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+Dep<span class="token punctuation">.</span>target <span class="token operator">=</span> null<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>以上我们就创建了一个监听器 Observer，我们现在可以尝试一下给一个对象添加监听然后改变属性会有何变化。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">var modeng <span class="token operator">=</span> <span class="token punctuation">{</span>
+  age<span class="token operator">:</span> <span class="token number">18</span>
+<span class="token punctuation">}</span>
+<span class="token function">observer</span><span class="token punctuation">(</span>modeng<span class="token punctuation">)</span><span class="token punctuation">;</span>
+modeng<span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>我们可以看到浏览器控制台打印出 “属性变化通知 Watcher 执行更新视图函数” 说明我们实现的监听器没毛病，既然监听器有了，我们就可以通知属性变化了，那肯定是需要 Watcher 的时候了。</p>
 <h3 id="订阅者-Watcher"><a href="#订阅者-Watcher" class="headerlink" title="订阅者 Watcher"></a>订阅者 Watcher</h3><p>Watcher 主要是接受属性变化的通知，然后去执行更新函数去更新视图，所以我们做的主要是有两步：</p>
 <p>1.把 Watcher 添加到 Dep 容器中，这里我们用到了 监听器的 get 函数<br>2.接收到通知，执行更新函数。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp">function <span class="token function">Watcher</span><span class="token punctuation">(</span>vm<span class="token punctuation">,</span> prop<span class="token punctuation">,</span> callback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -895,8 +918,9 @@ Object<span class="token punctuation">.</span><span class="token function">defin
 <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 </li>
-<li>必须深层遍历嵌套的对象（当一个对象为深层嵌套时，必须逐层遍历，直到把每个对象都调用到Object.defineProperty为止 ）Vue源码中这样的逻辑-walk方法<h3 id="2、Proxy"><a href="#2、Proxy" class="headerlink" title="2、Proxy"></a>2、Proxy</h3><img src="proxy2.png" alt></li>
+<li>必须深层遍历嵌套的对象（当一个对象为深层嵌套时，必须逐层遍历，直到把每个对象都调用到Object.defineProperty为止 ）Vue源码中这样的逻辑-walk方法</li>
 </ol>
+<h3 id="2、Proxy"><a href="#2、Proxy" class="headerlink" title="2、Proxy"></a>2、Proxy</h3><p><img src="proxy2.png" alt></p>
 <ul>
 <li>支持数组：不需要对数组方法进行重载，省去了众多hack<pre class="line-numbers language-cpp"><code class="language-cpp">let arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span>
 let proxy <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">Proxy</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span> <span class="token punctuation">{</span>
@@ -932,31 +956,32 @@ let handler <span class="token operator">=</span> <span class="token punctuation
 let proxy <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">Proxy</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span> handler<span class="token punctuation">)</span>
 proxy<span class="token punctuation">.</span>b <span class="token operator">=</span> <span class="token number">8</span>
 proxy<span class="token punctuation">.</span>a<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-其它方面<br>优势:Proxy 的第二个参数可以有 13 种拦截方法，比 Object.defineProperty() 要更加丰富,Proxy 作为新标准受到浏览器厂商的重点关注和性能优化，相比之下 Object.defineProperty() 是一个已有的老方法。<br>劣势:Proxy 的兼容性不如 Object.defineProperty() (caniuse 的数据表明，QQ 浏览器和百度浏览器并不支持 Proxy，这对国内移动开发来说估计无法接受，但两者都支持 Object.defineProperty()),不能使用 polyfill 来处理兼容性<h2 id="Vue中的数据为什么频繁变化但只会更新一次"><a href="#Vue中的数据为什么频繁变化但只会更新一次" class="headerlink" title="Vue中的数据为什么频繁变化但只会更新一次"></a>Vue中的数据为什么频繁变化但只会更新一次</h2>考虑以下场景：<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
-  <span class="token function">data</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> <span class="token punctuation">{</span>
-          number<span class="token operator">:</span> <span class="token number">0</span>
-      <span class="token punctuation">}</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token function">mounted</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  var i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-      <span class="token keyword">for</span><span class="token punctuation">(</span>var i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">1000</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-           <span class="token keyword">this</span><span class="token punctuation">.</span>number<span class="token operator">++</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span>
+其它方面<br>优势:Proxy 的第二个参数可以有 13 种拦截方法，比 Object.defineProperty() 要更加丰富,Proxy 作为新标准受到浏览器厂商的重点关注和性能优化，相比之下 Object.defineProperty() 是一个已有的老方法。<br>劣势:Proxy 的兼容性不如 Object.defineProperty() (caniuse 的数据表明，QQ 浏览器和百度浏览器并不支持 Proxy，这对国内移动开发来说估计无法接受，但两者都支持 Object.defineProperty()),不能使用 polyfill 来处理兼容性</li>
+</ul>
+<h2 id="Vue中的数据为什么频繁变化但只会更新一次"><a href="#Vue中的数据为什么频繁变化但只会更新一次" class="headerlink" title="Vue中的数据为什么频繁变化但只会更新一次"></a>Vue中的数据为什么频繁变化但只会更新一次</h2><p>考虑以下场景：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+    <span class="token function">data</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">{</span>
+            number<span class="token operator">:</span> <span class="token number">0</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function">mounted</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    var i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span>var i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">1000</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+             <span class="token keyword">this</span><span class="token punctuation">.</span>number<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <blockquote>
 <p>当我们在一个同步任务中执行1000次number++操作，按照set -&gt; 订阅器(dep) -&gt; 订阅者(watcher) -&gt; update的过程，dom应该会频繁更新，按理说这会很消耗性能，但实际上这个过程中dom只会更新一次。</p>
 </blockquote>
-</li>
-</ul>
 <p>这是因为vue的dom更新是一个异步操作，在数据更新后会首先被set钩子监听到，但是不会马上执行dom更新，而是在下一轮循环中执行更新。<br>具体实现是vue中实现了一个queue队列用于存放本次事件循环中的所有watcher更新，并且同一个watcher的更新只会被推入队列一次，并在本轮事件循环的微任务执行结束后执行此更新(UI Render阶段)，这就是dom只会更新一次的原因。</p>
 <h1 id="1-4-状态管理"><a href="#1-4-状态管理" class="headerlink" title="1.4 状态管理"></a>1.4 状态管理</h1><hr>
 <h2 id="什么是状态管理，为什么需要状态管理"><a href="#什么是状态管理，为什么需要状态管理" class="headerlink" title="什么是状态管理，为什么需要状态管理"></a>什么是状态管理，为什么需要状态管理</h2><h3 id="状态管理是什么"><a href="#状态管理是什么" class="headerlink" title="状态管理是什么"></a>状态管理是什么</h3><p>近年来，随着单页面应用的兴起，JavaScript 需要管理比任何时候都要多的状态，或者可以说是数据，这些状态可能包括服务器响应、缓存数据、本地生成尚未持久化到服务器的数据，也包括 UI 状态，如激活的路由，被选中的标签，是否显示加载动效或者分页器等等，这些都是十年前二十年前的 web 开发没有遇到的挑战。</p>
 <p>但是其实，无论系统如何复杂，前端页面的所要完成的事其实很简单，就是把业务的信息渲染出来，反馈给用户，并进行人机交互，返回给服务端，这是前端技术解决的核心问题。而几乎所有的 web 系统都不会把用户的一些数据和系统的状态维护在客户端，例如不会把用户的会员等级，新增的待办事项仅仅保存在浏览器，因为这些都是“转瞬即逝”的东西，用户换一个浏览器这些信息就会全部消失不见，所以这些数据（状态）必然会在服务器上存储起来，当用户重新登录的时候，页面会从服务器中重新拿到最新的数据，把页面渲染出来。</p>
 <p>自从 Ajax 的诞生，使得 Web 应用不用大量和频繁跟服务器通信，原本需要服务器返回整个页面的数据，现在也只需要通过 Ajax 传递少量的信息，剩下的东西由 javascript 自己操作页面，对页面的元素修修改改。因为不用刷新整个页面，这种 Ajax 应用用户体验非常好，给人非常快的感觉，而 Javascript 对页面上的操作的总总过程，其实就是页面 UI 跟 Javascript 变量的同步，也涉及跟服务端数据的同步，也就是我们所说的状态管理。</p>
 <h3 id="为什么需要状态管理"><a href="#为什么需要状态管理" class="headerlink" title="为什么需要状态管理"></a>为什么需要状态管理</h3><p>在如今的前端开发领域，状态管理可能是最容易被误解的技术之一，也是滥用比较多的一门技术，很多开发者一上来就使用脚手架构建一套 Vue 全家桶，或者是 React Redux/Mobx 全家桶，然后在一些简单的展示页面上也使用 Redux 之类的状态管理库，事实上是这并不是最佳实践。</p>
-<h4 id="广义状态管理"><a href="#广义状态管理" class="headerlink" title="广义状态管理"></a>广义状态管理</h4><p>状态管理是一个十分广泛的概念，因为状态无处不在。服务端也有状态，Spring 等框架会管理状态，RDS 和 redis 等组件会保存数据，手机 App 也会把数据保存到手机内存里，状态管理不是什么新鲜事物，在 web 前端还没有变复杂之前，很多系统的网页用着纯 Javascript 或者 jQuery 来做一些状态管理，或者说是一些数据管理吧，当然，这里边要做的事情其实很复杂</p>
+<h3 id="广义状态管理"><a href="#广义状态管理" class="headerlink" title="广义状态管理"></a>广义状态管理</h3><p>状态管理是一个十分广泛的概念，因为状态无处不在。服务端也有状态，Spring 等框架会管理状态，RDS 和 redis 等组件会保存数据，手机 App 也会把数据保存到手机内存里，状态管理不是什么新鲜事物，在 web 前端还没有变复杂之前，很多系统的网页用着纯 Javascript 或者 jQuery 来做一些状态管理，或者说是一些数据管理吧，当然，这里边要做的事情其实很复杂</p>
 <h3 id="状态管理的好处及带来的问题"><a href="#状态管理的好处及带来的问题" class="headerlink" title="状态管理的好处及带来的问题"></a>状态管理的好处及带来的问题</h3><p>最后，总结性地回到一下为什么要做状态管理</p>
 <p>状态管理有以下的好处</p>
 <ol>
@@ -965,9 +990,9 @@ proxy<span class="token punctuation">.</span>a<span class="token punctuation">.<
 <li>有效控制状态的变化</li>
 <li>处理同步与异步</li>
 <li>实现一些日志打印，热加载，时间旅行，同构应用等功能</li>
-<li>…<br>当然，状态管理也有缺点，其实就一点，就是代码会变得更复杂，当然，这一点并不完全是缺点，当一个应用业务用例和代码量不断上升的时候，代码不可能维持简单简洁，如果没有一个的好架构的约束，那么只会演变成大泥潭，但设计出一个好的状态管理方案，那么就可以把复杂度控制在一个合理的范围内，保持架构的整洁。<h2 id="介绍一下Vuex和Redux"><a href="#介绍一下Vuex和Redux" class="headerlink" title="介绍一下Vuex和Redux"></a>介绍一下Vuex和Redux</h2><h3 id="Flux-的组成"><a href="#Flux-的组成" class="headerlink" title="Flux 的组成"></a>Flux 的组成</h3></li>
+<li>…<br>当然，状态管理也有缺点，其实就一点，就是代码会变得更复杂，当然，这一点并不完全是缺点，当一个应用业务用例和代码量不断上升的时候，代码不可能维持简单简洁，如果没有一个的好架构的约束，那么只会演变成大泥潭，但设计出一个好的状态管理方案，那么就可以把复杂度控制在一个合理的范围内，保持架构的整洁。</li>
 </ol>
-<ul>
+<h2 id="介绍一下Vuex和Redux"><a href="#介绍一下Vuex和Redux" class="headerlink" title="介绍一下Vuex和Redux"></a>介绍一下Vuex和Redux</h2><h3 id="Flux-的组成"><a href="#Flux-的组成" class="headerlink" title="Flux 的组成"></a>Flux 的组成</h3><ul>
 <li>View: 视图层。</li>
 <li>Action: 动作，即数据改变的消息对象（可通过事件触发、测试用例触发等）。<ul>
 <li>Store 的改变只能通过 Action。</li>
@@ -976,11 +1001,15 @@ proxy<span class="token punctuation">.</span>a<span class="token punctuation">.<
 </ul>
 </li>
 <li>Dispatcher: 派发器，接收 Actions ，发给所有的 Store。</li>
-<li>Store: 数据层，存放应用状态与更新状态的方法，一旦发生变动，就提醒 Views 更新页面。<br><img src="flux.jpg" alt><br>Notice: - Action 仅仅是改变 Store 的一个动作，一般包含该动作的类型、传递的数据。<h3 id="Flux-的特点"><a href="#Flux-的特点" class="headerlink" title="Flux 的特点"></a>Flux 的特点</h3></li>
+<li>Store: 数据层，存放应用状态与更新状态的方法，一旦发生变动，就提醒 Views 更新页面。<br><img src="flux.jpg" alt><br>Notice: - Action 仅仅是改变 Store 的一个动作，一般包含该动作的类型、传递的数据。</li>
+</ul>
+<h3 id="Flux-的特点"><a href="#Flux-的特点" class="headerlink" title="Flux 的特点"></a>Flux 的特点</h3><ul>
 <li>单向数据流。视图事件或者外部测试用例发出 Action ，经由 Dispatcher 派发给  </li>
 <li>Store ，Store 会触发相应的方法更新数据、更新视图。</li>
 <li>Store 可以有多个。</li>
-<li>Store 不仅存放数据，还封装了处理数据的方法。<h3 id="Redux的组成"><a href="#Redux的组成" class="headerlink" title="Redux的组成"></a>Redux的组成</h3></li>
+<li>Store 不仅存放数据，还封装了处理数据的方法。</li>
+</ul>
+<h3 id="Redux的组成"><a href="#Redux的组成" class="headerlink" title="Redux的组成"></a>Redux的组成</h3><ul>
 <li>Store: 存储应用 state 以及用于触发 state 更新的 dispatch 方法等，整个应用仅有单一的 Store 。Store 中提供了几个 API :<ul>
 <li>store.getState(): 获取当前 state。</li>
 <li>store.dispatch(action): 用于 View 发出 Action。</li>
@@ -991,12 +1020,15 @@ proxy<span class="token punctuation">.</span>a<span class="token punctuation">.<
 <li>有专门生成 Action 的 Action Creator</li>
 </ul>
 </li>
-<li>Reducer: 是一个用于改变 state 的纯函数（对于相同的参数返回相同的返回结果，不修改参数，不依赖外部变量），即通过应用状态与 Action 推导出新的 state : (previousState, action) =&gt; newState。Reducer 返回一个新的 state 。<br><img src="redux.jpg" alt><h3 id="Redux-的特点"><a href="#Redux-的特点" class="headerlink" title="Redux 的特点"></a>Redux 的特点</h3></li>
+<li>Reducer: 是一个用于改变 state 的纯函数（对于相同的参数返回相同的返回结果，不修改参数，不依赖外部变量），即通过应用状态与 Action 推导出新的 state : (previousState, action) =&gt; newState。Reducer 返回一个新的 state 。<br><img src="redux.jpg" alt></li>
+</ul>
+<h3 id="Redux-的特点"><a href="#Redux-的特点" class="headerlink" title="Redux 的特点"></a>Redux 的特点</h3><ul>
 <li>单向数据流。View 发出 Action (store.dispatch(action))，Store 调用 Reducer 计算出新的 state ，若 state 产生变化，则调用监听函数重新渲染 View （store.subscribe(render)）。</li>
 <li>单一数据源，只有一个 Store。</li>
 <li>state 是只读的，每次状态更新之后只能返回一个新的 state。</li>
-<li>没有 Dispatcher ，而是在 Store 中集成了 dispatch 方法，store.dispatch() 是 View 发出 Action 的唯一途径。<h3 id="Middleware"><a href="#Middleware" class="headerlink" title="Middleware"></a>Middleware</h3>Middleware 即中间件，在 Redux 中应用于异步数据流。</li>
+<li>没有 Dispatcher ，而是在 Store 中集成了 dispatch 方法，store.dispatch() 是 View 发出 Action 的唯一途径。</li>
 </ul>
+<h3 id="Middleware"><a href="#Middleware" class="headerlink" title="Middleware"></a>Middleware</h3><p>Middleware 即中间件，在 Redux 中应用于异步数据流。</p>
 <p>Redux 的 Middleware 是对 store.dispatch() 进行了封装之后的方法，可以使 dispatch 传递 action 以外的函数或者 promise ；通过 applyMiddleware 方法应用中间件。（middleware 链中的最后一个 middleware 开始 dispatch action 时，这个 action 必须是一个普通对象）</p>
 <p>常用库: redux-actions, redux-thunk, redux-promise 。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">createStore</span><span class="token punctuation">(</span>
@@ -1019,13 +1051,18 @@ proxy<span class="token punctuation">.</span>a<span class="token punctuation">.<
 <li>可以通过 mapActions 辅助函数将 vue 组件的 methods 映射成 store.dispatch 调用（需要先在根节点注入 store）。</li>
 </ul>
 </li>
-<li>Module: 当 Store 对象过于庞大时，可根据具体的业务需求分为多个 Module ，每个 Module 都具有自己的 state 、mutation 、action 、getter。<br><img src="vuex.jpg" alt><h3 id="Vuex-的特点："><a href="#Vuex-的特点：" class="headerlink" title="Vuex 的特点："></a>Vuex 的特点：</h3></li>
+<li>Module: 当 Store 对象过于庞大时，可根据具体的业务需求分为多个 Module ，每个 Module 都具有自己的 state 、mutation 、action 、getter。<br><img src="vuex.jpg" alt></li>
+</ul>
+<h3 id="Vuex-的特点："><a href="#Vuex-的特点：" class="headerlink" title="Vuex 的特点："></a>Vuex 的特点：</h3><ul>
 <li>单向数据流。View 通过 store.dispatch() 调用 Action ，在 Action 执行完异步操作之后通过 store.commit() 调用 Mutation 更新 State ，通过 vue 的响应式机制进行视图更新。</li>
 <li>单一数据源，和 Redux 一样全局只有一个 Store 实例。</li>
-<li>可直接对 State 进行修改。<h3 id="MobX"><a href="#MobX" class="headerlink" title="MobX"></a>MobX</h3>MobX 背后的哲学是:<blockquote>
+<li>可直接对 State 进行修改。</li>
+</ul>
+<h3 id="MobX"><a href="#MobX" class="headerlink" title="MobX"></a>MobX</h3><p>MobX 背后的哲学是:</p>
+<blockquote>
 <p>任何源自应用状态的东西都应该自动地获得。<br>意思就是，当状态改变时，所有应用到状态的地方都会自动更新。</p>
 </blockquote>
-<h3 id="MobX-的核心概念"><a href="#MobX-的核心概念" class="headerlink" title="MobX 的核心概念"></a>MobX 的核心概念</h3></li>
+<h3 id="MobX-的核心概念"><a href="#MobX-的核心概念" class="headerlink" title="MobX 的核心概念"></a>MobX 的核心概念</h3><ul>
 <li>State: 驱动应用的数据。</li>
 <li>Computed values: 计算值。如果你想创建一个基于当前状态的值时，请使用 computed。</li>
 <li>Reactions: 反应，当状态改变时自动发生。</li>
@@ -1205,23 +1242,10 @@ let defaultState <span class="token operator">=</span> <span class="token punctu
 <li>view——&gt;dispatch——&gt;actions——&gt;mutations——&gt;state变化——&gt;view变化（异步操作）</li>
 </ul>
 </li>
-<li>redux的流向：view——&gt;actions——&gt;reducer——&gt;state变化——&gt;view变化（同步异步一样）<h2 id="如果让你实现一个简单的状态管理，要如何实现"><a href="#如果让你实现一个简单的状态管理，要如何实现" class="headerlink" title="如果让你实现一个简单的状态管理，要如何实现"></a>如果让你实现一个简单的状态管理，要如何实现</h2>(实现状态管理)[<a href="https://juejin.im/post/6844903660804112391#heading-3]" target="_blank" rel="noopener">https://juejin.im/post/6844903660804112391#heading-3]</a><h1 id="1-5-组建通信"><a href="#1-5-组建通信" class="headerlink" title="1.5 组建通信"></a>1.5 组建通信</h1></li>
+<li>redux的流向：view——&gt;actions——&gt;reducer——&gt;state变化——&gt;view变化（同步异步一样）</li>
 </ul>
-<hr>
-<h2 id="父子组件如何进行通信"><a href="#父子组件如何进行通信" class="headerlink" title="父子组件如何进行通信"></a>父子组件如何进行通信</h2><h2 id="爷孙组件如何进行通信"><a href="#爷孙组件如何进行通信" class="headerlink" title="爷孙组件如何进行通信"></a>爷孙组件如何进行通信</h2><h2 id="兄弟组件如何进行通信"><a href="#兄弟组件如何进行通信" class="headerlink" title="兄弟组件如何进行通信"></a>兄弟组件如何进行通信</h2><p>(vue中8种组件通信方式)[<a href="https://juejin.im/post/6844903887162310669]" target="_blank" rel="noopener">https://juejin.im/post/6844903887162310669]</a></p>
-<h1 id="1-6-Virtual-DOM"><a href="#1-6-Virtual-DOM" class="headerlink" title="1.6 Virtual DOM"></a>1.6 Virtual DOM</h1><hr>
-<h2 id="Virtual-DOM是什么"><a href="#Virtual-DOM是什么" class="headerlink" title="Virtual DOM是什么"></a>Virtual DOM是什么</h2><h2 id="为什么需要Virtual-DOM"><a href="#为什么需要Virtual-DOM" class="headerlink" title="为什么需要Virtual DOM"></a>为什么需要Virtual DOM</h2><h2 id="Vue的Virtual-DOM解决了什么问题"><a href="#Vue的Virtual-DOM解决了什么问题" class="headerlink" title="Vue的Virtual DOM解决了什么问题"></a>Vue的Virtual DOM解决了什么问题</h2><p>(虚拟 DOM)[<a href="https://mp.weixin.qq.com/s/oAlVmZ4Hbt2VhOwFEkNEhw]" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/oAlVmZ4Hbt2VhOwFEkNEhw]</a></p>
-<h1 id="1-8-diff"><a href="#1-8-diff" class="headerlink" title="1.8 diff"></a>1.8 diff</h1><hr>
-<h2 id="Vue的diff策略和React的diff策略有什么不同"><a href="#Vue的diff策略和React的diff策略有什么不同" class="headerlink" title="Vue的diff策略和React的diff策略有什么不同"></a>Vue的diff策略和React的diff策略有什么不同</h2><h2 id="介绍一下Vue的diff策略"><a href="#介绍一下Vue的diff策略" class="headerlink" title="介绍一下Vue的diff策略"></a>介绍一下Vue的diff策略</h2><p>(vue)[<a href="https://juejin.im/post/6844903607913938951#heading-3]" target="_blank" rel="noopener">https://juejin.im/post/6844903607913938951#heading-3]</a></p>
-<h2 id="介绍一下React的diff策略"><a href="#介绍一下React的diff策略" class="headerlink" title="介绍一下React的diff策略"></a>介绍一下React的diff策略</h2><p>(react)[<a href="https://zhuanlan.zhihu.com/p/20346379]" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/20346379]</a></p>
-<h2 id="key有什么用"><a href="#key有什么用" class="headerlink" title="key有什么用"></a>key有什么用</h2><h1 id="1-9-Vue-computed-watch原理"><a href="#1-9-Vue-computed-watch原理" class="headerlink" title="1.9 Vue computed/watch原理"></a>1.9 Vue computed/watch原理</h1><hr>
-<h2 id="computed是如何实现的"><a href="#computed是如何实现的" class="headerlink" title="computed是如何实现的"></a>computed是如何实现的</h2><h2 id="watch是如何实现的"><a href="#watch是如何实现的" class="headerlink" title="watch是如何实现的"></a>watch是如何实现的</h2><h2 id="computed的时候可以引用其他computed属性-是如何实现的"><a href="#computed的时候可以引用其他computed属性-是如何实现的" class="headerlink" title="computed的时候可以引用其他computed属性,是如何实现的"></a>computed的时候可以引用其他computed属性,是如何实现的</h2><p>(vue计算属性和监听属性)[<a href="https://juejin.im/post/6844903667884097543]" target="_blank" rel="noopener">https://juejin.im/post/6844903667884097543]</a></p>
-<h1 id="1-10-React-HooK-了解一下是什么"><a href="#1-10-React-HooK-了解一下是什么" class="headerlink" title="1.10 React HooK 了解一下是什么"></a>1.10 React HooK 了解一下是什么</h1><hr>
-<p>(React Hooks 入门教程)[<a href="https://www.ruanyifeng.com/blog/2019/09/react-hooks.html]" target="_blank" rel="noopener">https://www.ruanyifeng.com/blog/2019/09/react-hooks.html]</a></p>
-<h1 id="1-11-React-Hoc-Vue-mixin"><a href="#1-11-React-Hoc-Vue-mixin" class="headerlink" title="1.11 React Hoc/Vue mixin"></a>1.11 React Hoc/Vue mixin</h1><hr>
-<h2 id="React的Hoc是什么"><a href="#React的Hoc是什么" class="headerlink" title="React的Hoc是什么"></a>React的Hoc是什么</h2><h2 id="Vue的mixin是什么"><a href="#Vue的mixin是什么" class="headerlink" title="Vue的mixin是什么"></a>Vue的mixin是什么</h2><h2 id="Hoc和mixin有什么区别"><a href="#Hoc和mixin有什么区别" class="headerlink" title="Hoc和mixin有什么区别"></a>Hoc和mixin有什么区别</h2><h2 id="为什么Vue没有高阶组件"><a href="#为什么Vue没有高阶组件" class="headerlink" title="为什么Vue没有高阶组件"></a>为什么Vue没有高阶组件</h2><p>(这一篇)[<a href="https://juejin.im/post/6844903477798256647#heading-9]" target="_blank" rel="noopener">https://juejin.im/post/6844903477798256647#heading-9]</a></p>
-<h1 id="1-11-Vue和React有什么不同"><a href="#1-11-Vue和React有什么不同" class="headerlink" title="1.11 Vue和React有什么不同"></a>1.11 Vue和React有什么不同</h1><hr>
-<h2 id="现在有一个项目，你是如何考虑使用Vue还是React"><a href="#现在有一个项目，你是如何考虑使用Vue还是React" class="headerlink" title="现在有一个项目，你是如何考虑使用Vue还是React"></a>现在有一个项目，你是如何考虑使用Vue还是React</h2><h2 id="从多个角度具体说一下Vue和React有什么区别"><a href="#从多个角度具体说一下Vue和React有什么区别" class="headerlink" title="从多个角度具体说一下Vue和React有什么区别"></a>从多个角度具体说一下Vue和React有什么区别</h2><p>从思想、生态、语法、数据、通信、diff等角度自己总结一下吧。</p>
+<h2 id="如果让你实现一个简单的状态管理，要如何实现"><a href="#如果让你实现一个简单的状态管理，要如何实现" class="headerlink" title="如果让你实现一个简单的状态管理，要如何实现"></a>如果让你实现一个简单的状态管理，要如何实现</h2><p>(实现状态管理)[<a href="https://juejin.im/post/6844903660804112391#heading-3]" target="_blank" rel="noopener">https://juejin.im/post/6844903660804112391#heading-3]</a></p>
+<h1 id="1-5-组建通信"><a href="#1-5-组建通信" class="headerlink" title="1.5 组建通信"></a>1.5 组建通信</h1><hr>
 
             </div>
             <hr />
@@ -1960,7 +1984,7 @@ let defaultState <span class="token operator">=</span> <span class="token punctu
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">73.5k</span>
+            <span class="white-color">73.2k</span>
             
 
             <br>
